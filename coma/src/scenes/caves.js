@@ -1,14 +1,14 @@
 /*globals Phaser*/
 //import * as ChangeScene from './ChangeScenes.js';
-export default class caves extends Phaser.Scene {
+export default class Caves extends Phaser.Scene {
   constructor () {
     super('caves');
   }
 
   preload() {
-    this.load.image('background', "./assets/images/background.png",{
-      frameWidth: 432,
-      frameHeight: 32,
+    this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
+      frameWidth: 2500, //432
+      frameHeight: 4224, // 32
     });
     this.load.image('ledge1', "./assets/sprites/cave1.png");
     this.load.image('ground', "./assets/sprites/base1.png");
@@ -17,10 +17,10 @@ export default class caves extends Phaser.Scene {
       frameWidth: 462,
       frameHeight: 719
     });
-    /*this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
-      frameWidth: 462,
-      frameHeight: 719
-    });*/
+    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
+      frameWidth: 404,
+      frameHeight: 596
+    });
     this.load.spritesheet('sm_spirit', "./assets/spriteSheets/small_spirit.png", {
       frameWidth: 500,
       frameHeight: 338
