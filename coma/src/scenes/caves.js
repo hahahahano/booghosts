@@ -79,7 +79,7 @@ export default class caves extends Phaser.Scene {
 
 
     //Creates player character
-    this.player = this.physics.add.sprite(100, 450, 'ghost');
+    this.player = this.physics.add.sprite(300, 840, 'ghost');
     this.player.setScale(.15);
     this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, 0, 1280, 960);
@@ -105,11 +105,12 @@ export default class caves extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     //Memory Pieces
-    this.mems = this.physics.add.group({
-      key: 'mem_piece',
-      repeat: 11,
-      setXY: { x: 12, y: 0, stepX: 70 }
-    });
+    this.mems = this.physics.add.group([
+      {key: 'mem_piece',
+      setXY: { x: 50, y: 321}},
+      {key: 'mem_piece',
+      setXY: { x: 1200, y: 722}}
+      ]);
 
 
     //Memories Collected
@@ -162,9 +163,9 @@ export default class caves extends Phaser.Scene {
     }
     if (cursors.up.isDown && this.player.body.touching.down) {
       this.player.setVelocityY(-330);
-    } else if (cursors.down.isDown){
+    } /*else if (cursors.down.isDown){
       this.player.setVelocityY(500);
-    }
+    }*/
   }
 
   //Collecting a memory
