@@ -1,14 +1,14 @@
 /*globals Phaser*/
 //import * as ChangeScene from './ChangeScenes.js';
-export default class caves extends Phaser.Scene {
+export default class Caves extends Phaser.Scene {
   constructor () {
     super('caves');
   }
 
   preload() {
-    this.load.image('background', "./assets/images/background.png",{
-      frameWidth: 432,
-      frameHeight: 32,
+    this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
+      frameWidth: 432, //432
+      frameHeight: 32, // 32
     });
     this.load.image('ledge1', "./assets/sprites/cave1.png");
     this.load.image('ground', "./assets/sprites/base1.png");
