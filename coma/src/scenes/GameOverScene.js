@@ -23,8 +23,8 @@ export default class GameOverScene extends Phaser.Scene {
     //Add event addSceneEventListeners
     //ChangeScene.addSceneEventListeners(this);
     //Create the scene
-    var text = this.add.text(this.centerX -100, this.centerY, ' Drinkos friends gave you:');
-    var score = this.add.text(this.centerX - 20, this.centerY +25, '$'+this.score);
+    var text = this.add.text(this.centerX -100, this.centerY, ' The END');
+    var score = this.add.text(this.centerX - 20, this.centerY +25,this.score);
   }
 
   update (time, delta) {
