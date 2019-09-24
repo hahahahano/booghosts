@@ -10,7 +10,11 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 2500, //432
       frameHeight: 4224, // 32
     });
-    this.load.image('ledge1', "./assets/sprites/cave1.png");
+    this.load.image('foreground', "./assets/images/cave_fg_test002.png",{
+      frameWidth: 2500, //432
+      frameHeight: 3513, // 32
+    });
+    this.load.image('ledge1', "./assets/sprites/cave_platform01.png");
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
 
@@ -26,6 +30,7 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
   }
 
   create() {
@@ -44,12 +49,17 @@ export default class Caves extends Phaser.Scene {
     //Background
     this.add.image(800, 960/2, 'background');
 
+    //Foreground test
+    this.add.image(500, 500, 'foreground');
+
+
+
     //The platforms group contains the ground and the ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //Ground
     platforms
-      .create(700, 2000, 'ground')
+      .create(700, 1950, 'ledge1')
       .setScale(1)
       .refreshBody();
 
@@ -82,6 +92,10 @@ export default class Caves extends Phaser.Scene {
       .create(600, 1650, 'ledge1')
       .setScale(.3)
       .refreshBody();
+
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////
     //Creates player character
@@ -140,6 +154,11 @@ export default class Caves extends Phaser.Scene {
       null,
       this
     );
+
+    //plays background music
+    var music = this.sound.add('cave_music1');
+    music.volume = .3;
+    //music.play();
 
     //Creates small spirits
     //this.sm_spirits = this.physics.add
