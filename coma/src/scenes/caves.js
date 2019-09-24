@@ -19,7 +19,7 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 719
     });
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
-      frameWidth: 404,
+      frameWidth: 395,
       frameHeight: 596
     });
     this.load.spritesheet('sm_spirit', "./assets/spriteSheets/small_spirit.png", {
@@ -39,7 +39,8 @@ export default class Caves extends Phaser.Scene {
     this.score = 0;
     this.gameOver = false;
     this.scoreText;
-    this.sm_spirits;
+    this.sm_spirit1;
+    this.lg_spirit;
 
     //Background
     this.add.image(800, 960/2, 'background');
@@ -55,7 +56,11 @@ export default class Caves extends Phaser.Scene {
 
     //Ledges
     platforms
-      .create(100, 400, 'ledge1')
+      .create(1500, 375, 'ledge1')
+      .setScale(.5)
+      .refreshBody();
+    platforms
+      .create(50, 800, 'ledge1')
       .setScale(0.3)
       .refreshBody();
     platforms
@@ -84,8 +89,33 @@ export default class Caves extends Phaser.Scene {
       .refreshBody();
 
 //////////////////////////////////////////////////////////////////////////////////
+    //Creates small spirits
+    this.sm_spirit1 = this.physics.add.sprite(200, 900, 'sm_spirit');
+    this.sm_spirit1.setScale(0.15);
+
+    this.tweens.add({
+      targets: this.sm_spirit1,
+      x: 900,
+      ease: 'Linear',
+      yoyo: true,
+      duration: 5000,
+      repeat: -1
+    });
+
+    this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
+    this.lg_spirit.setScale(0.4);
+    this.lg_spirit.setCollideWorldBounds(true);
+    
+    this.anims.create({
+      key: 'idle_sp',
+      frames: this.anims.generateFrameNumbers('lg_spirit', {start: 0, end: 2}),
+      duration: 850,
+      yoyo: true,
+      repeat: -1
+    });
+
     //Creates player character
-    this.player = this.physics.add.sprite(100, 1750, 'ghost');
+    this.player = this.physics.add.sprite(900, 1750, 'ghost');
     this.player.setScale(0.15);
     this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, 0, 1500, 1900);
@@ -107,7 +137,7 @@ export default class Caves extends Phaser.Scene {
     //Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    //Set main camera's bounraries and tell it follow the player
+    //Set main camera's bounraries and tells it follow the player
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 1500, 1900);
 
@@ -122,7 +152,7 @@ export default class Caves extends Phaser.Scene {
       setXY: { x: 1200, y: 722}}
       ]);
 
-    //Memories Collected
+    //Memories Collected: Need to fix ==> make it follow the cameras~
     this.scoreText = this.add.text(16, 16, "Memories: 0", {
       fontSize: "32px",
       fill: "#000"
@@ -131,8 +161,10 @@ export default class Caves extends Phaser.Scene {
     //Collide the player and the memory pieces with the platforms
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(this.mems, platforms);
-
-    //Checks to see if the player overlaps with any of the memory pieces, if it does call the collectMem function
+    this.physics.add.collider(this.sm_spirit1, platforms);
+    this.physics.add.collider(this.lg_spirit, platforms);
+//////////////////////////////////////////////////////////////////////////////////
+    //Overlap Checks
     this.physics.add.overlap(
       this.player,
       this.mems,
@@ -141,8 +173,14 @@ export default class Caves extends Phaser.Scene {
       this
     );
 
-    //Creates small spirits
-    //this.sm_spirits = this.physics.add
+    this.physics.add.overlap(
+      this.player,
+      this.sm_spirit1,
+      this.enemyHit,
+      null,
+      this
+    );
+
   }
 
   update() {
@@ -150,6 +188,8 @@ export default class Caves extends Phaser.Scene {
       this.scene.start('GameOverScene',{score: this.score });
       return;
     }
+
+    this.lg_spirit.anims.play('idle_sp', true);
 
     var cursors = this.input.keyboard.createCursorKeys();
     var speed = 5;
@@ -180,10 +220,11 @@ export default class Caves extends Phaser.Scene {
     //Update the score
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
+  }
 
-    if (this.mems.countActive(true) === 0) {
-      this.gameOver = true
-      };
+  //When the player touches an enemy, return to spawn
+  enemyHit(player, sm_spirit) {
+    player.setPosition(100, 1750);
   }
 
 }
