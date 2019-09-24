@@ -105,7 +105,7 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
     this.lg_spirit.setScale(0.4);
     this.lg_spirit.setCollideWorldBounds(true);
-
+    
     this.anims.create({
       key: 'idle_sp',
       frames: this.anims.generateFrameNumbers('lg_spirit', {start: 0, end: 2}),
