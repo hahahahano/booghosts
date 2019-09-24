@@ -10,7 +10,13 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 2500, //432
       frameHeight: 4224, // 32
     });
-    this.load.image('ledge1', "./assets/sprites/cave1.png");
+
+    this.load.image('foreground', "./assets/images/cave_fg_test002.png",{
+      frameWidth: 2500, //432
+      frameHeight: 3513, // 32
+    });
+
+    this.load.image('ledge1', "./assets/sprites/cave_platform01.png");
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
 
@@ -26,6 +32,7 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
   }
 
   create() {
@@ -45,48 +52,55 @@ export default class Caves extends Phaser.Scene {
     //Background
     this.add.image(800, 960/2, 'background');
 
+
+
+
     //The platforms group contains the ground and the ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //Ground
+
     platforms
-      .create(700, 2000, 'ground')
+      .create(800, 1950, 'ledge1')
       .setScale(1)
       .refreshBody();
 
     //Ledges
     platforms
-      .create(1500, 375, 'ledge1')
+      .create(1500, 400, 'ledge1')
       .setScale(.5)
       .refreshBody();
     platforms
-      .create(50, 800, 'ledge1')
+      .create(50, 850, 'ledge1')
       .setScale(0.3)
       .refreshBody();
     platforms
-      .create(750, 525, 'ledge1')
-      .setScale(.2)
-      .refreshBody();
-    platforms
-      .create(1200, 800, 'ledge1')
+      .create(700, 600, 'ledge1')
       .setScale(.3)
       .refreshBody();
     platforms
-      .create(500, 1100, 'ledge1')
-      .setScale(.5)
-      .refreshBody();
-    platforms
-      .create(1400, 1300, 'ledge1')
-      .setScale(0.3)
-      .refreshBody();
-    platforms
-      .create(1400, 1600, 'ledge1')
-      .setScale(.5)
-      .refreshBody();
-    platforms
-      .create(600, 1650, 'ledge1')
+      .create(1200, 850, 'ledge1')
       .setScale(.3)
       .refreshBody();
+    platforms
+      .create(600, 1100, 'ledge1')
+      .setScale(.5)
+      .refreshBody();
+    platforms
+      .create(1450, 1300, 'ledge1')
+      .setScale(0.4)
+      .refreshBody();
+    platforms
+      .create(1250, 1500, 'ledge1')
+      .setScale(.5)
+      .refreshBody();
+    platforms
+      .create(500, 1650, 'ledge1')
+      .setScale(.3)
+      .refreshBody();
+
+    //Foreground test
+    this.add.image(550, 50, 'foreground');
 
 //////////////////////////////////////////////////////////////////////////////////
     //Creates small spirits
@@ -105,7 +119,7 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
     this.lg_spirit.setScale(0.4);
     this.lg_spirit.setCollideWorldBounds(true);
-    
+
     this.anims.create({
       key: 'idle_sp',
       frames: this.anims.generateFrameNumbers('lg_spirit', {start: 0, end: 2}),
@@ -180,6 +194,10 @@ export default class Caves extends Phaser.Scene {
       null,
       this
     );
+    //plays background music
+    var music = this.sound.add('cave_music1');
+    music.volume = .3;
+    music.play();
 
   }
 
