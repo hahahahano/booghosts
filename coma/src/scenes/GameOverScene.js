@@ -23,11 +23,8 @@ export default class GameOverScene extends Phaser.Scene {
     //ChangeScene.addSceneEventListeners(this);
 
     //Create Scene
-    var text = this.add.text(this.centerX -100, this.centerY, 'Beta Over:');
-    var score = this.add.text(this.centerX-150, this.centerY +25, 'Meme-ories Collected: '+this.score);
+    var text = this.add.text(this.centerX -100, this.centerY, 'Beta Over');
+    var score = this.add.text(this.centerX-150, this.centerY +35, 'Memories Collected: '+this.score);
   }
 
-  update (time, delta) {
-    // Update the scene
-  }
 }

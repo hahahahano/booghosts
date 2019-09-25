@@ -13,6 +13,7 @@ export default class Caves extends Phaser.Scene {
     this.load.image('ledge1', "./assets/sprites/cave1.png");
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
+    this.load.image('body', "./assets/sprites/star.png");
 
     this.load.spritesheet('ghost', "./assets/spriteSheets/Ghost.png", {
       frameWidth: 462,
@@ -41,6 +42,7 @@ export default class Caves extends Phaser.Scene {
     this.scoreText;
     this.sm_spirit1;
     this.lg_spirit;
+    this.body;
 
     //Background
     this.add.image(800, 960/2, 'background');
@@ -92,6 +94,7 @@ export default class Caves extends Phaser.Scene {
     //Creates small spirits
     this.sm_spirit1 = this.physics.add.sprite(200, 900, 'sm_spirit');
     this.sm_spirit1.setScale(0.15);
+    this.sm_spirit1.setCollideWorldBounds(true);
 
     this.tweens.add({
       targets: this.sm_spirit1,
@@ -102,6 +105,7 @@ export default class Caves extends Phaser.Scene {
       repeat: -1
     });
 
+    //Creates large spirit
     this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
     this.lg_spirit.setScale(0.4);
     this.lg_spirit.setCollideWorldBounds(true);
@@ -115,7 +119,7 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    this.player = this.physics.add.sprite(900, 1750, 'ghost');
+    this.player = this.physics.add.sprite(100, 1750, 'ghost');
     this.player.setScale(0.15);
     this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, 0, 1500, 1900);
@@ -158,11 +162,16 @@ export default class Caves extends Phaser.Scene {
       fill: "#000"
     });
 
+    //Creates ghost's human body (it's a star for now)
+    this.body = this.physics.add.sprite(1400, 270, 'body');
+    this.body.setCollideWorldBounds(true);
+
     //Collide the player and the memory pieces with the platforms
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(this.mems, platforms);
     this.physics.add.collider(this.sm_spirit1, platforms);
     this.physics.add.collider(this.lg_spirit, platforms);
+    this.physics.add.collider(this.body, platforms);
 //////////////////////////////////////////////////////////////////////////////////
     //Overlap Checks
     this.physics.add.overlap(
@@ -177,6 +186,14 @@ export default class Caves extends Phaser.Scene {
       this.player,
       this.sm_spirit1,
       this.enemyHit,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.body,
+      this.returnBody,
       null,
       this
     );
@@ -220,6 +237,10 @@ export default class Caves extends Phaser.Scene {
     //Update the score
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
+  }
+
+  returnBody(player, body) {
+    this.gameOver = true;
   }
 
   //When the player touches an enemy, return to spawn
