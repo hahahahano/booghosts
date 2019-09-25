@@ -26,6 +26,7 @@ export default class Start extends Phaser.Scene {
   create (data) {
     //Add event addSceneEventListeners
     //ChangeScene.addSceneEventListeners(this);
+
     //Create the scene
     var sound = this.sound.add('pops');
     sound.addMarker({
@@ -38,10 +39,12 @@ export default class Start extends Phaser.Scene {
       start: 1.1,
       duration: 1.5
     });
-    var text = this.add.text(this.centerX -150, this.centerY - 100, ' Help Drinko Get 12 Drinks to his buddies');
+    var text1 = this.add.text(this.centerX-35, this.centerY - 100, ' Coma ', { align: "center" });
+    var text2 = this.add.text(this.centerX-125, this.centerY - 75, ' By Boo! Ghosts (Team 14) ', { align: "center" });
+    var instructions = this.add.text(this.centerX-255, this.centerY, ' Return to your body (which is the star for this demo), \ncollect your memories (the blue spheres), \nand avoid the small spirit! ', { align: "center" });
+    var text4 = this.add.text(this.centerX -100, this.centerY + 75, ' Move with arrow keys ');
 
-
-    var b1 = this.add.sprite(this.centerX,this.centerY, 'buttons', 0).setInteractive();
+    var b1 = this.add.sprite(this.centerX,this.centerY + 200, 'buttons', 0).setInteractive();
     b1.setScale(.5)
     b1.on('pointerover', function(){
       this.setFrame(0)
@@ -62,7 +65,4 @@ export default class Start extends Phaser.Scene {
 
   }
 
-  update (time, delta) {
-    // Update the scene
-  }
 }

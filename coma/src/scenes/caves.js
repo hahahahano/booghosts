@@ -10,22 +10,30 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 2500, //432
       frameHeight: 4224, // 32
     });
-    this.load.image('ledge1', "./assets/sprites/cave1.png");
+
+    this.load.image('foreground', "./assets/images/cave_fg_test002.png",{
+      frameWidth: 2500, //432
+      frameHeight: 3513, // 32
+    });
+
+    this.load.image('ledge1', "./assets/sprites/cave_platform01.png");
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
+    this.load.image('body', "./assets/sprites/star.png");
 
     this.load.spritesheet('ghost', "./assets/spriteSheets/Ghost.png", {
       frameWidth: 462,
       frameHeight: 719
     });
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
-      frameWidth: 404,
+      frameWidth: 395,
       frameHeight: 596
     });
     this.load.spritesheet('sm_spirit', "./assets/spriteSheets/small_spirit.png", {
       frameWidth: 500,
       frameHeight: 338
     });
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
   }
 
   create() {
@@ -39,51 +47,91 @@ export default class Caves extends Phaser.Scene {
     this.score = 0;
     this.gameOver = false;
     this.scoreText;
-    this.sm_spirits;
+    this.sm_spirit1;
+    this.lg_spirit;
+    this.body;
 
     //Background
     this.add.image(800, 960/2, 'background');
+
+
+
 
     //The platforms group contains the ground and the ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //Ground
+
     platforms
-      .create(700, 2000, 'ground')
+      .create(800, 1950, 'ledge1')
       .setScale(1)
       .refreshBody();
 
     //Ledges
     platforms
-      .create(100, 400, 'ledge1')
+      .create(1500, 400, 'ledge1')
+      .setScale(.5)
+      .refreshBody();
+    platforms
+      .create(50, 850, 'ledge1')
       .setScale(0.3)
       .refreshBody();
     platforms
-      .create(750, 525, 'ledge1')
-      .setScale(.2)
-      .refreshBody();
-    platforms
-      .create(1200, 800, 'ledge1')
+      .create(700, 600, 'ledge1')
       .setScale(.3)
       .refreshBody();
     platforms
-      .create(500, 1100, 'ledge1')
+      .create(1200, 850, 'ledge1')
+      .setScale(.3)
+      .refreshBody();
+    platforms
+      .create(600, 1100, 'ledge1')
       .setScale(.5)
       .refreshBody();
     platforms
-      .create(1400, 1300, 'ledge1')
-      .setScale(0.3)
+      .create(1450, 1300, 'ledge1')
+      .setScale(0.4)
       .refreshBody();
     platforms
-      .create(1400, 1600, 'ledge1')
+      .create(1250, 1500, 'ledge1')
       .setScale(.5)
       .refreshBody();
     platforms
-      .create(600, 1650, 'ledge1')
+      .create(500, 1650, 'ledge1')
       .setScale(.3)
       .refreshBody();
 
+    //Foreground test
+    this.add.image(550, 50, 'foreground');
+
 //////////////////////////////////////////////////////////////////////////////////
+    //Creates small spirits
+    this.sm_spirit1 = this.physics.add.sprite(200, 900, 'sm_spirit');
+    this.sm_spirit1.setScale(0.15);
+    this.sm_spirit1.setCollideWorldBounds(true);
+
+    this.tweens.add({
+      targets: this.sm_spirit1,
+      x: 900,
+      ease: 'Linear',
+      yoyo: true,
+      duration: 5000,
+      repeat: -1
+    });
+
+    //Creates large spirit
+    this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
+    this.lg_spirit.setScale(0.4);
+    this.lg_spirit.setCollideWorldBounds(true);
+
+    this.anims.create({
+      key: 'idle_sp',
+      frames: this.anims.generateFrameNumbers('lg_spirit', {start: 0, end: 2}),
+      duration: 850,
+      yoyo: true,
+      repeat: -1
+    });
+
     //Creates player character
     this.player = this.physics.add.sprite(100, 1750, 'ghost');
     this.player.setScale(0.15);
@@ -107,7 +155,7 @@ export default class Caves extends Phaser.Scene {
     //Input Events
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    //Set main camera's bounraries and tell it follow the player
+    //Set main camera's bounraries and tells it follow the player
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setBounds(0, 0, 1500, 1900);
 
@@ -122,17 +170,24 @@ export default class Caves extends Phaser.Scene {
       setXY: { x: 1200, y: 722}}
       ]);
 
-    //Memories Collected
+    //Memories Collected: Need to fix ==> make it follow the cameras~
     this.scoreText = this.add.text(16, 16, "Memories: 0", {
       fontSize: "32px",
       fill: "#000"
     });
 
+    //Creates ghost's human body (it's a star for now)
+    this.body = this.physics.add.sprite(1400, 270, 'body');
+    this.body.setCollideWorldBounds(true);
+
     //Collide the player and the memory pieces with the platforms
     this.physics.add.collider(this.player, platforms);
     this.physics.add.collider(this.mems, platforms);
-
-    //Checks to see if the player overlaps with any of the memory pieces, if it does call the collectMem function
+    this.physics.add.collider(this.sm_spirit1, platforms);
+    this.physics.add.collider(this.lg_spirit, platforms);
+    this.physics.add.collider(this.body, platforms);
+//////////////////////////////////////////////////////////////////////////////////
+    //Overlap Checks
     this.physics.add.overlap(
       this.player,
       this.mems,
@@ -141,8 +196,26 @@ export default class Caves extends Phaser.Scene {
       this
     );
 
-    //Creates small spirits
-    //this.sm_spirits = this.physics.add
+    this.physics.add.overlap(
+      this.player,
+      this.sm_spirit1,
+      this.enemyHit,
+      null,
+      this
+    );
+    //plays background music
+    var music = this.sound.add('cave_music1');
+    music.volume = .3;
+    music.play();
+
+    this.physics.add.overlap(
+      this.player,
+      this.body,
+      this.returnBody,
+      null,
+      this
+    );
+
   }
 
   update() {
@@ -150,6 +223,8 @@ export default class Caves extends Phaser.Scene {
       this.scene.start('GameOverScene',{score: this.score });
       return;
     }
+
+    this.lg_spirit.anims.play('idle_sp', true);
 
     var cursors = this.input.keyboard.createCursorKeys();
     var speed = 5;
@@ -180,10 +255,15 @@ export default class Caves extends Phaser.Scene {
     //Update the score
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
+  }
 
-    if (this.mems.countActive(true) === 0) {
-      this.gameOver = true
-      };
+  returnBody(player, body) {
+    this.gameOver = true;
+  }
+
+  //When the player touches an enemy, return to spawn
+  enemyHit(player, sm_spirit) {
+    player.setPosition(100, 1750);
   }
 
 }
