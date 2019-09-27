@@ -21,9 +21,9 @@ export default class Caves extends Phaser.Scene {
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/star.png");
 
-    this.load.spritesheet('ghost', "./assets/spriteSheets/Ghost.png", {
-      frameWidth: 462,
-      frameHeight: 719
+    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
+      frameWidth: 148,
+      frameHeight: 200
     });
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
       frameWidth: 395,
@@ -133,18 +133,20 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    this.player = this.physics.add.sprite(100, 1750, 'ghost');
-    this.player.setScale(0.15);
+    this.player = this.physics.add.sprite(100, 1500, 'ghost');
+    this.player.setScale(.6);
     this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, 0, 1500, 1900);
 
     //Player Animations
     this.anims.create({
       key: 'walk',
-      frames: this.anims.generateFrameNumbers('ghost', {start: 0, end: 0}),
-      framerate: 10,
-      repeat: -1
+      frames: this.anims.generateFrameNumbers('ghost', {start: 1, end: 3}),
+      frameRate: 4,
+      repeat: 0,
+
     });
+
     this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('ghost', {start: 0, end: 0}),
