@@ -16,10 +16,13 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 3513, // 32
     });
 
-    this.load.image('ledge1', "./assets/sprites/cave_platform01.png");
+    //this.load.image('ledge1', "./assets/sprites/cave_platform01.png");
+    this.load.image("tiles", "./assets/sprites/cave_platform02.png");
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/star.png");
+
+    this.load.tilemapTiledJSON("map", "./assets/tilemaps/cave_tilemap1.json")
 
     this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
       frameWidth: 148,
@@ -54,9 +57,15 @@ export default class Caves extends Phaser.Scene {
     //Background
     this.add.image(800, 960/2, 'background');
 
+    const map = this.make.tilemap({ key: "map" });
+    const tileset = map.addTilesetImage("cave_platform02", "tiles");
+    const worldLayer = map.createStaticLayer("platforms", tileset, 0, 1000);
+    worldLayer.setCollisionByProperty({ collides: true });
 
 
 
+
+    /*
     //The platforms group contains the ground and the ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
@@ -100,7 +109,7 @@ export default class Caves extends Phaser.Scene {
       .create(500, 1650, 'ledge1')
       .setScale(.3)
       .refreshBody();
-
+    */
     //Foreground test
     this.add.image(550, 50, 'foreground');
 
@@ -239,7 +248,7 @@ export default class Caves extends Phaser.Scene {
       this.player.setVelocityX(200);
       this.player.flipX = false;
       this.player.anims.play('walk', true);
-    }else {
+    } else {
       this.player.setVelocityX(0);
       this.player.anims.play('idle', true);
     }
