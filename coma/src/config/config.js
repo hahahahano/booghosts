@@ -9,6 +9,7 @@ export default {
     },
   width: 1280,
   height: 720,
+  pixelArt: false,
   physics: {
     default: 'arcade',
     arcade: {
