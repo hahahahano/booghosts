@@ -20,6 +20,7 @@ export default class Caves extends Phaser.Scene {
     this.load.image('ground', "./assets/sprites/base1.png");
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/star.png");
+    this.load.image('orange', './assets/images/orBall.png');
 
     this.load.spritesheet('ghost', "./assets/spriteSheets/Ghost.png", {
       frameWidth: 462,
@@ -40,6 +41,7 @@ export default class Caves extends Phaser.Scene {
     //Add change scene event listeners
     //ChangeScene.addSceneEventListeners(this);
 
+
     this.player;
     this.mems;
     var platforms;
@@ -53,6 +55,8 @@ export default class Caves extends Phaser.Scene {
 
     //Background
     this.add.image(800, 960/2, 'background');
+
+
 
 
 
@@ -215,6 +219,17 @@ export default class Caves extends Phaser.Scene {
       null,
       this
     );
+
+    var particles0 = this.add.particles('orange');
+    var emitter0 = particles0.createEmitter({
+        lifespan: 5000,
+        speedX:{min: -100, max: 100},
+        speedY:{min: -100, max:1000},
+        scale: {start: 1, end: 0},
+        blendMode: 'ADD'
+    });
+    emitter0.setPosition(800, -0);
+
 
   }
 
