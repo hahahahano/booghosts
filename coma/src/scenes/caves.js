@@ -27,8 +27,8 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 3513, // 32
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform02.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap1.json")
+    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -63,24 +63,24 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit;
     this.sm_spirit1;
     this.player;
-    
+
     this.score = 0;
     this.scoreText;
     this.gameOver = false;
-    
+
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const background = this.add.image(800, 960/2, 'background');
-    this.physics.world.setBounds(0, 0, 1500, 1900);
+    this.physics.world.setBounds(0, 0, 1536, 3000);
 
     const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('cave_platform02', 'tiles');
-    this.worldLayer = map.createStaticLayer('platforms', tileset, 100, -1300);
+    const tileset = map.addTilesetImage('cave_platform03', 'tiles');
+    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
     this.worldLayer.setCollisionByProperty({ collides: true });
 
     //Foreground test
-    const foreground = this.add.image(550, 50, 'foreground');
-    foreground.setDepth(10);
+    //const foreground = this.add.image(550, 50, 'foreground');
+    //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ export default class Caves extends Phaser.Scene {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
-    this.lg_spirit = this.physics.add.sprite(1370, 1125, 'lg_spirit');
+    this.lg_spirit = this.physics.add.sprite(1450, 800, 'lg_spirit');
     this.lg_spirit.setScale(0.4);
     this.lg_spirit.setCollideWorldBounds(true);
 
@@ -120,7 +120,7 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates small spirits
-    this.sm_spirit1 = this.physics.add.sprite(500, 1500, 'sm_spirit');
+    this.sm_spirit1 = this.physics.add.sprite(500, 1840, 'sm_spirit');
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
 
@@ -135,11 +135,11 @@ export default class Caves extends Phaser.Scene {
 
     //Creates player character
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 100, 1500);
+    this.player = new Ghost_Player(this, 100, 1800);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.setBounds(0, 0, 1500, 1900);
+    this.cameras.main.setBounds(0, 0, 1536, 1900);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 400;
@@ -161,7 +161,7 @@ export default class Caves extends Phaser.Scene {
       null,
       this
     );
-    
+
     this.physics.add.overlap(
       this.player.sprite,
       this.body,
