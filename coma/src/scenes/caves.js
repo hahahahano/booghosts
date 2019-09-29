@@ -167,6 +167,8 @@ export default class Caves extends Phaser.Scene {
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.worldLayer);
+    this.plants.setCollisionByProperty({ collides: true });
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.plants);
 
     //this.physics.world.addCollider(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
     this.physics.world.addCollider(this.sm_spirit1, this.player.sprite, this.enemyHit, null, this);
