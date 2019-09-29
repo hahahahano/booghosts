@@ -22,13 +22,14 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 2500, //432
       frameHeight: 4224, // 32
     });
-    this.load.image('foreground', "./assets/images/cave_fg_test002.png",{
-      frameWidth: 2500, //432
-      frameHeight: 3513, // 32
+    this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
     });
 
     this.load.image('tiles', "./assets/sprites/cave_platform03.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json")
+    this.load.image('shrubs', "./assets/sprites/shrub1.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -75,10 +76,23 @@ export default class Caves extends Phaser.Scene {
     const background = this.add.image(800, 960/2, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
+    var particles0 = this.add.particles('orange');
+    var emitter0 = particles0.createEmitter({
+        lifespan: 5000,
+        speedX:{min: -100, max: 100},
+        speedY:{min: -100, max:1000},
+        scale: {start: 1, end: 0},
+        blendMode: 'LUMINOSITY'
+    });
+    emitter0.setPosition(800, -0);
+
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
+    const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
     this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
+    this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
     this.worldLayer.setCollisionByProperty({ collides: true });
+    this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
     //const foreground = this.add.image(550, 50, 'foreground');
