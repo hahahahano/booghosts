@@ -28,8 +28,8 @@ export default class Caves extends Phaser.Scene {
     });
 
     this.load.image('tiles', "./assets/sprites/cave_platform03.png");
-    this.load.image('tiles', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json")
+    this.load.image('shrubs', "./assets/sprites/shrub1.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -87,8 +87,9 @@ export default class Caves extends Phaser.Scene {
 
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
+    const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
     this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
-    this.plants = map.createStaticLayer('plants', tileset, 0, -1175);
+    this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
 
