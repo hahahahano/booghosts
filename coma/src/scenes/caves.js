@@ -88,13 +88,15 @@ export default class Caves extends Phaser.Scene {
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
     const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
+
     this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
     this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
+
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
-    //const foreground = this.add.image(550, 50, 'foreground');
+    const foreground = this.add.image(0, 0, 'foreground');
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
