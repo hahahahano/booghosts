@@ -33,7 +33,7 @@ export default class Caves extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/star.png");
-    this.load.image('orange', './assets/images/orBall.png');
+    this.load.image('orange', './assets/images/blue.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -182,13 +182,31 @@ export default class Caves extends Phaser.Scene {
 
     var particles0 = this.add.particles('orange');
     var emitter0 = particles0.createEmitter({
-        lifespan: 5000,
+        lifespan: 1000,
         speedX:{min: -100, max: 100},
         speedY:{min: -100, max:1000},
         scale: {start: 1, end: 0},
         blendMode: 'ADD'
     });
-    emitter0.setPosition(800, -0);
+    emitter0.setPosition(1300, -0);
+    var particles1 = this.add.particles('orange');
+    var emitter1 = particles1.createEmitter({
+        lifespan: 1000,
+        speedX:{min: -100, max: 100},
+        speedY:{min: -100, max:1000},
+        scale: {start: 1, end: 0},
+        blendMode: 'ADD'
+    });
+    emitter1.setPosition(1400, -0);
+    var particles3 = this.add.particles('orange');
+    var emitter3 = particles3.createEmitter({
+        lifespan: 2000,
+        speedX:{min: -100, max: 100},
+        speedY:{min: -100, max:500},
+        scale: {start: 1, end: 0},
+        blendMode: 'ADD'
+    });
+    emitter3.setPosition(1500, -0);
 
 
   }
