@@ -97,7 +97,7 @@ export default class Caves extends Phaser.Scene {
     this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
-    const foreground = this.add.image(0, 0, 'foreground');
+    const foreground = this.add.image(750, 1600, 'foreground');
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
