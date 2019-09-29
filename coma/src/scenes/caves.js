@@ -61,6 +61,7 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.body;
+    //this.msgBox;
 
     this.lg_spirit;
     this.sm_spirit1;
@@ -107,14 +108,14 @@ export default class Caves extends Phaser.Scene {
       setXY: { x: 50, y: 321}},
       {key: 'mem_piece',
       setXY: { x: 1200, y: 722}}
-      ]);
+    ]);
 
     //Memories Collected (Score Display)
     this.scoreText = this.add
       .text(16, 16, "Memories: 0", {
         font: "18px monospace",
         fill: "#ffffff",
-        padding: { x: 20, y: 10 },
+        padding: { x: 20, y: 10 }
       })
       .setScrollFactor(0);
 
@@ -153,6 +154,7 @@ export default class Caves extends Phaser.Scene {
     //Creates player character
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
     this.player = new Ghost_Player(this, 100, 1800);
+    this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
@@ -166,15 +168,17 @@ export default class Caves extends Phaser.Scene {
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.worldLayer);
 
-    this.physics.world.addCollider(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
+    //this.physics.world.addCollider(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
+    this.physics.world.addCollider(this.sm_spirit1, this.player.sprite, this.enemyHit, null, this);
+
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
 
     //INTERACTION
     /*
     this.physics.add.overlap(
       this.player.sprite,
-      this.body,
-      this.returnBody,
+      this.lg_spirit,
+      this.showMessageBox("hey there", 1350, 700),
       null,
       this
     );
@@ -194,9 +198,7 @@ export default class Caves extends Phaser.Scene {
     music.volume = .3;
     music.play();
 
-
-
-    var particles0 = this.add.particles('orange');
+    /*var particles0 = this.add.particles('orange');
     var emitter0 = particles0.createEmitter({
         lifespan: 1000,
         speedX:{min: -100, max: 100},
@@ -222,8 +224,24 @@ export default class Caves extends Phaser.Scene {
         scale: {start: 1, end: 0},
         blendMode: 'ADD'
     });
-    emitter3.setPosition(1500, -0);
+    emitter3.setPosition(1500, -0);*/
 
+///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
+    this.input.keyboard.once("keydown_D", event => {
+      // Turn on physics debugging to show player's hitbox
+      this.physics.world.createDebugGraphic();
+
+      // Create worldLayer collision graphic above the player, but below the help text
+      const graphics = this.add
+        .graphics()
+        .setAlpha(0.75)
+        .setDepth(20);
+      this.worldLayer.renderDebug(graphics, {
+        tileColor: null, // Color of non-colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      });
+    });
 
   }
 /*****************************************************************************************************************************************************/
@@ -240,7 +258,39 @@ export default class Caves extends Phaser.Scene {
     if (this.player.sprite.y > this.worldLayer.height) {
       this.player.destroy();
     }
+
+    /*if (this.player.keys.x.isDown && "overlap") {
+      asfjskdf
+    }*/
   }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  //Textboxes
+  /*instructions(player) {
+    var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
+    "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
+  }
+
+  showMessageBox(textmsg, xpos, ypos, w = 300, h = 700) {
+    if (this.msgBox) {
+      this.msgBox.destroy();
+    }
+
+    this.msgBox = this.add
+      .text(xpos, ypos, textmsg, {
+        font: "18px monospace",
+        fill: "#fff",
+        padding: { x: 20, y: 10 },
+        backgroundColor: "#000",
+        wordWrap: true,
+        wordWrapWidth: w * 0.9
+      });
+      .setDepth(-10);
+  }
+
+  hideBox() {
+    this.msgBox.destroy()
+  }*/
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Collecting a memory
