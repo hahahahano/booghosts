@@ -1,82 +1,74 @@
-/**
- * A class that wraps up our 2D platforming player logic. It creates, animates and moves a sprite in
- * response to WASD/arrow keys. Call its update method from the scene's update and call its destroy
- * method when you're done with the player.
- */
+/*
+    CHARACTER CLASS: GHOST
+*/
+
 export default class Ghost_Player {
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   constructor(scene, x, y) {
     this.scene = scene;
 
-    // Create the animations we need from the player spritesheet
+    //PLAYER ANIMATIONS
     const anims = scene.anims;
     anims.create({
-      key: "player-idle",
-      frames: anims.generateFrameNumbers("player", { start: 0, end: 0 }),
-      frameRate: 10,
-      repeat: -1
+      key: 'walk',
+      frames: anims.generateFrameNumbers('ghost', {start: 1, end: 3}),
+      frameRate: 4,
+      repeat: 0
     });
     anims.create({
-      key: "player-walk",
-      frames: anims.generateFrameNumbers("player", { start: , end: 0 }),
+      key: 'idle',
+      frames: anims.generateFrameNumbers('ghost', {start: 0, end: 0}),
       frameRate: 10,
       repeat: -1
     });
 
-    // Create the physics-based sprite that we will move around and animate
+    //CREATING PLAYER + PHYSICS
     this.sprite = scene.physics.add
-      .sprite(x, y, "player", 0)
-      .setDrag(1000, 0)
-      .setMaxVelocity(300, 400)
-      .setSize(18, 24)
-      .setOffset(7, 9);
+      .sprite(x, y, 'ghost', 0)
+      .setSize(130, 180)
+      .setScale(0.8);
 
-    // Track the arrow keys & WASD
-    const { LEFT, RIGHT, UP, W, A, D } = Phaser.Input.Keyboard.KeyCodes;
+    //KEYS
+    const { LEFT, RIGHT, UP, DOWN, X} = Phaser.Input.Keyboard.KeyCodes;
     this.keys = scene.input.keyboard.addKeys({
       left: LEFT,
       right: RIGHT,
       up: UP,
-      w: W,
-      a: A,
-      d: D
+      down: DOWN,
+      x: X
     });
   }
-
-  freeze() {
-    this.sprite.body.moves = false;
-  }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   update() {
     const { keys, sprite } = this;
     const onGround = sprite.body.blocked.down;
-    const acceleration = onGround ? 600 : 200;
 
-    // Apply horizontal acceleration when left/a or right/d are applied
-    if (keys.left.isDown || keys.a.isDown) {
-      sprite.setAccelerationX(-acceleration);
-      // No need to have a separate set of graphics for running to the left & to the right. Instead
-      // we can just mirror the sprite.
+    //MOVEMENT KEYS
+    if (keys.left.isDown) {
+      sprite.setVelocityX(-300);
       sprite.setFlipX(true);
-    } else if (keys.right.isDown || keys.d.isDown) {
-      sprite.setAccelerationX(acceleration);
+    } else if (keys.right.isDown) {
+      sprite.setVelocityX(300);
       sprite.setFlipX(false);
     } else {
-      sprite.setAccelerationX(0);
+      sprite.setVelocityX(0);
     }
-
-    // Only allow the player to jump if they are on the ground
-    if (onGround && (keys.up.isDown || keys.w.isDown)) {
+      //JUMP
+    if (onGround && (keys.up.isDown)) {
       sprite.setVelocityY(-500);
     }
 
-    // Update the animation/texture based on the state of the player
-    if (onGround) {
-      if (sprite.body.velocity.x !== 0) sprite.anims.play("player-run", true);
-      else sprite.anims.play("player-idle", true);
-    } else {
-      sprite.anims.stop();
-      sprite.setTexture("player", 10);
-    }
+    //UPDATING ANIMATIONS
+    if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);
+    else sprite.anims.play('idle', true);
   }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  destroy() {
+    this.sprite.setPosition(100, 1500);
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 }

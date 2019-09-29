@@ -1,6 +1,6 @@
 /*global Phaser, window*/
-import GameOverScene from './scenes/GameOverScene.js';
 
+import GameOverScene from './scenes/GameOverScene.js';
 import start from './scenes/start.js';
 import caves from './scenes/caves.js';
 import Config from './config/config.js';
