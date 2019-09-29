@@ -71,6 +71,7 @@ export default class Caves extends Phaser.Scene {
     this.scoreText;
     this.gameOver = false;
 
+
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const background = this.add.image(800, 960/2, 'background');
@@ -172,6 +173,8 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.addCollider(this.sm_spirit1, this.player.sprite, this.enemyHit, null, this);
 
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
+    this.physics.world.addCollider(this.player.sprite, this.lg_spirit, this.hitspirit,null, this);
+
 
     //INTERACTION
     /*
@@ -311,6 +314,11 @@ export default class Caves extends Phaser.Scene {
   //When the player touches an enemy, return to spawn
   enemyHit(player, sm_spirit) {
     this.player.destroy();
+  }
+  hitspirit(player, lg_spirit){
+      this.add.text(1350,700,"Can you help me");
+      this.add.text(1350,720, "find my scroll?");
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
