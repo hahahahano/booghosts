@@ -61,7 +61,7 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.body;
-    //this.msgBox;
+    this.msgBox;
 
     this.lg_spirit;
     this.sm_spirit1;
@@ -76,6 +76,7 @@ export default class Caves extends Phaser.Scene {
     const background = this.add.image(800, 960/2, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
+    //Particles
     var particles0 = this.add.particles('orange');
     var emitter0 = particles0.createEmitter({
         lifespan: 5000,
@@ -86,6 +87,7 @@ export default class Caves extends Phaser.Scene {
     });
     emitter0.setPosition(800, -0);
 
+    //Platforms
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
     const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
@@ -172,57 +174,19 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
 
     //INTERACTION
-    /*
     this.physics.add.overlap(
       this.player.sprite,
       this.lg_spirit,
-      this.showMessageBox("hey there", 1350, 700),
+      this.showMessageBox("heythere", 1350, 700),
       null,
       this
     );
-
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.body,
-      this.returnBody,
-      null,
-      this
-    );
-    */
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
     var music = this.sound.add('cave_music1');
     music.volume = .3;
     music.play();
-
-    /*var particles0 = this.add.particles('orange');
-    var emitter0 = particles0.createEmitter({
-        lifespan: 1000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter0.setPosition(1300, -0);
-    var particles1 = this.add.particles('orange');
-    var emitter1 = particles1.createEmitter({
-        lifespan: 1000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter1.setPosition(1400, -0);
-    var particles3 = this.add.particles('orange');
-    var emitter3 = particles3.createEmitter({
-        lifespan: 2000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:500},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter3.setPosition(1500, -0);*/
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -257,9 +221,6 @@ export default class Caves extends Phaser.Scene {
       this.player.destroy();
     }
 
-    /*if (this.player.keys.x.isDown && "overlap") {
-      asfjskdf
-    }*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -267,28 +228,25 @@ export default class Caves extends Phaser.Scene {
   /*instructions(player) {
     var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
     "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
-  }
+  }*/
 
   showMessageBox(textmsg, xpos, ypos, w = 300, h = 700) {
-    if (this.msgBox) {
-      this.msgBox.destroy();
+    if (this.player.keys.x.isDown) {
+      this.msgBox = this.add
+        .text(xpos, ypos, textmsg, {
+          font: "18px monospace",
+          fill: "#fff",
+          padding: { x: 20, y: 10 },
+          backgroundColor: "#000",
+          wordWrap: true,
+          wordWrapWidth: w * 0.9
+        });
     }
-
-    this.msgBox = this.add
-      .text(xpos, ypos, textmsg, {
-        font: "18px monospace",
-        fill: "#fff",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#000",
-        wordWrap: true,
-        wordWrapWidth: w * 0.9
-      });
-      .setDepth(-10);
   }
 
-  hideBox() {
-    this.msgBox.destroy()
-  }*/
+  hideMessageBox(msgBox) {
+    msgBox.destroy()
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Collecting a memory
