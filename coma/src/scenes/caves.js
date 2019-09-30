@@ -70,7 +70,7 @@ export default class Caves extends Phaser.Scene {
     this.player;
 
     this.score = 0;
-    this.scroll = false;
+    this.scrolls = false;
     this.scoreText;
     this.gameOver = false;
 
@@ -102,14 +102,10 @@ export default class Caves extends Phaser.Scene {
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
 
-<<<<<<< HEAD
     //Foreground test
     const foreground = this.add.image(800, 960/2, 'foreground');
     foreground.setDepth(10);
     //foreground.setScrollFactor(0);
-=======
-
->>>>>>> 8c07d5c8962218eadd59058b94340190e8dee2d1
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory Pieces
@@ -280,7 +276,7 @@ export default class Caves extends Phaser.Scene {
     scroll.disableBody(true, true);
 
     //Update the score
-    this.scroll = true;
+    this.scrolls = true;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -296,7 +292,6 @@ export default class Caves extends Phaser.Scene {
   hitspirit(player, lg_spirit){
       this.add.text(1350,700,"Can you help me");
       this.add.text(1350,720, "find my scroll?");
-
 
   }
 /*****************************************************************************************************************************************************/
