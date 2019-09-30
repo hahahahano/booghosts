@@ -53,7 +53,7 @@ export default class BootScene extends Phaser.Scene {
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
   }
 
 
