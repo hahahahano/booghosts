@@ -18,6 +18,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
+    this.load.image('scroll', './assets/sprites/map_sketch.png');
     this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
       frameWidth: 2500, //432
       frameHeight: 4224, // 32
@@ -62,12 +63,14 @@ export default class Caves extends Phaser.Scene {
     this.mems;
     this.body;
     this.msgBox;
+    this.scroll;
 
     this.lg_spirit;
     this.sm_spirit1;
     this.player;
 
     this.score = 0;
+    this.scroll = false;
     this.scoreText;
     this.gameOver = false;
 
@@ -100,13 +103,8 @@ export default class Caves extends Phaser.Scene {
     this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
-<<<<<<< HEAD
-    const foreground = this.add.image(750, 1600, 'foreground');
-    //foreground.setDepth(10);
-=======
     const foreground = this.add.image(800, 960/2, 'foreground');
     foreground.setDepth(10);
->>>>>>> Development
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +148,9 @@ export default class Caves extends Phaser.Scene {
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
 
+    this.scroll = this.physics.add.sprite(750,400,'scroll');
+    this.scroll.setCollideWorldBounds(true);
+
     this.tweens.add({
       targets: this.sm_spirit1,
       x: 900,
@@ -174,22 +175,23 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.worldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body, this.scroll], this.worldLayer);
     this.plants.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.plants);
+    //this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.plants);
 
     //this.physics.world.addCollider(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
     this.physics.world.addCollider(this.sm_spirit1, this.player.sprite, this.enemyHit, null, this);
 
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
     this.physics.world.addCollider(this.player.sprite, this.lg_spirit, this.hitspirit,null, this);
+    this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
 
 
     //INTERACTION
     this.physics.add.overlap(
       this.player.sprite,
-      this.lg_spirit,
-      this.showMessageBox("heythere", 1350, 700),
+      this.body,
+      this.returnBody,
       null,
       this
     );
@@ -269,6 +271,13 @@ export default class Caves extends Phaser.Scene {
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
   }
+
+  collectscroll(player, scroll) {
+    scroll.disableBody(true, true);
+
+    //Update the score
+    this.scroll = true;
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   returnBody(player, body) {
@@ -283,6 +292,7 @@ export default class Caves extends Phaser.Scene {
   hitspirit(player, lg_spirit){
       this.add.text(1350,700,"Can you help me");
       this.add.text(1350,720, "find my scroll?");
+
 
   }
 /*****************************************************************************************************************************************************/
