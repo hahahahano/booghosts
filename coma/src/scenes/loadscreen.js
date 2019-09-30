@@ -21,13 +21,13 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
-      frameWidth: 2500, //432
-      frameHeight: 4224, // 32
+    this.load.image('background', "./assets/images/cave_bg_test003.jpg",{
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
     });
-    this.load.image('foreground', "./assets/images/cave_fg_test002.png",{
-      frameWidth: 2500, //432
-      frameHeight: 3513, // 32
+    this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
     });
 
     this.load.image('tiles', "./assets/sprites/cave_platform03.png");
@@ -35,8 +35,8 @@ export default class BootScene extends Phaser.Scene {
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/star.png");
-    this.load.image('orange', './assets/images/blue.png');
+    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('orange', './assets/images/blue1.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -47,13 +47,13 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
       frameWidth: 148,
       frameHeight: 200
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
   }
 
 

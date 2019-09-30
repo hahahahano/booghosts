@@ -26,7 +26,9 @@ export default class Ghost_Player {
     //CREATING PLAYER + PHYSICS
     this.sprite = scene.physics.add
       .sprite(x, y, 'ghost', 0)
-      .setScale(0.8);
+      .setScale(0.6);
+
+
 
     //KEYS
     const { LEFT, RIGHT, UP, DOWN, X} = Phaser.Input.Keyboard.KeyCodes;
