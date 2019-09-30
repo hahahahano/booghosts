@@ -33,7 +33,7 @@ export default class Caves extends Phaser.Scene {
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/star.png");
+    this.load.image('body', "./assets/sprites/bones_sketch.png");
     this.load.image('orange', './assets/images/blue.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
@@ -119,7 +119,7 @@ export default class Caves extends Phaser.Scene {
       })
       .setScrollFactor(0);
 
-    //Creates ghost's human body (it's a star for now)
+    //Creates ghost's human body
     this.body = this.physics.add.sprite(1400, 270, 'body');
     this.body.setCollideWorldBounds(true);
 
