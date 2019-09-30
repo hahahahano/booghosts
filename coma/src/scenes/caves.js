@@ -99,15 +99,7 @@ export default class Caves extends Phaser.Scene {
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
 
-    //Foreground test
-<<<<<<< HEAD
-    const foreground = this.add.image(750, 1600, 'foreground');
-    //foreground.setDepth(10);
-=======
-    const foreground = this.add.image(800, 960/2, 'foreground');
-    foreground.setDepth(10);
->>>>>>> Development
-    //foreground.setScrollFactor(0);
+
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory Pieces
