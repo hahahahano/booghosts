@@ -164,13 +164,11 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    var container = this.add.container(148, 200, this.player);
-
-
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
     this.player = new Ghost_Player(this, 100, 1800);
 
     this.player.sprite.setCollideWorldBounds(true);
+
 
 
     //Cameras
