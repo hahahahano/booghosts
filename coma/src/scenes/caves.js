@@ -20,8 +20,8 @@ export default class Caves extends Phaser.Scene {
     //BACKGROUND AND FOREGROUND
     this.load.image('scroll', './assets/sprites/map_sketch.png');
     this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
-      frameWidth: 2500, //432
-      frameHeight: 4224, // 32
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
     });
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
       frameWidth: 1536, //432
@@ -35,7 +35,7 @@ export default class Caves extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
-    this.load.image('orange', './assets/images/blue.png');
+    this.load.image('orange', './assets/images/blue1.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -77,19 +77,22 @@ export default class Caves extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(800, 960/2, 'background');
+    const background = this.add.image(768, 1229, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
     //Particles
     var particles0 = this.add.particles('orange');
     var emitter0 = particles0.createEmitter({
+        alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
         lifespan: 5000,
-        speedX:{min: -100, max: 100},
+        speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
         scale: {start: 1, end: 0},
-        blendMode: 'LUMINOSITY'
+        blendMode: 'ADD'
     });
-    emitter0.setPosition(800, -0);
+    emitter0.setPosition(700, -0);
+
+
 
     //Platforms
     const map = this.make.tilemap({ key: 'map' });
@@ -103,8 +106,8 @@ export default class Caves extends Phaser.Scene {
     this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
-    const foreground = this.add.image(800, 960/2, 'foreground');
-    foreground.setDepth(10);
+    //const foreground = this.add.image(768, 1229, 'foreground');
+    //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,9 +164,14 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
+    var container = this.add.container(148, 200, this.player);
+
+
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
     this.player = new Ghost_Player(this, 100, 1800);
+
     this.player.sprite.setCollideWorldBounds(true);
+
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
