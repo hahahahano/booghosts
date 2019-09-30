@@ -102,14 +102,10 @@ export default class Caves extends Phaser.Scene {
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
 
-<<<<<<< HEAD
     //Foreground test
     const foreground = this.add.image(800, 960/2, 'foreground');
     foreground.setDepth(10);
     //foreground.setScrollFactor(0);
-=======
-
->>>>>>> 8c07d5c8962218eadd59058b94340190e8dee2d1
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory Pieces
@@ -202,9 +198,9 @@ export default class Caves extends Phaser.Scene {
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
-    var music = this.sound.add('cave_music1');
-    music.volume = .3;
-    music.play();
+    this.music = this.sound.add('cave_music1');
+    this.music.volume = .3;
+    this.music.play();
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -231,6 +227,7 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit.anims.play('idle_sp', true);
 
     if (this.gameOver) {
+      this.music.stop();
       this.scene.start('GameOverScene',{ score: this.score });
       return;
     }
