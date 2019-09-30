@@ -46,7 +46,7 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
       frameWidth: 148,
       frameHeight: 200
     });

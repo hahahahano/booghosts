@@ -12,7 +12,7 @@ export default class BootScene extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image('scroll', './assets/sprites/map_sketch.png');
-    
+
     this.load.spritesheet('buttons', './UI-Elements/PlayButton.png',{
       frameHeight: 1000,
       frameWidth: 2000
@@ -47,7 +47,7 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
       frameWidth: 148,
       frameHeight: 200
     });
