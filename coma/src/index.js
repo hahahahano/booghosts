@@ -3,6 +3,7 @@
 import GameOverScene from './scenes/GameOverScene.js';
 import start from './scenes/start.js';
 import caves from './scenes/caves.js';
+import tutorial from './scenes/tutorial.js';
 import Config from './config/config.js';
 import BootScene from './scenes/loadscreen.js';
 
@@ -14,7 +15,8 @@ class Game extends Phaser.Game {
     this.scene.add('GameOverScene', GameOverScene);
     this.scene.add('start',start);
     this.scene.add('caves',caves);
-    this.scene.start('Boot');
+    this.scene.add('tutorial', tutorial);
+    this.scene.start('tutorial');
   }
 }
 
