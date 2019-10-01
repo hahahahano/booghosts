@@ -36,6 +36,7 @@ export default class Caves extends Phaser.Scene {
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
     this.load.image('orange', './assets/images/blue1.png');
+    this.load.image('rock', './assets/sprites/test_box128.jpg');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -54,6 +55,8 @@ export default class Caves extends Phaser.Scene {
     //SOUNDS
     this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
   }
+
+
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   create() {
@@ -62,6 +65,7 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.body;
+    this.rock;
     this.msgBox;
     this.scroll;
 
@@ -132,6 +136,10 @@ export default class Caves extends Phaser.Scene {
     this.body = this.physics.add.sprite(1400, 270, 'body');
     this.body.setCollideWorldBounds(true);
 
+    //create test rock
+    this.rock = this.physics.add.sprite(300, 1800, 'rock');
+    this.rock.setCollideWorldBounds(true);
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
     this.lg_spirit = this.physics.add.sprite(1450, 800, 'lg_spirit');
@@ -181,7 +189,7 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body, this.scroll], this.worldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body, this.scroll, this.rock], this.worldLayer);
     this.plants.setCollisionByProperty({ collides: true });
     //this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.plants);
 
@@ -191,6 +199,10 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
     this.physics.world.addCollider(this.player.sprite, this.lg_spirit, this.hitspirit,null, this);
     this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
+
+    //ROCK TEST
+    this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
+
 
 
     //INTERACTION
@@ -229,6 +241,15 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
+    const { LEFT, RIGHT, UP, DOWN, G} = Phaser.Input.Keyboard.KeyCodes;
+    this.keys = scene.input.keyboard.addKeys({
+      left: LEFT,
+      right: RIGHT,
+      up: UP,
+      down: DOWN,
+      g: G
+    });
+    
     this.player.update();
     this.lg_spirit.anims.play('idle_sp', true);
 
@@ -270,6 +291,19 @@ export default class Caves extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+  moveRock(player, sprite) {
+    //MOVEMENT KEYS
+    if (keys.left.isDown) {
+      sprite.setVelocityX(-300);
+      sprite.setFlipX(true);
+    } else if (keys.right.isDown) {
+      sprite.setVelocityX(300);
+      sprite.setFlipX(false);
+    } else {
+      sprite.setVelocityX(0);
+    }
+
+  }
   //Collecting a memory
   collectMem(player, mem_piece) {
     mem_piece.disableBody(true, true);

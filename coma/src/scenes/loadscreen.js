@@ -37,6 +37,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
     this.load.image('orange', './assets/images/blue1.png');
+    this.load.image('rock', './assets/sprites/test_box128.jpg');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
