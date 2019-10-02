@@ -241,15 +241,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-    const { LEFT, RIGHT, UP, DOWN, G} = Phaser.Input.Keyboard.KeyCodes;
-    this.keys = scene.input.keyboard.addKeys({
-      left: LEFT,
-      right: RIGHT,
-      up: UP,
-      down: DOWN,
-      g: G
-    });
-    
+
     this.player.update();
     this.lg_spirit.anims.play('idle_sp', true);
 
@@ -292,16 +284,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   moveRock(player, sprite) {
-    //MOVEMENT KEYS
-    if (keys.left.isDown) {
-      sprite.setVelocityX(-300);
-      sprite.setFlipX(true);
-    } else if (keys.right.isDown) {
-      sprite.setVelocityX(300);
-      sprite.setFlipX(false);
-    } else {
-      sprite.setVelocityX(0);
-    }
+
 
   }
   //Collecting a memory
