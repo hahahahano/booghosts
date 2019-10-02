@@ -19,7 +19,7 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/background.png",{
+    this.load.image('background', "./assets/images/textcity1.png",{
       frameWidth: 1536, //432
       frameHeight: 2458, // 32
     });
@@ -78,7 +78,7 @@ export default class City extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(768, 1229, 'background');
+    const background = this.add.image(800, 1200, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
 
