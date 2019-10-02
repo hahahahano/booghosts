@@ -19,11 +19,11 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('scroll', './assets/sprites/map_sketch.png');
     this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
       frameWidth: 1536, //432
       frameHeight: 2458, // 32
     });
+    this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
       frameWidth: 1536, //432
       frameHeight: 2458, // 32
@@ -36,7 +36,7 @@ export default class Caves extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
-    this.load.image('orange', './assets/images/blue1.png');
+    this.load.image('scroll', './assets/sprites/map_sketch.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -76,14 +76,13 @@ export default class Caves extends Phaser.Scene {
     this.scoreText;
     this.gameOver = false;
 
-
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const background = this.add.image(768, 1229, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
-    //Particles
-    var particles0 = this.add.particles('orange');
+    //Particles - Waterfall
+    var particles0 = this.add.particles('waterfall');
     var emitter0 = particles0.createEmitter({
         alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
         lifespan: 5000,
@@ -94,8 +93,6 @@ export default class Caves extends Phaser.Scene {
     });
     emitter0.setPosition(700, -0);
 
-
-
     //Platforms
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
@@ -103,9 +100,6 @@ export default class Caves extends Phaser.Scene {
 
     this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
     this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
-
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    this.plants.setCollisionByProperty({ collides: true });
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');
@@ -171,23 +165,22 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll], this.worldLayer);
     this.plants.setCollisionByProperty({ collides: true });
-    //this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body], this.plants);
-
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll], this.worldLayer);
+    
+      //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
+      //Collects a memory piece
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
+      //Collects the scroll
     this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
 
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.lg_spirit.sprite,
-      this.showMessageBox,
-      null,
-      this);
-
-
     //INTERACTION
+      //With large spirit
+    this.physics.add.overlap(this.player.sprite, this.lg_spirit.sprite, this.interactLG, null, this);
+      //With bushes
+    this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
+      //With body (need to code in the choice to leave~)
     this.physics.add.overlap(
       this.player.sprite,
       this.body,
@@ -239,13 +232,13 @@ export default class Caves extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Textboxes
+  //Interactions
   /*instructions(player) {
     var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
     "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
   }*/
 
-  showMessageBox() {
+  interactLG() {
     if (this.player.keys.x.isDown) {
       this.lg_spirit.interact(1350, 700, this.scrolls, this.talked)
     }
@@ -254,9 +247,15 @@ export default class Caves extends Phaser.Scene {
   hideMessageBox(msgBox) {
     this.msgBox.destroy()
   }
+
+  interactBush() {
+    if (this.player.keys.x.isDown) {
+      //this.plants
+    }
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Collecting a memory
+  //Collecting items
   collectMem(player, mem_piece) {
     mem_piece.disableBody(true, true);
 
@@ -273,6 +272,7 @@ export default class Caves extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+  //Returning to the body, triggers end
   returnBody(player, body) {
     this.gameOver = true;
   }
