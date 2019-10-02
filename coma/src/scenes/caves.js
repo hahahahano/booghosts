@@ -37,6 +37,7 @@ export default class Caves extends Phaser.Scene {
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
     this.load.image('scroll', './assets/sprites/map_sketch.png');
+    this.load.image('rock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -63,6 +64,7 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.body;
+    this.rock;
     this.msgBox;
     this.scroll;
 
@@ -155,6 +157,10 @@ export default class Caves extends Phaser.Scene {
     this.player = new Ghost_Player(this, 100, 1800);
     this.player.sprite.setCollideWorldBounds(true);
 
+    //Create test rock to move
+    this.rock = this.physics.add.sprite(300, 1825, 'rock');
+    this.rock.setCollideWorldBounds(true);
+
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 1536, 1900);
@@ -166,14 +172,16 @@ export default class Caves extends Phaser.Scene {
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
     this.plants.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll], this.worldLayer);
-    
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.worldLayer);
+
       //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
       //Collects a memory piece
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
       //Collects the scroll
     this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
+      //character and rock INTERACTION
+    this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
       //With large spirit
@@ -237,6 +245,9 @@ export default class Caves extends Phaser.Scene {
     var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
     "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
   }*/
+  moveRock(){
+
+  }
 
   interactLG() {
     if (this.player.keys.x.isDown) {
