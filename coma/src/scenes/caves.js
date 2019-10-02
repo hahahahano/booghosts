@@ -2,6 +2,7 @@
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
+import LGSpirit from "./LGSpirit.js";
 
 export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -19,9 +20,10 @@ export default class Caves extends Phaser.Scene {
   preload() {
     //BACKGROUND AND FOREGROUND
     this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
-      frameWidth: 2500, //432
-      frameHeight: 4224, // 32
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
     });
+    this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
       frameWidth: 1536, //432
       frameHeight: 2458, // 32
@@ -33,8 +35,9 @@ export default class Caves extends Phaser.Scene {
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/star.png");
-    this.load.image('orange', './assets/images/blue.png');
+    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('scroll', './assets/sprites/map_sketch.png');
+    this.load.image('rock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -45,13 +48,13 @@ export default class Caves extends Phaser.Scene {
       frameWidth: 500,
       frameHeight: 338
     });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
       frameWidth: 148,
       frameHeight: 200
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.wav");
+    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -61,32 +64,38 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.body;
-    //this.msgBox;
+    this.rock;
+    this.msgBox;
+    this.scroll;
 
     this.lg_spirit;
+    this.talked = false;
     this.sm_spirit1;
     this.player;
 
     this.score = 0;
+    this.scrolls = false;
     this.scoreText;
     this.gameOver = false;
 
-
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(800, 960/2, 'background');
+    const background = this.add.image(768, 1229, 'background');
     this.physics.world.setBounds(0, 0, 1536, 3000);
 
-    var particles0 = this.add.particles('orange');
+    //Particles - Waterfall
+    var particles0 = this.add.particles('waterfall');
     var emitter0 = particles0.createEmitter({
+        alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
         lifespan: 5000,
-        speedX:{min: -100, max: 100},
+        speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
         scale: {start: 1, end: 0},
-        blendMode: 'LUMINOSITY'
+        blendMode: 'ADD'
     });
-    emitter0.setPosition(800, -0);
+    emitter0.setPosition(700, -0);
 
+    //Platforms
     const map = this.make.tilemap({ key: 'map' });
     const tileset = map.addTilesetImage('cave_platform03', 'tiles');
     const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
@@ -94,12 +103,9 @@ export default class Caves extends Phaser.Scene {
     this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
     this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    this.plants.setCollisionByProperty({ collides: true });
-
     //Foreground test
-    const foreground = this.add.image(800, 960/2, 'foreground');
-    foreground.setDepth(10);
+    //const foreground = this.add.image(768, 1229, 'foreground');
+    //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,28 +126,22 @@ export default class Caves extends Phaser.Scene {
       })
       .setScrollFactor(0);
 
-    //Creates ghost's human body (it's a star for now)
+    //Creates ghost's human body
     this.body = this.physics.add.sprite(1400, 270, 'body');
     this.body.setCollideWorldBounds(true);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
-    this.lg_spirit = this.physics.add.sprite(1450, 800, 'lg_spirit');
-    this.lg_spirit.setScale(0.4);
-    this.lg_spirit.setCollideWorldBounds(true);
-
-    this.anims.create({
-      key: 'idle_sp',
-      frames: this.anims.generateFrameNumbers('lg_spirit', {start: 0, end: 2}),
-      duration: 850,
-      yoyo: true,
-      repeat: -1
-    });
+    this.lg_spirit = new LGSpirit(this, 1450, 800);
+    this.lg_spirit.sprite.setCollideWorldBounds(true);
 
     //Creates small spirits
     this.sm_spirit1 = this.physics.add.sprite(500, 1840, 'sm_spirit');
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
+
+    this.scroll = this.physics.add.sprite(750,400,'scroll');
+    this.scroll.setCollideWorldBounds(true);
 
     this.tweens.add({
       targets: this.sm_spirit1,
@@ -157,6 +157,10 @@ export default class Caves extends Phaser.Scene {
     this.player = new Ghost_Player(this, 100, 1800);
     this.player.sprite.setCollideWorldBounds(true);
 
+    //Create test rock to move
+    this.rock = this.physics.add.sprite(300, 1825, 'rock');
+    this.rock.setCollideWorldBounds(true);
+
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 1536, 1900);
@@ -167,25 +171,24 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit, this.body], this.worldLayer);
+    this.plants.setCollisionByProperty({ collides: true });
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.worldLayer);
 
-    //this.physics.world.addCollider(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
-    this.physics.world.addCollider(this.sm_spirit1, this.player.sprite, this.enemyHit, null, this);
-
+      //Hits an enemy
+    this.physics.add.overlap(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
+      //Collects a memory piece
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
-    this.physics.world.addCollider(this.player.sprite, this.lg_spirit, this.hitspirit,null, this);
-
+      //Collects the scroll
+    this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
+      //character and rock INTERACTION
+    this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
-    /*
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.lg_spirit,
-      this.showMessageBox("hey there", 1350, 700),
-      null,
-      this
-    );
-
+      //With large spirit
+    this.physics.add.overlap(this.player.sprite, this.lg_spirit.sprite, this.interactLG, null, this);
+      //With bushes
+    this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
+      //With body (need to code in the choice to leave~)
     this.physics.add.overlap(
       this.player.sprite,
       this.body,
@@ -193,41 +196,12 @@ export default class Caves extends Phaser.Scene {
       null,
       this
     );
-    */
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
-    var music = this.sound.add('cave_music1');
-    music.volume = .3;
-    music.play();
-
-    /*var particles0 = this.add.particles('orange');
-    var emitter0 = particles0.createEmitter({
-        lifespan: 1000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter0.setPosition(1300, -0);
-    var particles1 = this.add.particles('orange');
-    var emitter1 = particles1.createEmitter({
-        lifespan: 1000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter1.setPosition(1400, -0);
-    var particles3 = this.add.particles('orange');
-    var emitter3 = particles3.createEmitter({
-        lifespan: 2000,
-        speedX:{min: -100, max: 100},
-        speedY:{min: -100, max:500},
-        scale: {start: 1, end: 0},
-        blendMode: 'ADD'
-    });
-    emitter3.setPosition(1500, -0);*/
+    this.music = this.sound.add('cave_music1');
+    this.music.volume = .3;
+    this.music.play();
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -251,9 +225,10 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-    this.lg_spirit.anims.play('idle_sp', true);
+    this.lg_spirit.update();
 
     if (this.gameOver) {
+      this.music.stop();
       this.scene.start('GameOverScene',{ score: this.score });
       return;
     }
@@ -262,41 +237,36 @@ export default class Caves extends Phaser.Scene {
       this.player.destroy();
     }
 
-    /*if (this.player.keys.x.isDown && "overlap") {
-      asfjskdf
-    }*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Textboxes
+  //Interactions
   /*instructions(player) {
     var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
     "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
-  }
-
-  showMessageBox(textmsg, xpos, ypos, w = 300, h = 700) {
-    if (this.msgBox) {
-      this.msgBox.destroy();
-    }
-
-    this.msgBox = this.add
-      .text(xpos, ypos, textmsg, {
-        font: "18px monospace",
-        fill: "#fff",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#000",
-        wordWrap: true,
-        wordWrapWidth: w * 0.9
-      });
-      .setDepth(-10);
-  }
-
-  hideBox() {
-    this.msgBox.destroy()
   }*/
+  moveRock(){
+
+  }
+
+  interactLG() {
+    if (this.player.keys.x.isDown) {
+      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked)
+    }
+  }
+
+  hideMessageBox(msgBox) {
+    this.msgBox.destroy()
+  }
+
+  interactBush() {
+    if (this.player.keys.x.isDown) {
+      //this.plants
+    }
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Collecting a memory
+  //Collecting items
   collectMem(player, mem_piece) {
     mem_piece.disableBody(true, true);
 
@@ -304,8 +274,16 @@ export default class Caves extends Phaser.Scene {
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
   }
+
+  collectscroll(player, scroll) {
+    scroll.disableBody(true, true);
+
+    //Collects scroll
+    this.scrolls = true;
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+  //Returning to the body, triggers end
   returnBody(player, body) {
     this.gameOver = true;
   }
@@ -314,11 +292,6 @@ export default class Caves extends Phaser.Scene {
   //When the player touches an enemy, return to spawn
   enemyHit(player, sm_spirit) {
     this.player.destroy();
-  }
-  hitspirit(player, lg_spirit){
-      this.add.text(1350,700,"Can you help me");
-      this.add.text(1350,720, "find my scroll?");
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

@@ -13,7 +13,7 @@ export default class Ghost_Player {
     anims.create({
       key: 'walk',
       frames: anims.generateFrameNumbers('ghost', {start: 1, end: 3}),
-      frameRate: 4,
+      frameRate: 5,
       repeat: 0
     });
     anims.create({
@@ -26,8 +26,9 @@ export default class Ghost_Player {
     //CREATING PLAYER + PHYSICS
     this.sprite = scene.physics.add
       .sprite(x, y, 'ghost', 0)
-      .setSize(130, 180)
-      .setScale(0.8);
+      .setScale(0.6);
+
+
 
     //KEYS
     const { LEFT, RIGHT, UP, DOWN, X} = Phaser.Input.Keyboard.KeyCodes;
@@ -59,6 +60,11 @@ export default class Ghost_Player {
     if (onGround && (keys.up.isDown)) {
       sprite.setVelocityY(-500);
     }
+
+    //INTERACTIONS
+    /*if (keys.x.isDown) {
+
+    }*/
 
     //UPDATING ANIMATIONS
     if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);
