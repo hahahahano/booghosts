@@ -25,8 +25,6 @@ export default class LGSpirit {
 
     //TEXT
     //const instructions = "Can you find my scroll?";
-    //"Oh no! I'm so lost! Oh, hi there! You look friendly. I lost my map somewhere in the caves. Can you please find it for me? I don't want to get even more lost or get hurt by those cave spirits. They look so angry. Thank you so much!";
-
 
   }
 /*****************************************************************************************************************************************************/
@@ -38,32 +36,91 @@ export default class LGSpirit {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  interact(xpos, ypos, scroll, talked) {
-    const instructions = "Can you find my scroll?";
+  interact(xpos, ypos, scroll, i) {
+    const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?", "I don't want to get even more lost or get hurt by those cave spirits. They look so angry.", "Thank you so much!"]
 
-    if (scroll || talked) {
-      //this.scene.hideMessageBox()
-
-      if (scroll) {
-        this.msgBox = this.scene.add.text(xpos, ypos, "Thanks!", {
-          font: "18px monospace",
-          fill: "#fff",
-          padding: { x: 20, y: 10 },
-          backgroundColor: "#000",
-          wordWrap: { width: 150, useAdvancedWrap: true }
-        });
-      }
-      //this.scene.scrolls = false;
-
-    } else {
-      this.msgbox = this.scene.add.text(xpos, ypos, instructions, {
+    if (scroll) {
+      this.msgbox.destroy();
+          
+      this.msgBox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much!", {
         font: "18px monospace",
         fill: "#fff",
         padding: { x: 20, y: 10 },
         backgroundColor: "#000",
         wordWrap: { width: 150, useAdvancedWrap: true }
       });
-      //this.scene.talked = true;
+    } else {
+      switch (i)
+      {
+        case 0:
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          console.log("case 0");
+          break;
+
+        case 1:
+          this.msgbox.destroy();
+
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          console.log("case 1");
+          break;
+
+          case 2:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          console.log("case 2");
+          break;
+
+          case 3:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          console.log("case 3");
+          break;
+
+          case 4:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          console.log("case 4");
+          break;
+      }
+
+      if (i < 4) {
+        this.scene.talked++;
+      }
+      return;
+
     } 
   }
 /*****************************************************************************************************************************************************/

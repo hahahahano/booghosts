@@ -17,8 +17,6 @@ export default class BootScene extends Phaser.Scene {
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(this.centerX - 160, this.centerY - 30, 320, 50);
-    console.log(this.centerX);
-    console.log(this.centerY);
 
     var loadingText = this.make.text({
       x: this.centerX,

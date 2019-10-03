@@ -69,7 +69,7 @@ export default class Caves extends Phaser.Scene {
     this.scroll;
 
     this.lg_spirit;
-    this.talked = false;
+    this.talked = 0;
     this.sm_spirit1;
     this.player;
 
@@ -130,6 +130,14 @@ export default class Caves extends Phaser.Scene {
     this.body = this.physics.add.sprite(1400, 270, 'body');
     this.body.setCollideWorldBounds(true);
 
+    //Creates map for large spirit
+    this.scroll = this.physics.add.sprite(750,400,'scroll');
+    this.scroll.setCollideWorldBounds(true);
+
+    //Create test rock to move
+    this.rock = this.physics.add.sprite(300, 1825, 'rock');
+    this.rock.setCollideWorldBounds(true);
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
     this.lg_spirit = new LGSpirit(this, 1450, 800);
@@ -139,9 +147,6 @@ export default class Caves extends Phaser.Scene {
     this.sm_spirit1 = this.physics.add.sprite(500, 1840, 'sm_spirit');
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
-
-    this.scroll = this.physics.add.sprite(750,400,'scroll');
-    this.scroll.setCollideWorldBounds(true);
 
     this.tweens.add({
       targets: this.sm_spirit1,
@@ -157,10 +162,6 @@ export default class Caves extends Phaser.Scene {
     this.player = new Ghost_Player(this, 100, 1800);
     this.player.sprite.setCollideWorldBounds(true);
 
-    //Create test rock to move
-    this.rock = this.physics.add.sprite(300, 1825, 'rock');
-    this.rock.setCollideWorldBounds(true);
-
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 1536, 1900);
@@ -171,7 +172,6 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.plants.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.worldLayer);
 
       //Hits an enemy
@@ -251,17 +251,18 @@ export default class Caves extends Phaser.Scene {
 
   interactLG() {
     if (this.player.keys.x.isDown) {
-      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked)
+      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked);
     }
   }
 
   hideMessageBox(msgBox) {
-    this.msgBox.destroy()
+    this.msgBox.destroy();
   }
 
   interactBush() {
     if (this.player.keys.x.isDown) {
       //this.plants
+      //this.enemyHit();
     }
   }
 /*****************************************************************************************************************************************************/
