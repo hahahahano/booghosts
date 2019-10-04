@@ -62,9 +62,8 @@ export default class Ghost_Player {
     }
 
     //INTERACTIONS
-    /*if (keys.x.isDown) {
-
-    }*/
+    if (keys.x.isDown) {
+    }
 
     //UPDATING ANIMATIONS
     if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);

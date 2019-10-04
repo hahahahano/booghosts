@@ -250,7 +250,7 @@ export default class Caves extends Phaser.Scene {
   }
 
   interactLG() {
-    if (this.player.keys.x.isDown) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.lg_spirit.interact(1350, 700, this.scrolls, this.talked);
     }
   }
@@ -260,7 +260,7 @@ export default class Caves extends Phaser.Scene {
   }
 
   interactBush() {
-    if (this.player.keys.x.isDown) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       //this.plants
       //this.enemyHit();
     }
