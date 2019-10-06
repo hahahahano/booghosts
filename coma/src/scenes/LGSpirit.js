@@ -7,6 +7,7 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
   constructor(scene, x, y) {
     this.scene = scene;
+    this.msgbox = this.scene.add.text(null, null, null);
 
     //PLAYER ANIMATIONS
     const anims = scene.anims;
@@ -36,15 +37,20 @@ export default class LGSpirit {
     const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?", "I don't want to get even more lost or get hurt by those cave spirits. They look so angry.", "Thank you so much!"]
 
     if (scroll) {
-      this.msgbox.destroy();
-          
-      this.msgBox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much!", {
-        font: "18px monospace",
-        fill: "#fff",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#000",
-        wordWrap: { width: 150, useAdvancedWrap: true }
-      });
+      if (i >= 10) {
+        this.msgbox.destroy();
+      } else {
+        this.msgbox.destroy();
+            
+        this.msgbox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much!", {
+          font: "18px monospace",
+          fill: "#fff",
+          padding: { x: 20, y: 10 },
+          backgroundColor: "#000",
+          wordWrap: { width: 150, useAdvancedWrap: true }
+        });
+        this.scene.talked += 10;
+      }
     } else {
       switch (i)
       {
@@ -105,9 +111,13 @@ export default class LGSpirit {
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
           break;
+
+          case 5:
+          this.msgbox.destroy();
+          break;
       }
 
-      if (i < 4) {
+      if (i < 5) {
         this.scene.talked++;
       }
     } 
