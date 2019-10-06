@@ -13,7 +13,7 @@ export default class Ghost_Player {
     anims.create({
       key: 'walk',
       frames: anims.generateFrameNumbers('ghost', {start: 1, end: 3}),
-      frameRate: 4,
+      frameRate: 5,
       repeat: 0
     });
     anims.create({
@@ -62,9 +62,8 @@ export default class Ghost_Player {
     }
 
     //INTERACTIONS
-    /*if (keys.x.isDown) {
-
-    }*/
+    if (keys.x.isDown) {
+    }
 
     //UPDATING ANIMATIONS
     if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);
