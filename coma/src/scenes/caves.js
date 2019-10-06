@@ -77,6 +77,7 @@ export default class Caves extends Phaser.Scene {
     this.scrolls = false;
     this.scoreText;
     this.gameOver = false;
+    this.zone;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -138,6 +139,12 @@ export default class Caves extends Phaser.Scene {
     this.rock = this.physics.add.sprite(300, 1825, 'rock');
     this.rock.setCollideWorldBounds(true);
 
+    //Creating zone for the instructions to pop up
+    this.zone = this.add.zone(50, 1750).setSize(800, 400);
+    this.physics.world.enable(this.zone);
+    this.zone.body.setAllowGravity(false);
+    this.zone.body.moves = false;
+    
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
     this.lg_spirit = new LGSpirit(this, 1450, 800);
@@ -158,8 +165,8 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 100, 1800);
+    //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
+    this.player = new Ghost_Player(this, 150, 1800);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
@@ -189,13 +196,21 @@ export default class Caves extends Phaser.Scene {
       //With bushes
     this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
       //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.body,
-      this.returnBody,
-      null,
-      this
-    );
+    this.physics.add.overlap(this.player.sprite, this.body, this.returnBody, null, this);
+
+    this.instructionsText = ["Hey there. I'm glad you're awake. It's me. You. Hahaha. (Press X)",
+    "You can move around with the arrow keys and interact with X.", "You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."];
+    this.inter = 0;
+
+    this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+      font: "18px monospace",
+      fill: "#fff",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#000",
+      wordWrap: { width: 300, useAdvancedWrap: true }
+    });
+    this.inter ++;
+    this.physics.add.overlap(this.player.sprite, this.zone, this.instructions, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -241,10 +256,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
-  /*instructions(player) {
-    var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
-    "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
-  }*/
+  
   moveRock(){
 
   }
@@ -255,8 +267,42 @@ export default class Caves extends Phaser.Scene {
     }
   }
 
-  hideMessageBox(msgBox) {
-    this.msgBox.destroy();
+  instructions(instructBox) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
+      switch (this.inter)
+        {
+          case 1:
+            this.instructBox.destroy();
+
+            this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            break;
+
+          case 2:
+            this.instructBox.destroy();
+
+            this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            break;
+
+          case 3:
+            this.instructBox.destroy();
+            break;
+        }
+        if (this.inter < 3) {
+        this.inter++;
+      }
+    } 
   }
 
   interactBush() {

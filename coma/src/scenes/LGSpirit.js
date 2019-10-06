@@ -22,10 +22,6 @@ export default class LGSpirit {
     this.sprite = scene.physics.add
       .sprite(x, y, 'lg_spirit', 0)
       .setScale(0.4);
-
-    //TEXT
-    //const instructions = "Can you find my scroll?";
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -60,7 +56,6 @@ export default class LGSpirit {
             backgroundColor: "#000",
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
-          console.log("case 0");
           break;
 
         case 1:
@@ -73,7 +68,6 @@ export default class LGSpirit {
             backgroundColor: "#000",
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
-          console.log("case 1");
           break;
 
           case 2:
@@ -86,7 +80,6 @@ export default class LGSpirit {
             backgroundColor: "#000",
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
-          console.log("case 2");
           break;
 
           case 3:
@@ -99,7 +92,6 @@ export default class LGSpirit {
             backgroundColor: "#000",
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
-          console.log("case 3");
           break;
 
           case 4:
@@ -112,15 +104,12 @@ export default class LGSpirit {
             backgroundColor: "#000",
             wordWrap: { width: 150, useAdvancedWrap: true }
           });
-          console.log("case 4");
           break;
       }
 
       if (i < 4) {
         this.scene.talked++;
       }
-      return;
-
     } 
   }
 /*****************************************************************************************************************************************************/
