@@ -19,9 +19,9 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
+    this.load.image('background', "./assets/images/cave_bg_test004.jpg",{
+      frameWidth: 2304, //432
+      frameHeight: 3687, // 32
     });
     this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
@@ -29,9 +29,9 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
-    this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json");
+    this.load.image('tiles', "./assets/textures/cave_tileset1.png");
+    //this.load.image('shrubs', "./assets/sprites/shrub1.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -81,8 +81,8 @@ export default class Caves extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(768, 1229, 'background');
-    this.physics.world.setBounds(0, 0, 1536, 3000);
+    const background = this.add.image(1152, 1536, 'background');
+    this.physics.world.setBounds(0, 0, 2304, 3072);
 
     //Particles - Waterfall
     var particles0 = this.add.particles('waterfall');
@@ -91,18 +91,18 @@ export default class Caves extends Phaser.Scene {
         lifespan: 5000,
         speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
+        scale: {start: 1.25, end: 0},
         blendMode: 'ADD'
     });
-    emitter0.setPosition(700, -0);
+    emitter0.setPosition(1075, -0);
 
     //Platforms
     const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('cave_platform03', 'tiles');
-    const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
+    const tileset = map.addTilesetImage('cave_tileset1', 'tiles');
+    // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
-    this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
+    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, 0);
+    //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');
@@ -144,7 +144,7 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.enable(this.zone);
     this.zone.body.setAllowGravity(false);
     this.zone.body.moves = false;
-    
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
     this.lg_spirit = new LGSpirit(this, 1450, 800);
@@ -171,7 +171,7 @@ export default class Caves extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.setBounds(0, 0, 1536, 1900);
+    this.cameras.main.setBounds(0, 0, 2304, 3072);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 400;
@@ -256,7 +256,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
-  
+
   moveRock(){
 
   }
@@ -302,7 +302,7 @@ export default class Caves extends Phaser.Scene {
         if (this.inter < 3) {
         this.inter++;
       }
-    } 
+    }
   }
 
   interactBush() {

@@ -81,9 +81,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/cave_bg_test003.jpg",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
+    this.load.image('background', "./assets/images/cave_bg_test004.jpg",{
+      frameWidth: 2304, //432
+      frameHeight: 3687, // 32
     });
     this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
@@ -91,9 +91,9 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
+    this.load.image('tiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json")
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
