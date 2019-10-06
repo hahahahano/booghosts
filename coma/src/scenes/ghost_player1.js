@@ -58,7 +58,7 @@ export default class Ghost_Player {
     }
       //JUMP
     if (onGround && (keys.up.isDown)) {
-      sprite.setVelocityY(-500);
+      sprite.setVelocityY(-350);
     }
 
     //INTERACTIONS
