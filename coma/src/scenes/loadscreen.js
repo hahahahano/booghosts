@@ -12,7 +12,7 @@ export default class BootScene extends Phaser.Scene {
   preload () {
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-  
+
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
@@ -57,11 +57,11 @@ export default class BootScene extends Phaser.Scene {
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(490, 340, 300 * value, 30);
     });
-                
+
     this.load.on('fileprogress', function (file) {
       assetText.setText('Loading asset: ' + file.src);
     });
-     
+
     this.load.on('complete', function () {
       progressBar.destroy();
       progressBox.destroy();
