@@ -10,10 +10,11 @@ export default class Menu extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('menu', './assets/images/menu.png');
-    this.load.image('buttons', ['./assets/images/playgame.png', './assets/images/playgamehover.png']);
+    this.load.image('bg', '../assets/images/cave_to_forest_transition.jpg')
+    // this.load.image('menu', './assets/images/menu.png');
+    // this.load.image('buttons', ['./assets/images/playgame.png', './assets/images/playgamehover.png']);
 
-    this.load.audio('romulus', 'assets/music/romdiprisco_romulus3.mp3');
+    // this.load.audio('romulus', 'assets/music/romdiprisco_romulus3.mp3');
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -24,7 +25,7 @@ export default class Menu extends Phaser.Scene {
   create (data) {
 
     //Create the scene
-    var menu = this.add.image(this.centerX, this.centerY, 'menu');
+    const background = this.add.image(0, 0, 'background');
 
     var b1 = this.add.sprite(640, 400, 'buttons').setInteractive();
 
@@ -41,8 +42,8 @@ export default class Menu extends Phaser.Scene {
 
     }, this);
 
-    var music = this.sound.add('romulus');
-    music.play();
+    // var music = this.sound.add('romulus');
+    // music.play();
 
 
   }

@@ -29,6 +29,8 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
+    this.load.image('white', '.assets/images/white.jpg');
+
     this.load.image('tiles', "./assets/textures/cave_tileset1.png");
     //this.load.image('shrubs', "./assets/sprites/shrub1.png");
     this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
@@ -84,7 +86,7 @@ export default class Caves extends Phaser.Scene {
 
     this.score = 0;
     this.scoreText;
-    this.gameOver = false;
+    this.gameOver = true;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -305,6 +307,8 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit.update();
 
     if (this.gameOver) {
+      // fade to white
+
       this.music.stop();
       this.scene.start('Instructions', { score: this.score });
       return;
