@@ -15,7 +15,7 @@ export default class Race1 extends Phaser.Scene {
     this.load.tilemapTiledJSON("map1", 'CAD/assets/tilemaps/map1a.json');
 
     this.load.audio('aralia', 'CAD/assets/music/pranilzaman_burymymind.mp3');
-    this.load.image("racer", "CAD/assets/cars/ghost_top.png");
+    this.load.image("racer", "CAD/assets/cars/red_car2.png");
   }
 
   winner (player) {
@@ -51,7 +51,7 @@ export default class Race1 extends Phaser.Scene {
 
     // add Player
     this.player1 = this.physics.add.sprite(645, 3900, 'racer')
-    this.player1.setScale(.3);
+
 
     // Watch the player and worldLayer for collisions, for the duration of the scene:
     this.physics.add.collider(this.player1, worldLayer, this.loser, null, this);
