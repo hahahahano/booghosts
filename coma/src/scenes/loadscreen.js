@@ -12,13 +12,11 @@ export default class BootScene extends Phaser.Scene {
   preload () {
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-  
+
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(this.centerX - 160, this.centerY - 30, 320, 50);
-    console.log(this.centerX);
-    console.log(this.centerY);
 
     var loadingText = this.make.text({
       x: this.centerX,
@@ -59,11 +57,11 @@ export default class BootScene extends Phaser.Scene {
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect(490, 340, 300 * value, 30);
     });
-                
+
     this.load.on('fileprogress', function (file) {
       assetText.setText('Loading asset: ' + file.src);
     });
-     
+
     this.load.on('complete', function () {
       progressBar.destroy();
       progressBox.destroy();
@@ -83,9 +81,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/cave_bg_test003.jpg",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
+    this.load.image('background', "./assets/images/cave_bg_test004.jpg",{
+      frameWidth: 2304, //432
+      frameHeight: 3687, // 32
     });
     this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
@@ -93,9 +91,9 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
+    this.load.image('tiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json")
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");

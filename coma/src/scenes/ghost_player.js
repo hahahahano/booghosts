@@ -28,8 +28,6 @@ export default class Ghost_Player {
       .sprite(x, y, 'ghost', 0)
       .setScale(0.6);
 
-
-
     //KEYS
     const { LEFT, RIGHT, UP, DOWN, X} = Phaser.Input.Keyboard.KeyCodes;
     this.keys = scene.input.keyboard.addKeys({
@@ -62,9 +60,8 @@ export default class Ghost_Player {
     }
 
     //INTERACTIONS
-    /*if (keys.x.isDown) {
-
-    }*/
+    if (keys.x.isDown) {
+    }
 
     //UPDATING ANIMATIONS
     if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);

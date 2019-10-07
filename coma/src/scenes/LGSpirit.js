@@ -7,6 +7,7 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
   constructor(scene, x, y) {
     this.scene = scene;
+    this.msgbox = this.scene.add.text(null, null, null);
 
     //PLAYER ANIMATIONS
     const anims = scene.anims;
@@ -22,12 +23,6 @@ export default class LGSpirit {
     this.sprite = scene.physics.add
       .sprite(x, y, 'lg_spirit', 0)
       .setScale(0.4);
-
-    //TEXT
-    //const instructions = "Can you find my scroll?";
-    //"Oh no! I'm so lost! Oh, hi there! You look friendly. I lost my map somewhere in the caves. Can you please find it for me? I don't want to get even more lost or get hurt by those cave spirits. They look so angry. Thank you so much!";
-
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -38,32 +33,93 @@ export default class LGSpirit {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  interact(xpos, ypos, scroll, talked) {
-    const instructions = "Can you find my scroll?";
+  interact(xpos, ypos, scroll, i) {
+    const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?", "I don't want to get even more lost or get hurt by those cave spirits. They look so angry.", "Thank you so much!"]
 
-    if (scroll || talked) {
-      //this.scene.hideMessageBox()
-
-      if (scroll) {
-        this.msgBox = this.scene.add.text(xpos, ypos, "Thanks!", {
+    if (scroll) {
+      if (i >= 10) {
+        this.msgbox.destroy();
+      } else {
+        this.msgbox.destroy();
+            
+        this.msgbox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much!", {
           font: "18px monospace",
           fill: "#fff",
           padding: { x: 20, y: 10 },
           backgroundColor: "#000",
           wordWrap: { width: 150, useAdvancedWrap: true }
         });
+        this.scene.talked += 10;
       }
-      //this.scene.scrolls = false;
-
     } else {
-      this.msgbox = this.scene.add.text(xpos, ypos, instructions, {
-        font: "18px monospace",
-        fill: "#fff",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#000",
-        wordWrap: { width: 150, useAdvancedWrap: true }
-      });
-      //this.scene.talked = true;
+      switch (i)
+      {
+        case 0:
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          break;
+
+        case 1:
+          this.msgbox.destroy();
+
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          break;
+
+          case 2:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          break;
+
+          case 3:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          break;
+
+          case 4:
+          this.msgbox.destroy();
+          
+          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 150, useAdvancedWrap: true }
+          });
+          break;
+
+          case 5:
+          this.msgbox.destroy();
+          break;
+      }
+
+      if (i < 5) {
+        this.scene.talked++;
+      }
     } 
   }
 /*****************************************************************************************************************************************************/

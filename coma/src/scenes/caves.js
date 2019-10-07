@@ -19,9 +19,9 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/cave_bg_test001.jpg",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
+    this.load.image('background', "./assets/images/cave_bg_test004.jpg",{
+      frameWidth: 2304, //432
+      frameHeight: 3687, // 32
     });
     this.load.image('waterfall', './assets/images/blue1.png');
     this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
@@ -29,9 +29,9 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
-    this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json");
+    this.load.image('tiles', "./assets/textures/cave_tileset1.png");
+    //this.load.image('shrubs', "./assets/sprites/shrub1.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -65,23 +65,31 @@ export default class Caves extends Phaser.Scene {
     this.mems;
     this.body;
     this.rock;
-    this.msgBox;
     this.scroll;
 
+    this.instructBox;
+    this.zoneStart;
+    this.memsBox;
+    this.collectTut = 0;
+    this.zoneMem;
+    this.exitBox;
+    this.zoneExit;
+
     this.lg_spirit;
-    this.talked = false;
+    this.msgBox;
+    this.scrolls = false;
+    this.talked = 0;
     this.sm_spirit1;
     this.player;
 
     this.score = 0;
-    this.scrolls = false;
     this.scoreText;
     this.gameOver = false;
-
+    
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(768, 1229, 'background');
-    this.physics.world.setBounds(0, 0, 1536, 3000);
+    const background = this.add.image(1152, 1536, 'background');
+    this.physics.world.setBounds(0, 0, 2304, 3072);
 
     //Particles - Waterfall
     var particles0 = this.add.particles('waterfall');
@@ -90,18 +98,18 @@ export default class Caves extends Phaser.Scene {
         lifespan: 5000,
         speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
-        scale: {start: 1, end: 0},
+        scale: {start: 1.25, end: 0},
         blendMode: 'ADD'
     });
-    emitter0.setPosition(700, -0);
+    emitter0.setPosition(1075, -0);
 
     //Platforms
     const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('cave_platform03', 'tiles');
-    const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
+    const tileset = map.addTilesetImage('cave_tileset1', 'tiles');
+    // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
-    this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
+    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, 0);
+    //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');
@@ -130,6 +138,37 @@ export default class Caves extends Phaser.Scene {
     this.body = this.physics.add.sprite(1400, 270, 'body');
     this.body.setCollideWorldBounds(true);
 
+    //Creates map for large spirit
+    this.scroll = this.physics.add.sprite(750,400,'scroll');
+    this.scroll.setCollideWorldBounds(true);
+
+    //Create test rock to move
+    this.rock = this.physics.add.sprite(300, 1825, 'rock');
+    this.rock.setCollideWorldBounds(true);
+
+///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
+    //Tutorial Zone: Explains the movements
+    this.zoneStart = this.add.zone(50, 1750).setSize(800, 400);
+    this.physics.world.enable(this.zoneStart);
+    this.zoneStart.body.setAllowGravity(false);
+    this.zoneStart.body.moves = false;
+    //Memory Zone: Explains the memory pieces
+    this.zoneMem = this.add.zone(1200, 1300).setSize(800, 500);
+    this.physics.world.enable(this.zoneMem);
+    this.zoneMem.body.setAllowGravity(false);
+    this.zoneMem.body.moves = false;
+    //Exit Zone: Explains leaving
+    this.zoneExit = this.add.zone(1350, 260).setSize(400, 200);
+    this.physics.world.enable(this.zoneExit);
+    this.zoneExit.body.setAllowGravity(false);
+    this.zoneExit.body.moves = false;
+
+    //Creating zone for the instructions to pop up
+    this.zone = this.add.zone(50, 1750).setSize(800, 400);
+    this.physics.world.enable(this.zone);
+    this.zone.body.setAllowGravity(false);
+    this.zone.body.moves = false;
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates large spirit
     this.lg_spirit = new LGSpirit(this, 1450, 800);
@@ -139,9 +178,6 @@ export default class Caves extends Phaser.Scene {
     this.sm_spirit1 = this.physics.add.sprite(500, 1840, 'sm_spirit');
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
-
-    this.scroll = this.physics.add.sprite(750,400,'scroll');
-    this.scroll.setCollideWorldBounds(true);
 
     this.tweens.add({
       targets: this.sm_spirit1,
@@ -153,25 +189,20 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 100, 1800);
+    //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
+    this.player = new Ghost_Player(this, 150, 1800);
     this.player.sprite.setCollideWorldBounds(true);
-
-    //Create test rock to move
-    this.rock = this.physics.add.sprite(300, 1825, 'rock');
-    this.rock.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.setBounds(0, 0, 1536, 1900);
+    this.cameras.main.setBounds(0, 0, 2304, 3072);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 400;
 
-///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.worldLayer.setCollisionByProperty({ collides: true });
-    this.plants.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.worldLayer);
 
       //Hits an enemy
@@ -189,13 +220,30 @@ export default class Caves extends Phaser.Scene {
       //With bushes
     this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
       //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.body,
-      this.returnBody,
-      null,
-      this
-    );
+    this.physics.add.overlap(this.player.sprite, this.body, this.returnBody, null, this);
+
+    //ZONES
+      //Tutorial
+    this.instructionsText = ["Hey there. I'm glad you're awake. It's me. You. Hahaha. (Press X)", "You can move around with the arrow keys and interact with X.",
+    "You should probably explore the area; maybe you'll remember something about yourself.", "But be careful; it looks like that small spirit is angry and might hurt you."];
+    this.inter = 0;
+
+    this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+      font: "18px monospace",
+      fill: "#fff",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#000",
+      wordWrap: { width: 300, useAdvancedWrap: true }
+    });
+    this.inter ++;
+    this.physics.add.overlap(this.player.sprite, this.zoneStart, this.instructions, null, this);
+      //Memory Pieces
+    this.MemsText = ["That looks familiar.", "I think if you pick it up, you might remember something about yourself."];
+    this.memIntro = 0;
+    this.physics.add.overlap(this.player.sprite, this.zoneMem, this.memsInstruct, null, this);
+      //Exiting the scene
+    this.exitText = ["This is the exit. Are you sure you want to leave?"];
+    this.physics.add.overlap(this.player.sprite, this.zoneExit, this.exitInstruct, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -236,54 +284,172 @@ export default class Caves extends Phaser.Scene {
     if (this.player.sprite.y > this.worldLayer.height) {
       this.player.destroy();
     }
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
-  /*instructions(player) {
-    var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
-    "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
-  }*/
+    //Push and Pull the rock
   moveRock(){
 
   }
-
+    //Dialogue with the Large Spirit
   interactLG() {
-    if (this.player.keys.x.isDown) {
-      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked)
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked);
     }
   }
-
-  hideMessageBox(msgBox) {
-    this.msgBox.destroy()
-  }
-
+    //Searching the bushes
   interactBush() {
-    if (this.player.keys.x.isDown) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       //this.plants
+      //this.enemyHit();
     }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Collecting items
+  //Zones  
+    //Tutorial Zone
+  instructions(instructBox) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
+      switch (this.inter)
+        {
+          case 1:
+            this.instructBox.destroy();
+
+            this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            break;
+
+          case 2:
+            this.instructBox.destroy();
+
+            this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            break;
+
+          case 3:
+            this.instructBox.destroy();
+
+            this.instructBox = this.add.text(50, 1550, this.instructionsText[this.inter], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            break;
+
+          case 4:
+            this.instructBox.destroy();
+            break;
+        }
+        if (this.inter < 4) {
+        this.inter++;
+      }
+    }
+  }
+    //Memory Pieces Zone
+  memsInstruct(memsBox) {
+    if (this.score >= 1) {
+      switch (this.collectTut)
+      {
+        case 0:
+          this.memsBox.destroy();
+
+          this.memsBox = this.add.text(1000, 1100, "Whoa. Did you feel that? I felt a hazy memory there. A car. Hm.", {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 250, useAdvancedWrap: true }
+          });
+          this.collectTut ++;
+          break;
+
+        case 1:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
+            this.memsBox.destroy();
+            this.collectTut ++;
+          }
+          break;
+      }
+    } else{
+      switch (this.memIntro)
+      {
+        case 0:
+          this.memsBox = this.add.text(700, 1400, this.MemsText[this.memIntro], {
+            font: "18px monospace",
+            fill: "#fff",
+            padding: { x: 20, y: 10 },
+            backgroundColor: "#000",
+            wordWrap: { width: 250, useAdvancedWrap: true }
+          });
+          this.memIntro++;
+          break;
+
+        case 1:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
+            this.memsBox.destroy();
+
+            this.memsBox = this.add.text(900, 1400, this.MemsText[this.memIntro], {
+              font: "18px monospace",
+              fill: "#fff",
+              padding: { x: 20, y: 10 },
+              backgroundColor: "#000",
+              wordWrap: { width: 250, useAdvancedWrap: true }
+            });
+            this.memIntro++;
+          }
+          break;
+
+        case 2:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
+            this.memsBox.destroy();
+            this.memIntro++;
+          }
+          break;
+      }
+    }
+  }
+    //Exiting Scene Zone
+  exitInstruct(exitBox) {
+    this.exitBox = this.add.text(1100, 100, this.exitText[this.exitIntro], {
+      font: "18px monospace",
+      fill: "#fff",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#000",
+      wordWrap: { width: 300, useAdvancedWrap: true }
+    });
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  //Collecting Items  
+    //Collecting Memory Piece
   collectMem(player, mem_piece) {
     mem_piece.disableBody(true, true);
 
-    //Update the score
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
   }
-
+    //Collecting Scroll
   collectscroll(player, scroll) {
     scroll.disableBody(true, true);
 
-    //Collects scroll
     this.scrolls = true;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Returning to the body, triggers end
+  //Returning to the body triggers end
   returnBody(player, body) {
     this.gameOver = true;
   }
