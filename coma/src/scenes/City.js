@@ -19,24 +19,16 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/background.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
-    });
-    this.load.image('waterfall', './assets/images/blue1.png');
-    this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
+    this.load.image('background', "./assets/images/city_sky1.jpg",{
+      frameWidth: 3968,
+      frameHeight: 1024,
     });
 
-    this.load.image('tiles', "./assets/sprites/cave_platform03.png");
-    this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap3.json");
+    this.load.image('tiles', "./assets/textures/city_tileset1.png");
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/city_tilemap1.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/bones_sketch.png");
-    this.load.image('scroll', './assets/sprites/map_sketch.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
@@ -53,7 +45,7 @@ export default class City extends Phaser.Scene {
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -64,7 +56,7 @@ export default class City extends Phaser.Scene {
     this.mems;
     this.body;
     this.msgBox;
-    this.scroll;
+
 
     this.lg_spirit;
     this.talked = false;
@@ -72,24 +64,23 @@ export default class City extends Phaser.Scene {
     this.player;
 
     this.score = 0;
-    this.scrolls = false;
+
     this.scoreText;
     this.gameOver = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(768, 1229, 'background');
-    this.physics.world.setBounds(0, 0, 1536, 3000);
+    const background = this.add.image(3968/2, 512, 'background');
+    this.physics.world.setBounds(0, 0, 3968, 1024);
 
 
 
     //Platforms
     const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('cave_platform03', 'tiles');
-    const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
+    const tileset = map.addTilesetImage('city_tileset1', 'tiles');
 
-    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, -1175);
-    this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
+    this.buildings = map.createStaticLayer('buildings', tileset, 0, 0);
+
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');
@@ -127,8 +118,6 @@ export default class City extends Phaser.Scene {
     this.sm_spirit1.setScale(0.15);
     this.sm_spirit1.setCollideWorldBounds(true);
 
-    this.scroll = this.physics.add.sprite(750,400,'scroll');
-    this.scroll.setCollideWorldBounds(true);
 
     this.tweens.add({
       targets: this.sm_spirit1,
@@ -141,28 +130,28 @@ export default class City extends Phaser.Scene {
 
     //Creates player character
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 100, 1800);
+    this.player = new Ghost_Player(this, 100, 0);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.setBounds(0, 0, 1536, 1900);
+    this.cameras.main.setBounds(0, 0, 3968, 1024);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 400;
 
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    this.plants.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.lg_spirit.sprite, this.body, this.scroll], this.worldLayer);
+    this.buildings.setCollisionByProperty({ collides: true });
+
+    this.physics.world.addCollider( [this.player.sprite], this.buildings);
 
       //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
       //Collects a memory piece
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
       //Collects the scroll
-    this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
+    this.physics.world.addCollider(this.player.sprite, this.collectscroll, null, this);
 
     //INTERACTION
       //With large spirit
@@ -188,12 +177,12 @@ export default class City extends Phaser.Scene {
       // Turn on physics debugging to show player's hitbox
       this.physics.world.createDebugGraphic();
 
-      // Create worldLayer collision graphic above the player, but below the help text
+      // Create frontBuildings collision graphic above the player, but below the help text
       const graphics = this.add
         .graphics()
         .setAlpha(0.75)
         .setDepth(20);
-      this.worldLayer.renderDebug(graphics, {
+      this.buildings.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
@@ -213,7 +202,7 @@ export default class City extends Phaser.Scene {
       return;
     }
 
-    if (this.player.sprite.y > this.worldLayer.height) {
+    if (this.player.sprite.y > this.frontBuildings.height) {
       this.player.destroy();
     }
 
@@ -252,12 +241,7 @@ export default class City extends Phaser.Scene {
     this.scoreText.setText("Memories: " + this.score);
   }
 
-  collectscroll(player, scroll) {
-    scroll.disableBody(true, true);
 
-    //Collects scroll
-    this.scrolls = true;
-  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Returning to the body, triggers end
