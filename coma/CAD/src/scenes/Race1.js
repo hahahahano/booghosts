@@ -12,7 +12,8 @@ export default class Race1 extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image("tiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
-    this.load.tilemapTiledJSON("map1", 'CAD/assets/tilemaps/map1a.json');
+    this.load.image("tiles2", 'CAD/assets/tilesets/ground_tileset1.png');
+    this.load.tilemapTiledJSON("map1", 'CAD/assets/tilemaps/map1b.json');
 
     this.load.audio('aralia', 'CAD/assets/music/pranilzaman_burymymind.mp3');
     this.load.image("racer", "CAD/assets/cars/red_car2.png");
@@ -36,9 +37,10 @@ export default class Race1 extends Phaser.Scene {
     // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
     // Phaser's cache (i.e. the name you used in preload)
     const tileset = map.addTilesetImage("tuxmon-sample", "tiles1");
+    const tileset1 = map.addTilesetImage("ground_tileset1", "tiles2");
 
     // Parameters: layer name (or index) from Tiled, tileset, x, y
-    const belowLayer = map.createStaticLayer("belowLayer", tileset, 0, 0);
+    const belowLayer = map.createStaticLayer("belowLayer", tileset1, 0, 0);
     const worldLayer = map.createStaticLayer("worldLayer", tileset, 0, 0);
     const finish = map.createStaticLayer("finish", tileset, 0, 0);
 
