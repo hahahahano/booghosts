@@ -91,6 +91,8 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
+    this.load.image('white', '.assets/images/white.jpg');
+
     this.load.image('tiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrubs', "./assets/sprites/shrub1.png");
     this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
@@ -113,6 +115,9 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 148,
       frameHeight: 200
     });
+    this.load.image('bg', './assets/images/cave_to_forest_transition.jpg')
+    this.load.image('t1', './assets/images/ctft_text1.png')
+    this.load.image('t2', './assets/images/ctft_text2.png')
   }
 
   create () {
