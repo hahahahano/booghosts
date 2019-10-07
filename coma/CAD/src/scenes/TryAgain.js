@@ -1,7 +1,7 @@
 /*global Phaser*/
-export default class Instructions extends Phaser.Scene {
+export default class TryAgain extends Phaser.Scene {
   constructor () {
-    super('Instructions');
+    super('TryAgain');
   }
 
   init (data) {
@@ -10,22 +10,23 @@ export default class Instructions extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('instructions', './assets/images/instructions.png');
-    this.load.image('buttons', ['./assets/images/playgame.png', './assets/images/playgamehover.png']);
+    this.load.image('menu', './CAD/assets/images/menu.png');
+    this.load.image('try', './CAD/assets/images/tryagain.png');
 
     this.load.audio('romulus', 'assets/music/romdiprisco_romulus3.mp3');
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
+
   }
 
   create (data) {
 
     //Create the scene
-    var menu = this.add.image(this.centerX, this.centerY, 'instructions');
+    var menu = this.add.text(this.centerX-100, this.centerY, 'I have died');
 
-    var b1 = this.add.sprite(640, 500, 'buttons').setInteractive();
+    var b1 = this.add.sprite(640, 400, 'try').setInteractive();
 
     b1.on('pointerover', function (event) {
         this.setTint(0xff0000);
@@ -41,6 +42,7 @@ export default class Instructions extends Phaser.Scene {
     }, this);
 
     var music = this.sound.add('romulus');
+    music.play();
 
 
   }

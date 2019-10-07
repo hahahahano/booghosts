@@ -85,7 +85,7 @@ export default class Caves extends Phaser.Scene {
     this.score = 0;
     this.scoreText;
     this.gameOver = false;
-    
+
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const background = this.add.image(1152, 1536, 'background');
@@ -277,7 +277,7 @@ export default class Caves extends Phaser.Scene {
 
     if (this.gameOver) {
       this.music.stop();
-      this.scene.start('GameOverScene',{ score: this.score });
+      this.scene.start('Instructions',{ score: this.score });
       return;
     }
 
@@ -307,7 +307,7 @@ export default class Caves extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Zones  
+  //Zones
     //Tutorial Zone
   instructions(instructBox) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 100)) {
@@ -433,7 +433,7 @@ export default class Caves extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Collecting Items  
+  //Collecting Items
     //Collecting Memory Piece
   collectMem(player, mem_piece) {
     mem_piece.disableBody(true, true);
