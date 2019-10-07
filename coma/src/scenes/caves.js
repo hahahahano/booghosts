@@ -3,7 +3,6 @@
 
 import Ghost_Player from "./ghost_player.js";
 import LGSpirit from "./LGSpirit.js";
-import zones from "./interactions.js";
 
 export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -307,7 +306,7 @@ export default class Caves extends Phaser.Scene {
 
     if (this.gameOver) {
       this.music.stop();
-      this.scene.start('Instructions',{ score: this.score });
+      this.scene.start('Instructions', { score: this.score });
       return;
     }
 
