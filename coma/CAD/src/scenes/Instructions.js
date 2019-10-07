@@ -37,7 +37,7 @@ export default class Instructions extends Phaser.Scene {
     });
 
     b1.on("pointerup", function (event) {
-      this.scene.start('Race1');
+      this.scene.start('Race1', { score: this.score });
       this.sound.stopAll();
     }, this);
 

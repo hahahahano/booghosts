@@ -220,7 +220,7 @@ export default class Caves extends Phaser.Scene {
 
     //Creates player character
     //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 1600, 800);//150, 2520
+    this.player = new Ghost_Player(this, 150, 2520);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
@@ -306,7 +306,7 @@ export default class Caves extends Phaser.Scene {
 
     if (this.gameOver) {
       this.music.stop();
-      this.scene.start('Instructions',{ score: this.score });
+      this.scene.start('Instructions', { score: this.score });
       return;
     }
 
@@ -324,7 +324,7 @@ export default class Caves extends Phaser.Scene {
     //Dialogue with the Large Spirit
   interactLG() {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      this.lg_spirit.interact(1850, 2325, this.scrolls, this.talked);
+      this.lg_spirit.interact(1850, 2325, this.scrolls, this.talked, this.score);
     }
   }
     //Searching the bushes
