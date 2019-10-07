@@ -7,12 +7,12 @@ export default class Race1 extends Phaser.Scene {
 
     preload () {
       // Preload assets
-      this.load.image("tiles", "./assets/tilesets/tuxmon-sample.png");
-      this.load.tilemapTiledJSON("map", "./assets/tilemaps/map1a.json");
+      this.load.image("tiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
+      this.load.tilemapTiledJSON("map1", 'CAD/assets/tilemaps/map1a.json');
 
-      this.load.audio('aralia', 'assets/music/pranilzaman_burymymind.mp3');
+      this.load.audio('aralia', 'CAD/assets/music/pranilzaman_burymymind.mp3');
 
-      this.load.image("racer", "assets/cars/red_car2.png");
+      this.load.image("racer", "CAD/assets/cars/red_car2.png");
 
     }
 
@@ -27,11 +27,11 @@ export default class Race1 extends Phaser.Scene {
     }
 
     create (data) {
-      const map = this.make.tilemap({ key: "map" });
+      const map = this.make.tilemap({ key: "map1" });
 
       // Parameters are the name you gave the tileset in Tiled and then the key of the tileset image in
       // Phaser's cache (i.e. the name you used in preload)
-      const tileset = map.addTilesetImage("tuxmon-sample", "tiles");
+      const tileset = map.addTilesetImage("tuxmon-sample", "tiles1");
 
       // Parameters: layer name (or index) from Tiled, tileset, x, y
       const belowLayer = map.createStaticLayer("belowLayer", tileset, 0, 0);
@@ -45,14 +45,14 @@ export default class Race1 extends Phaser.Scene {
       music.play();
 
       // add Player
-      this.player = this.physics.add.sprite(645, 3900, 'racer')
+      this.player1 = this.physics.add.sprite(645, 3900, 'racer')
 
       // Watch the player and worldLayer for collisions, for the duration of the scene:
-      this.physics.add.collider(this.player, worldLayer, this.loser, null, this);
-      this.physics.add.collider(this.player, finish, this.winner, null, this);
+      this.physics.add.collider(this.player1, worldLayer, this.loser, null, this);
+      this.physics.add.collider(this.player1, finish, this.winner, null, this);
 
       const camera = this.cameras.main;
-      camera.startFollow(this.player);
+      camera.startFollow(this.player1);
       camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
 
@@ -72,36 +72,36 @@ export default class Race1 extends Phaser.Scene {
 
     update (time, delta) {
       const speed = 175;
-      const prevVelocity = this.player.body.velocity.clone();
+      const prevVelocity = this.player1.body.velocity.clone();
 
       // Stop any previous movement from the last frame
-      this.player.body.setVelocity(0);
+      this.player1.body.setVelocity(0);
 
 
       // Horizontal movement
       if (this.cursors.left.isDown) {
-        this.player.body.setVelocityX(-speed);
+        this.player1.body.setVelocityX(-speed);
       } else if (this.cursors.right.isDown) {
-        this.player.body.setVelocityX(speed);
+        this.player1.body.setVelocityX(speed);
       }
 
       // Vertical movement
       if (this.cursors.up.isDown) {
-        this.player.body.setVelocityY(-speed);
+        this.player1.body.setVelocityY(-speed);
       } else if (this.cursors.down.isDown) {
-        this.player.body.setVelocityY(speed);
+        this.player1.body.setVelocityY(speed);
       }
 
       // Normalize and scale the velocity so that player can't move faster along a diagonal
-      this.player.body.velocity.normalize().scale(speed);
+      this.player1.body.velocity.normalize().scale(speed);
 
       // Update the animation last and give left/right animations precedence over up/down animations
       if (this.cursors.left.isDown) {
-        this.player.body.rotation = -15;
+        this.player1.body.rotation = -15;
       } else if (this.cursors.right.isDown) {
-        this.player.body.rotation = 15;
+        this.player1.body.rotation = 15;
       } else {
-        this.player.body.rotation = 0;
+        this.player1.body.rotation = 0;
       }
 
     }
