@@ -28,7 +28,7 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
   update() {
     const { sprite } = this;
-
+    sprite.setFlipX(true);
     sprite.anims.play('idle_sp', true);
   }
 /*****************************************************************************************************************************************************/
@@ -47,7 +47,7 @@ export default class LGSpirit {
           fill: "#fff",
           padding: { x: 20, y: 10 },
           backgroundColor: "#000",
-          wordWrap: { width: 150, useAdvancedWrap: true }
+          wordWrap: { width: 250, useAdvancedWrap: true }
         });
         this.scene.talked += 10;
       }
@@ -60,7 +60,7 @@ export default class LGSpirit {
             fill: "#fff",
             padding: { x: 20, y: 10 },
             backgroundColor: "#000",
-            wordWrap: { width: 150, useAdvancedWrap: true }
+            wordWrap: { width: 250, useAdvancedWrap: true }
           });
           break;
 
@@ -72,7 +72,7 @@ export default class LGSpirit {
             fill: "#fff",
             padding: { x: 20, y: 10 },
             backgroundColor: "#000",
-            wordWrap: { width: 150, useAdvancedWrap: true }
+            wordWrap: { width: 250, useAdvancedWrap: true }
           });
           break;
 
@@ -84,7 +84,7 @@ export default class LGSpirit {
             fill: "#fff",
             padding: { x: 20, y: 10 },
             backgroundColor: "#000",
-            wordWrap: { width: 150, useAdvancedWrap: true }
+            wordWrap: { width: 250, useAdvancedWrap: true }
           });
           break;
 
@@ -96,7 +96,7 @@ export default class LGSpirit {
             fill: "#fff",
             padding: { x: 20, y: 10 },
             backgroundColor: "#000",
-            wordWrap: { width: 150, useAdvancedWrap: true }
+            wordWrap: { width: 250, useAdvancedWrap: true }
           });
           break;
 
@@ -108,7 +108,7 @@ export default class LGSpirit {
             fill: "#fff",
             padding: { x: 20, y: 10 },
             backgroundColor: "#000",
-            wordWrap: { width: 150, useAdvancedWrap: true }
+            wordWrap: { width: 250, useAdvancedWrap: true }
           });
           break;
 
