@@ -18,7 +18,7 @@ export default class Race1 extends Phaser.Scene {
 
     winner (player) {
       this.sound.stopAll();
-      this.scene.start('Winner');
+      this.scene.start('GameOverScene');
     }
 
     loser (player) {

@@ -33,8 +33,9 @@ export default class LGSpirit {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  interact(xpos, ypos, scroll, i) {
-    const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?", "I don't want to get even more lost or get hurt by those cave spirits. They look so angry.", "Thank you so much!"]
+  interact(xpos, ypos, scroll, i, score) {
+    const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?",
+    "I don't want to get even more lost or get hurt by those cave spirits. They look so angry.", "Thank you so much!"]
 
     if (scroll) {
       if (i >= 10) {
@@ -42,7 +43,7 @@ export default class LGSpirit {
       } else {
         this.msgbox.destroy();
             
-        this.msgbox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much!", {
+        this.msgbox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much! Here's something I found while I was lost.", {
           font: "18px monospace",
           fill: "#fff",
           padding: { x: 20, y: 10 },
@@ -50,6 +51,8 @@ export default class LGSpirit {
           wordWrap: { width: 250, useAdvancedWrap: true }
         });
         this.scene.talked += 10;
+        this.scene.score++;
+        this.scene.scoreText.setText("Memories: " + this.scene.score);
       }
     } else {
       switch (i)
