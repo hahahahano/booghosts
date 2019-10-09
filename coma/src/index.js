@@ -4,6 +4,7 @@ import Config from './config/config.js';
 import BootScene from './scenes/loadscreen.js';
 import start from './scenes/start.js';
 import caves from './scenes/caves.js';
+import Forest from './scenes/forest.js';
 import City from './scenes/City.js';
 import GameOverScene from './scenes/GameOverScene.js';
 
@@ -21,12 +22,13 @@ class Game extends Phaser.Game {
     this.scene.add('caves', caves);
     this.scene.add('City', City);
     this.scene.add('GameOverScene', GameOverScene);
+    this.scene.add('Forest', Forest);
 
     this.scene.add('Instructions', Instructions);
     this.scene.add('Race1', Race1);
     this.scene.add('TryAgain', TryAgain);
 
-    this.scene.start('Boot');
+    this.scene.start('Forest');
   }
 }
 

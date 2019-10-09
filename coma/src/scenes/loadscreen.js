@@ -95,7 +95,7 @@ export default class BootScene extends Phaser.Scene {
 
     this.load.image('tiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrubs', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json")
+    this.load.tilemapTiledJSON('map', "./assets/tilemaps/cave_tilemap5.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -115,10 +115,17 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 148,
       frameHeight: 200
     });
-    this.load.image('bg', './assets/images/cave_to_forest_transition.jpg')
-    this.load.image('t1', './assets/images/ctft_text1.png')
-    this.load.image('t2', './assets/images/ctft_text2.png')
-  }
+
+    this.load.image('bg', './assets/images/cave_to_forest_transition.jpg');
+    this.load.image('t1', './assets/images/ctft_text1.png');
+    this.load.image('t2', './assets/images/ctft_text2.png');
+    this.load.image('white', '.assets/images/white.jpg');
+
+    this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
+    this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json")
+    this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
+  
+}
 
   create () {
     //Add event addSceneEventListeners
