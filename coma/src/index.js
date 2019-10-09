@@ -23,12 +23,12 @@ class Game extends Phaser.Game {
     this.scene.add('Forest', Forest);
     this.scene.add('City', City);
     this.scene.add('GameOverScene', GameOverScene);
-    
+
     this.scene.add('CarMiniGame', Instructions);
     this.scene.add('Race', Race1);
     this.scene.add('TryAgain', TryAgain);
 
-    this.scene.start('preloader');
+    this.scene.start('Forest');
   }
 }
 
