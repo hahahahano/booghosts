@@ -310,7 +310,7 @@ export default class Caves extends Phaser.Scene {
       // fade to white
 
       this.caveMusic.stop();
-      this.scene.start('Forest', { score: this.score });
+      this.scene.start('CarMiniGame', { score: this.score });
       return;
     }
 
