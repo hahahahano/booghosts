@@ -207,6 +207,7 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
+
     this.cameras.main.setBounds(0, 0, 8192, 1280);
 
     //Gravity for this scene
