@@ -13,7 +13,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.score = data.score;
+    //this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -26,6 +26,7 @@ export default class Forest extends Phaser.Scene {
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
+    this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
@@ -80,9 +81,9 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    //const background = this.add.image(1152, 1536, 'background');
     this.physics.world.setBounds(0, 0, 8192, 1280);
-
+    const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
+    forest_sky.setScale(2);
     //Platforms
     const map = this.make.tilemap({ key: 'forest_map' });
     const tileset = map.addTilesetImage('ground_tileset1', 'forest_tiles');
@@ -93,6 +94,7 @@ export default class Forest extends Phaser.Scene {
 
     //Foreground test
     const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
@@ -155,10 +157,11 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
+
     this.cameras.main.setBounds(0, 0, 8192, 1280);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 400;
+    this.physics.world.gravity.y = 500;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS

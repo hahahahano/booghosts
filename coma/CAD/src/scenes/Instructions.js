@@ -39,7 +39,7 @@ export default class Instructions extends Phaser.Scene {
 
 
     if (keyX.isDown){
-      this.scene.start('Race', { score: this.score });
+      this.scene.start('Forest', { score: this.score });
     }
 
 
