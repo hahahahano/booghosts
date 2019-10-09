@@ -98,23 +98,10 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory Pieces
-    this.mems = this.physics.add.group([
-      {key: 'mem_piece',
-      setXY: { x: 650, y: 1270}},
-      {key: 'mem_piece',
-      setXY: { x: 100, y: 880}},
-      {key: 'mem_piece',
-      setXY: { x: 1400, y: 2580}}
-    ]);
 
     //Memories Collected (Score Display)
-    this.scoreText = this.add
-      .text(16, 16, "Memories: 0", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0);
+    this.scoreText = this.score
+
 
     //Creates ghost's human body
     //this.body = this.physics.add.sprite(100, 390, 'body');
@@ -150,44 +137,7 @@ export default class Forest extends Phaser.Scene {
     this.lg_spirit.sprite.setCollideWorldBounds(true);
 
     //Creates small spirits
-    this.sm_spirit1 = this.physics.add.sprite(1200, 2180, 'sm_spirit');
-    this.sm_spirit1.setScale(0.15);
-    this.sm_spirit1.setCollideWorldBounds(true);
 
-    this.tweens.add({
-      targets: this.sm_spirit1,
-      x: 1950,
-      ease: 'Linear',
-      yoyo: true,
-      duration: 4500,
-      repeat: -1
-    });
-
-    this.sm_spirit2 = this.physics.add.sprite(1500, 1600, 'sm_spirit');
-    this.sm_spirit2.setScale(0.15);
-    this.sm_spirit2.setCollideWorldBounds(true);
-
-    this.tweens.add({
-      targets: this.sm_spirit2,
-      x: 1950,
-      ease: 'Linear',
-      yoyo: true,
-      duration: 5000,
-      repeat: -1
-    });
-
-    this.sm_spirit3 = this.physics.add.sprite(2055, 1000, 'sm_spirit');
-    this.sm_spirit3.setScale(0.15);
-    this.sm_spirit3.setCollideWorldBounds(true);
-
-    this.tweens.add({
-      targets: this.sm_spirit3,
-      x: 2225,
-      ease: 'Linear',
-      yoyo: true,
-      duration: 1500,
-      repeat: -1
-    });
 
     /*this.sm_spirits = this.physics.add.group([
       {key: 'sm_spirit',
@@ -216,9 +166,9 @@ export default class Forest extends Phaser.Scene {
     this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.sm_spirit2, this.sm_spirit3, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.worldLayer);
 
       //Hits an enemy
-    this.physics.add.overlap(this.player.sprite, [this.sm_spirit1, this.sm_spirit2, this.sm_spirit3], this.enemyHit, null, this);
+
       //Collects a memory piece
-    this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
+      
       //Collects the scroll
     this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
       //character and rock INTERACTION
