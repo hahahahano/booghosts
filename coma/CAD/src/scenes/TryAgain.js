@@ -11,7 +11,6 @@ export default class TryAgain extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('menu', './CAD/assets/images/menu.png');
     this.load.image('try', './CAD/assets/images/tryagain.png');
 
     this.load.audio('romulus', 'assets/music/romdiprisco_romulus3.mp3');
@@ -38,7 +37,7 @@ export default class TryAgain extends Phaser.Scene {
     });
 
     b1.on("pointerup", function (event) {
-      this.scene.start('Race1', { score: this.score });
+      this.scene.start('Race', { score: this.score });
       this.sound.stopAll();
     }, this);
 

@@ -13,7 +13,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    //For later scenes (pass the memories score)
+    this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -29,25 +29,25 @@ export default class Forest extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
-    this.load.image('scroll', './assets/sprites/map_sketch.png');
+    this.load.image('scroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('rock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
-    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
+    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
       frameWidth: 395,
       frameHeight: 596
     });
-    this.load.spritesheet('sm_spirit', "./assets/spriteSheets/small_spirit.png", {
+    this.load.spritesheet('sm_spirit', "./assets/spriteSheets/cave/small_spirit.png", {
       frameWidth: 500,
       frameHeight: 338
     });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
       frameWidth: 148,
       frameHeight: 200
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/obsession_slowmix.mp3");
+    this.load.audio('cave_music1', "./assets/music/cave_music.mp3");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -75,7 +75,6 @@ export default class Forest extends Phaser.Scene {
     this.sm_spirit1;
     this.player;
 
-    this.score = 0;
     this.scoreText;
     this.gameOver = false;
 
@@ -289,7 +288,7 @@ export default class Forest extends Phaser.Scene {
       // fade to white
 
       this.music.stop();
-      this.scene.start('Instructions', { score: this.score });
+      this.scene.start('CarMiniGame', { score: this.score });
       return;
     }
 

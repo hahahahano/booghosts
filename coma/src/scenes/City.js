@@ -2,7 +2,6 @@
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
-import LGSpirit from "./LGSpirit.js";
 
 export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -13,7 +12,7 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    //this.score = data.score;
+    this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -30,15 +29,7 @@ export default class City extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
 
-    //LIVE CHARACTERS (ghost, large spirit, small spirits)
-    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/large_spirit.png", {
-      frameWidth: 395,
-      frameHeight: 596
-    });
-    this.load.spritesheet('sm_spirit', "./assets/spriteSheets/small_spirit.png", {
-      frameWidth: 500,
-      frameHeight: 338
-    });
+    //LIVE CHARACTERS (ghost, people, kid NPC)
     this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
       frameWidth: 148,
       frameHeight: 200
@@ -57,12 +48,7 @@ export default class City extends Phaser.Scene {
     this.body;
     this.msgBox;
 
-    this.lg_spirit;
-    this.talked = false;
-    this.sm_spirit1;
     this.player;
-
-    this.score = 0;
 
     this.scoreText;
     this.gameOver = false;
@@ -107,23 +93,10 @@ export default class City extends Phaser.Scene {
     this.body.setCollideWorldBounds(true);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
-    //Creates large spirit
+    //Creates kid NPC
 
 
-    //Creates small spirits
-    this.sm_spirit1 = this.physics.add.sprite(500, 1840, 'sm_spirit');
-    this.sm_spirit1.setScale(0.15);
-    this.sm_spirit1.setCollideWorldBounds(true);
-
-
-    this.tweens.add({
-      targets: this.sm_spirit1,
-      x: 900,
-      ease: 'Linear',
-      yoyo: true,
-      duration: 5000,
-      repeat: -1
-    });
+    //Creates people
 
     //Creates player character
     //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
@@ -144,16 +117,13 @@ export default class City extends Phaser.Scene {
     this.physics.world.addCollider( [this.player.sprite], this.buildings);
 
       //Hits an enemy
-    this.physics.add.overlap(this.player.sprite, this.sm_spirit1, this.enemyHit, null, this);
+
       //Collects a memory piece
     this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
-      //Collects the scroll
-    this.physics.world.addCollider(this.player.sprite, this.collectscroll, null, this);
 
     //INTERACTION
-      //With large spirit
-      //With bushes
-    this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
+      //With kid NPC
+
       //With body (need to code in the choice to leave~)
     this.physics.add.overlap(
       this.player.sprite,
@@ -165,9 +135,9 @@ export default class City extends Phaser.Scene {
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
-    this.music = this.sound.add('cave_music1');
+    /*this.music = this.sound.add('cave_music1');
     this.music.volume = .3;
-    this.music.play();
+    this.music.play();*/
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -191,40 +161,24 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-    this.lg_spirit.update();
 
     if (this.gameOver) {
-      this.music.stop();
-      this.scene.start('GameOverScene',{ score: this.score });
+      //this.music.stop();
+      this.scene.start('GameOverScene', { score: this.score });
       return;
     }
 
-    if (this.player.sprite.y > this.frontBuildings.height) {
+    /*if (this.player.sprite.y > this.frontBuildings.height) {
       this.player.destroy();
-    }
+    }*/
 
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
-  /*instructions(player) {
-    var instructions = ["Hey there. I'm glad you're awake. It's me. You. Hahaha.",
-    "You can move around with the arrow keys. You should probably explore the area, but be careful; it looks like that small spirit is angry and might hurt you."]
-  }*/
-
-  interactLG() {
+  interactKid() {
     if (this.player.keys.x.isDown) {
-      this.lg_spirit.interact(1350, 700, this.scrolls, this.talked)
-    }
-  }
 
-  hideMessageBox(msgBox) {
-    this.msgBox.destroy()
-  }
-
-  interactBush() {
-    if (this.player.keys.x.isDown) {
-      //this.plants
     }
   }
 /*****************************************************************************************************************************************************/
@@ -237,8 +191,6 @@ export default class City extends Phaser.Scene {
     this.score += 1;
     this.scoreText.setText("Memories: " + this.score);
   }
-
-
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Returning to the body, triggers end
@@ -248,7 +200,7 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
-  enemyHit(player, sm_spirit) {
+  enemyHit(player) {
     this.player.destroy();
   }
 /*****************************************************************************************************************************************************/

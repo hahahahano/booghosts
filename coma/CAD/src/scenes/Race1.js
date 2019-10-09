@@ -1,11 +1,10 @@
 /*global Phaser*/
 export default class Race1 extends Phaser.Scene {
   constructor () {
-    super('Race1');
+    super('Race');
   }
 
   init (data) {
-    // Initialization code goes here
     this.score = data.score;
   }
 
@@ -21,7 +20,7 @@ export default class Race1 extends Phaser.Scene {
 
   winner (player) {
     this.sound.stopAll();
-    this.scene.start('GameOverScene', { score: this.score });
+    this.scene.start('City', { score: this.score });
   }
 
   loser (player) {
