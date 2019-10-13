@@ -74,7 +74,7 @@ export default class Caves extends Phaser.Scene {
     this.inventory = [];
     this.invText = "";
     this.invTextDis = this.add.text(null, null, null);
-    
+
     this.instructBox;
     this.zoneStart;
     this.memsBox = this.add.text(null, null, null);
@@ -92,7 +92,7 @@ export default class Caves extends Phaser.Scene {
 
     this.score = 0;
     this.scoreText;
-    this.nextScene = false;
+    this.nextScene = true;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -115,7 +115,7 @@ export default class Caves extends Phaser.Scene {
     const caveMap = this.make.tilemap({ key: 'caveMap' });
     const caveTileset = caveMap.addTilesetImage('cave_tileset1', 'caveTiles');
     this.caveWorldLayer = caveMap.createStaticLayer('platforms', caveTileset, 0, 0);
-    
+
     //Foreground test
     //const caveForeground = this.add.image(768, 1229, 'caveForeground');
     //caveForeground.setDepth(10);
@@ -127,7 +127,7 @@ export default class Caves extends Phaser.Scene {
       allowGravity: false,
       immovable: true
     });
-    
+
     const otherObjects = caveMap.getObjectLayer('otherObjects')['objects'];
     otherObjects.forEach(otherObject => {
       if (otherObject.name === "mem") {
@@ -167,7 +167,7 @@ export default class Caves extends Phaser.Scene {
     plantObjects.forEach(plantObject => {
       const cavePlant = this.cavePlants.create(plantObject.x, plantObject.y-34, 'shrub');
     });
-    
+
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //Tutorial Zone: Explains the movements
     this.zoneStart = this.add.zone(250, 2450).setSize(800, 400);
@@ -188,7 +188,7 @@ export default class Caves extends Phaser.Scene {
     //Creates spirits
       //Small Spirits
     this.sm_spirits = this.physics.add.group();
-    
+
     const spiritObjects = caveMap.getObjectLayer('spiritSpawn')['objects'];
     spiritObjects.forEach(spiritObject => {
       if (spiritObject.name === "small") {
@@ -382,15 +382,15 @@ export default class Caves extends Phaser.Scene {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.lg_spirit.interact(1850, 2325, this.scrolls, this.talked, this.score);
     }
-    
+
     if (this.talked > 5) {
       var index = this.inventory.indexOf("Scroll");
       if (index > -1) {
         this.inventory.splice(index, 1);
       }
-      
+
       this.updateInventory();
-    } 
+    }
   }
     //Searching the bushes ****FIX TEXT BOX BOUNDS
   interactBush(player, bush) {
