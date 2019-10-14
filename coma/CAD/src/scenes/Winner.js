@@ -1,4 +1,4 @@
-/*global Phaser*/
+/*DELETE*/
 export default class Winner extends Phaser.Scene {
   constructor () {
     super('winner');

@@ -1,54 +1,61 @@
-/*global Phaser*/
+/*
+  CAR MINIGAME - TRY AGAIN
+*/
+
 export default class TryAgain extends Phaser.Scene {
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   constructor () {
     super('TryAgain');
   }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   init (data) {
     this.player = data.player;
     this.inventory = data.inventory;
     this.score = data.score;
   }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   preload () {
-    // Preload assets
+    //OBJECTS
     this.load.image('try', './CAD/assets/images/tryagain.png');
 
+    //SOUNDS
     this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
 
-    // Declare variables for center of the scene
+    //Defining center of scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-
   }
 
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   create (data) {
+    var deadText = this.add.text(this.centerX-100, this.centerY, 'I have died');
 
-    //Create the scene
-    var menu = this.add.text(this.centerX-100, this.centerY, 'I have died');
+    var tryAgainButt = this.add.sprite(640, 400, 'try').setInteractive();
 
-    var b1 = this.add.sprite(640, 400, 'try').setInteractive();
-
-    b1.on('pointerover', function (event) {
+    tryAgainButt.on('pointerover', function (event) {
         this.setTint(0xff0000);
     });
-
-    b1.on('pointerout', function (event) {
+    tryAgainButt.on('pointerout', function (event) {
         this.clearTint();
     });
-
-    b1.on("pointerup", function (event) {
+    tryAgainButt.on("pointerup", function (event) {
       this.scene.start('Race', { player: this.player, inventory: this.inventory, score: this.score });
       this.sound.stopAll();
     }, this);
 
+///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     var music = this.sound.add('romulus');
     music.play();
-
-
   }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   update (time, delta) {
     // Update the scene
   }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 }

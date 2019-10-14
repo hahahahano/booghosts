@@ -1,4 +1,6 @@
-/*globals Phaser*/
+/*
+  CITY SCENE 1
+*/
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";

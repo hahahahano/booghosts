@@ -1,4 +1,4 @@
-/*global Phaser*/
+/*DELETE*/
 export default class Menu extends Phaser.Scene {
   constructor () {
     super('Menu');

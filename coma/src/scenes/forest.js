@@ -1,4 +1,6 @@
-/*globals Phaser*/
+/*
+  FOREST SCENE
+*/
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
@@ -30,7 +32,7 @@ export default class Forest extends Phaser.Scene {
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('rock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
