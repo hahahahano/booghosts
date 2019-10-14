@@ -1,11 +1,10 @@
 /*global Phaser*/
 export default class Instructions extends Phaser.Scene {
   constructor () {
-    super('Instructions');
+    super('CarMiniGame');
   }
 
   init (data) {
-    // Initialization code goes here
     this.score = data.score;
   }
 
@@ -40,7 +39,7 @@ export default class Instructions extends Phaser.Scene {
 
 
     if (keyX.isDown){
-      this.scene.start('Race1');
+      this.scene.start('Forest', { score: this.score });
     }
 
 
