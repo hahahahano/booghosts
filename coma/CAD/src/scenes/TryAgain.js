@@ -5,7 +5,8 @@ export default class TryAgain extends Phaser.Scene {
   }
 
   init (data) {
-    // Initialization code goes here
+    this.player = data.player;
+    this.inventory = data.inventory;
     this.score = data.score;
   }
 
@@ -37,7 +38,7 @@ export default class TryAgain extends Phaser.Scene {
     });
 
     b1.on("pointerup", function (event) {
-      this.scene.start('Race', { score: this.score });
+      this.scene.start('Race', { player: this.player, inventory: this.inventory, score: this.score });
       this.sound.stopAll();
     }, this);
 

@@ -93,7 +93,7 @@ export default class BootScene extends Phaser.Scene {
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 

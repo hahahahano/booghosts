@@ -2,7 +2,6 @@
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
-import LGSpirit from "./LGSpirit.js";
 
 export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -13,7 +12,9 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    //this.score = data.score;
+    /*this.player = data.player;
+    this.inventory = data.inventory;
+    this.score = data.score;*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -30,18 +31,9 @@ export default class Forest extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('body', "./assets/sprites/bones_sketch.png");
-    this.load.image('scroll2', './assets/sprites/cave/map_sketch.png');
     this.load.image('rock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
-    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
-      frameWidth: 395,
-      frameHeight: 596
-    });
-    this.load.spritesheet('sm_spirit', "./assets/spriteSheets/cave/small_spirit.png", {
-      frameWidth: 500,
-      frameHeight: 338
-    });
     this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
       frameWidth: 148,
       frameHeight: 200
@@ -57,27 +49,20 @@ export default class Forest extends Phaser.Scene {
     //ChangeScene.addSceneEventListeners(this);
 
     this.mems;
-    this.body;
+    this.exit;
     this.rock;
-    this.scroll2;
 
-    this.instructBox;
-    this.zoneStart;
-    this.memsBox = this.add.text(null, null, null);
-    this.collectTut = 0;
-    this.zoneMem;
-    this.exitBox;
-    this.zoneExit;
-
-    this.lg_spirit;
-    this.msgBox;
-    this.scrolls = false;
-    this.talked = 0;
-    this.sm_spirit1;
     this.player;
+    this.inventory = [];
+    this.score = 0;
 
-    this.scoreText;
-    this.gameOver = false;
+    this.invText = "";
+    this.invTextDis = this.add.text(null, null, null);
+
+    this.scoreText = "";
+    this.scoreDis = this.add.text(null, null, null);
+
+    this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -85,11 +70,11 @@ export default class Forest extends Phaser.Scene {
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
     forest_sky.setScale(2);
     //Platforms
-    const map = this.make.tilemap({ key: 'forest_map' });
-    const tileset = map.addTilesetImage('ground_tileset1', 'forest_tiles');
+    const forestMap = this.make.tilemap({ key: 'forest_map' });
+    const tileset = forestMap.addTilesetImage('ground_tileset1', 'forest_tiles');
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.worldLayer = map.createStaticLayer('platforms', tileset, 0, 0);
+    this.forestWorldLayer = forestMap.createStaticLayer('platforms', tileset, 0, 0);
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
@@ -99,64 +84,28 @@ export default class Forest extends Phaser.Scene {
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
-  this.instructBox = this.add.text(7600, 600, "Can you take me to the town?", {
-    font: "18px monospace",
-    fill: "#fff",
-    padding: { x: 20, y: 10 },
-    backgroundColor: "#000",
-    wordWrap: { width: 300, useAdvancedWrap: true }
-  });
+    this.instructBox = this.add.text(7600, 600, "Can you take me to the town?", {
+      font: "18px monospace",
+      fill: "#fff",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#000",
+      wordWrap: { width: 300, useAdvancedWrap: true }
+    });
     //Memory Pieces
 
     //Memories Collected (Score Display)
-    this.scoreText = this.score
+    this.updateScore();
 
+    //Inventory
+    this.updateInventory();
 
-    //Creates ghost's human body
-    //this.body = this.physics.add.sprite(100, 390, 'body');
-    //this.body.setCollideWorldBounds(true);
-
-    //Creates map for large spirit
-    this.scroll2 = this.physics.add.sprite(7750, 300, 'scroll2');
-    this.scroll2.setCollideWorldBounds(true);
-
-    //Create test rock to move
-    this.rock = this.physics.add.sprite(300, 1825, 'rock');
-    this.rock.setCollideWorldBounds(true);
+    //Creates exit (placeholder)
+    this.exit = this.physics.add.sprite(7750, 300, 'exit');
+    this.exit.setCollideWorldBounds(true);
 
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
-    //Tutorial Zone: Explains the movements
-    this.zoneStart = this.add.zone(250, 2450).setSize(800, 400);
-    this.physics.world.enable(this.zoneStart);
-    this.zoneStart.body.setAllowGravity(false);
-    this.zoneStart.body.moves = false;
-    //Memory Zone: Explains the memory pieces
-    this.zoneMem = this.add.zone(1200, 2450).setSize(800, 450);
-    this.physics.world.enable(this.zoneMem);
-    this.zoneMem.body.setAllowGravity(false);
-    this.zoneMem.body.moves = false;
-    //Exit Zone: Explains leaving
-    this.zoneExit = this.add.zone(200, 220).setSize(750, 400);
-    this.physics.world.enable(this.zoneExit);
-    this.zoneExit.body.setAllowGravity(false);
-    this.zoneExit.body.moves = false;
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
-    //Creates large spirit
-    this.lg_spirit = new LGSpirit(this, 1750, 2480);
-    this.lg_spirit.sprite.setCollideWorldBounds(true);
-
-    //Creates small spirits
-
-
-    /*this.sm_spirits = this.physics.add.group([
-      {key: 'sm_spirit',
-      setXY: { x: 650, y: 1270}},
-      {key: 'sm_spirit',
-      setXY: { x: 100, y: 880}},
-      {key: 'sm_spirit',
-      setXY: { x: 1400, y: 2580}}
-    ]);*/
-
     //Creates player character
     //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
     this.player = new Ghost_Player(this, 150, 0);
@@ -172,33 +121,27 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
-    this.worldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirit1, this.sm_spirit2, this.sm_spirit3, this.lg_spirit.sprite, this.body, this.scroll2, this.rock], this.worldLayer);
+    this.forestWorldLayer.setCollisionByProperty({ collides: true });
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.exit, this.rock], this.forestWorldLayer);
 
       //Hits an enemy
 
       //Collects a memory piece
 
-      //Collects the scroll
-    this.physics.world.addCollider(this.player.sprite, this.scroll2, this.collectscroll, null, this);
+      //Exit
+    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
       //character and rock INTERACTION
     this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
-      //With large spirit
-    this.physics.add.overlap(this.player.sprite, this.lg_spirit.sprite, this.interactLG, null, this);
-      //With bushes
-    this.physics.add.overlap(this.player.sprite, this.plants, this.interactBush, null, this);
-      //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(this.player.sprite, this.body, this.returnBody, null, this);
 
     //ZONES
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
-    this.music = this.sound.add('cave_music1');
-    this.music.volume = .3;
-    this.music.play();
+    this.forestMusic = this.sound.add('cave_music1');
+    this.forestMusic.volume = .3;
+    this.forestMusic.play();
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -210,7 +153,7 @@ export default class Forest extends Phaser.Scene {
         .graphics()
         .setAlpha(0.75)
         .setDepth(20);
-      this.worldLayer.renderDebug(graphics, {
+      this.forestWorldLayer.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
@@ -222,19 +165,57 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-    this.lg_spirit.update();
 
-    if (this.gameOver) {
+    if (this.nextScene) {
       // fade to white
 
-      this.music.stop();
-      this.scene.start('Race', { score: this.score });
+      this.forestMusic.stop();
+      this.scene.start('Race', { player: this.player, inventory: this.inventory, score: this.score });
       return;
     }
 
-    if (this.player.sprite.y > this.worldLayer.height) {
+    if (this.player.sprite.y > this.forestWorldLayer.height) {
       this.player.destroy();
     }
+  }
+
+  updateInventory() {
+    if (this.inventory.length == 0) {
+      this.invTextDis.destroy();
+
+      this.invText = "Inventory: Empty";
+    } else {
+      this.invTextDis.destroy();
+      this.invText = "Inventory: " + this.inventory[0];
+
+      var itemNum;
+      for (itemNum = 1; itemNum < this.inventory.length; itemNum++) {
+        this.invText += ("\n\t\t\t\t\t\t\t\t\t\t\t" + this.inventory[itemNum]);
+      }
+    }
+
+    this.invTextDis = this.add
+      .text(16, 36, this.invText, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+  }
+
+  updateScore() {
+    this.scoreDis.destroy();
+    this.scoreText = "Memories: " + String(this.score);
+
+    this.scoreDis = this.add
+      .text(16, 16, this.scoreText, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -266,20 +247,16 @@ export default class Forest extends Phaser.Scene {
     mem_piece.disableBody(true, true);
 
     this.score += 1;
-    this.scoreText.setText("Memories: " + this.score);
+    this.updateScore();
   }
-    //Collecting Scroll
-  collectscroll(player, scroll2) {
 
-
-    this.music.stop();
-    this.scene.start('Race', { score: this.score });
-  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Returning to the body triggers end
-  returnBody(player, body) {
-    this.gameOver = true;
+  //Ending is triggered
+  playNextScene(player, exit) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.nextScene = true;
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

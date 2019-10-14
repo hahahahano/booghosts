@@ -12,34 +12,28 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.score = data.score;
+    /*this.player = data.player;
+    this.inventory = data.inventory;
+    this.score = data.score;*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/background.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
-    });
-    this.load.image('waterfall', './assets/images/blue1.png');
-    this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
-    });
-    this.load.image('background1', "./assets/images/city_sky1.jpg",{
+    this.load.image('cityBackground', "./assets/images/city_sky1.jpg",{
       frameWidth: 3968,
       frameHeight: 1024,
     });
 
-    this.load.image('tiles', "./assets/textures/city_tileset1.png");
-    this.load.tilemapTiledJSON('map', "./assets/tilemaps/city_tilemap1.json");
+    this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
+    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
+    this.load.image('exit', "./assets/sprites/bones_sketch.png");
 
     //LIVE CHARACTERS (ghost, people, kid NPC)
-    this.load.spritesheet('ghost', "./assets/spriteSheets/run_spritesheet1.png", {
+    this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
       frameWidth: 148,
       frameHeight: 200
     });
@@ -54,26 +48,30 @@ export default class City extends Phaser.Scene {
     //ChangeScene.addSceneEventListeners(this);
 
     this.mems;
-    this.body;
-    this.msgBox;
+    this.exit;
 
     this.player;
+    this.inventory = [];
+    this.score = 0;
 
-    this.scoreText;
-    this.gameOver = false;
+    this.invText = "";
+    this.invTextDis = this.add.text(null, null, null);
+
+    this.scoreText = "";
+    this.scoreDis = this.add.text(null, null, null);
+
+    this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-
-    const background1 = this.add.image(3968/2, 512, 'background1');
+    const cityBackground = this.add.image(3968/2, 512, 'cityBackground');
     this.physics.world.setBounds(0, 0, 3968, 1024);
 
     //Platforms
-    const map = this.make.tilemap({ key: 'map' });
-    const tileset = map.addTilesetImage('city_tileset1', 'tiles');
+    const cityMap = this.make.tilemap({ key: 'cityMap' });
+    const cityTileset = cityMap.addTilesetImage('city_tileset1', 'cityTiles');
 
-    this.buildings = map.createStaticLayer('buildings', tileset, 0, 0);
-
+    this.buildings = cityMap.createStaticLayer('buildings', cityTileset, 0, 0);
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');
@@ -90,21 +88,17 @@ export default class City extends Phaser.Scene {
     ]);
 
     //Memories Collected (Score Display)
-    this.scoreText = this.add
-      .text(16, 16, "Memories: 0", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0);
+    this.updateScore();
+
+    //Inventory
+    this.updateInventory();
 
     //Creates ghost's human body
-    this.body = this.physics.add.sprite(1400, 270, 'body');
-    this.body.setCollideWorldBounds(true);
+    this.exit = this.physics.add.sprite(1400, 270, 'exit');
+    this.exit.setCollideWorldBounds(true);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates kid NPC
-
 
     //Creates people
 
@@ -135,13 +129,7 @@ export default class City extends Phaser.Scene {
       //With kid NPC
 
       //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(
-      this.player.sprite,
-      this.body,
-      this.returnBody,
-      null,
-      this
-    );
+    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -172,7 +160,7 @@ export default class City extends Phaser.Scene {
   update() {
     this.player.update();
 
-    if (this.gameOver) {
+    if (this.nextScene) {
       //this.music.stop();
       this.scene.start('GameOverScene', { score: this.score });
       return;
@@ -182,6 +170,45 @@ export default class City extends Phaser.Scene {
       this.player.destroy();
     }*/
 
+  }
+
+  updateInventory() {
+    if (this.inventory.length == 0) {
+      this.invTextDis.destroy();
+
+      this.invText = "Inventory: Empty";
+    } else {
+      this.invTextDis.destroy();
+      this.invText = "Inventory: " + this.inventory[0];
+
+      var itemNum;
+      for (itemNum = 1; itemNum < this.inventory.length; itemNum++) {
+        this.invText += ("\n\t\t\t\t\t\t\t\t\t\t\t" + this.inventory[itemNum]);
+      }
+    }
+
+    this.invTextDis = this.add
+      .text(16, 36, this.invText, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+  }
+
+  updateScore() {
+    this.scoreDis.destroy();
+    this.scoreText = "Memories: " + String(this.score);
+
+    this.scoreDis = this.add
+      .text(16, 16, this.scoreText, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -199,13 +226,13 @@ export default class City extends Phaser.Scene {
 
     //Update the score
     this.score += 1;
-    this.scoreText.setText("Memories: " + this.score);
+    this.updateScore();
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Returning to the body, triggers end
-  returnBody(player, body) {
-    this.gameOver = true;
+  //PLay next scene
+  playNextScene(player, exit) {
+    this.nextScene = true;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
