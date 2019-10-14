@@ -18,7 +18,16 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('background', "./assets/images/city_sky1.jpg",{
+    this.load.image('background', "./assets/images/background.png",{
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
+    });
+    this.load.image('waterfall', './assets/images/blue1.png');
+    this.load.image('foreground', "./assets/images/cave_fg_test003.png",{
+      frameWidth: 1536, //432
+      frameHeight: 2458, // 32
+    });
+    this.load.image('background1', "./assets/images/city_sky1.jpg",{
       frameWidth: 3968,
       frameHeight: 1024,
     });
@@ -55,7 +64,8 @@ export default class City extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const background = this.add.image(3968/2, 512, 'background');
+
+    const background1 = this.add.image(3968/2, 512, 'background1');
     this.physics.world.setBounds(0, 0, 3968, 1024);
 
     //Platforms
