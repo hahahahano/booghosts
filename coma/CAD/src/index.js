@@ -2,7 +2,7 @@
 import Menu from './CAD/scenes/Menu.js';
 import Instructions from './CAD/scenes/Instructions.js';
 import Config from './CAD/config/config.js';
-import Race1 from './CAD/scenes/Race1.js';
+import Race1 from './CAD/scenes/Race.js';
 import TryAgain from './CAD/scenes/TryAgain.js';
 import Winner from './CAD/scenes/winner.js';
 

@@ -52,7 +52,6 @@ export default class LGSpirit {
         });
         this.scene.talked += 10;
         this.scene.score++;
-        this.scene.scoreText.setText("Memories: " + this.scene.score);
       }
     } else {
       switch (i)

@@ -1,4 +1,6 @@
-/*globals Phaser*/
+/*
+  CAVE SCENE
+*/
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
@@ -37,7 +39,7 @@ export default class Caves extends Phaser.Scene {
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
@@ -65,7 +67,7 @@ export default class Caves extends Phaser.Scene {
     //ChangeScene.addSceneEventListeners(this);
 
     this.mems;
-    this.body;
+    this.exit;
     this.rock;
     this.scroll;
     this.cavePlants;
@@ -91,7 +93,13 @@ export default class Caves extends Phaser.Scene {
     this.player;
 
     this.score = 0;
+<<<<<<< HEAD
     this.scoreText;
+=======
+    this.scoreText = "";
+    this.scoreDis = this.add.text(null, null, null);
+
+>>>>>>> 8f5efd1d3cc339830eb3484be3c257ebd3ebead6
     this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
@@ -133,8 +141,8 @@ export default class Caves extends Phaser.Scene {
       if (otherObject.name === "mem") {
         const memPie = this.mems.create(otherObject.x, otherObject.y, 'mem_piece');
       } else if (otherObject.name === "exit") {
-        this.body = this.physics.add.sprite(otherObject.x, otherObject.y, 'body');
-        this.body.setCollideWorldBounds(true);
+        this.exit = this.physics.add.sprite(otherObject.x, otherObject.y, 'exit');
+        this.exit.setCollideWorldBounds(true);
       } /*else if (otherObject.name === "scroll") {
         this.scroll = this.physics.add.sprite(otherObject.x, otherObject.y, 'caveScroll');
         this.scroll.setDepth(20);
@@ -142,13 +150,7 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Memories Collected (Score Display)
-    this.scoreText = this.add
-      .text(16, 16, "Memories: 0", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0);
+    this.updateScore();
 
     //Items Collected (Inventory Display)
     this.updateInventory();
@@ -263,7 +265,7 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.caveWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, this.body, this.scroll, this.rock], this.caveWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, this.exit, this.scroll, this.rock], this.caveWorldLayer);
 
       //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirits, this.enemyHit, null, this);
@@ -279,13 +281,13 @@ export default class Caves extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.lg_spirit.sprite, this.interactLG, null, this);
       //With bushes
     this.physics.add.overlap(this.player.sprite, this.cavePlants, this.interactBush, null, this);
-      //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(this.player.sprite, this.body, this.playNextScene, null, this);
+      //With exit
+    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
 
     //ZONES
       //Tutorial
     this.instructionsText = ["Hey there. I'm glad you're awake. It's me. You. Hahaha. (Press X)", "You can move around with the arrow keys and interact with X.",
-    "You should probably explore the area; maybe you'll remember something about yourself.", "But be careful; it looks like that small spirit is angry and might hurt you."];
+    "You should probably explore the area; maybe you'll remember something about yourself.", "But be careful; it looks like that small spirit could hurt you."];
     this.inter = 0;
 
     this.instructBox = this.add.text(250, 2450, this.instructionsText[this.inter], {
@@ -338,7 +340,7 @@ export default class Caves extends Phaser.Scene {
       // fade to white
 
       this.caveMusic.stop();
-      this.scene.start('Forest', { score: this.score });
+      this.scene.start('Forest', { player: this.player, inventory: this.inventory, score: this.score });
       return;
     }
 
@@ -357,8 +359,8 @@ export default class Caves extends Phaser.Scene {
       this.invText = "Inventory: " + this.inventory[0];
 
       var itemNum;
-      for (itemNum in (this.inventory.length - 1)) {
-        this.invText += ("\n\t" + this.inventory[item + 1]);
+      for (itemNum = 1; itemNum < this.inventory.length; itemNum++) {
+        this.invText += ("\n\t\t\t\t\t\t\t\t\t\t\t" + this.inventory[itemNum]);
       }
     }
 
@@ -368,7 +370,22 @@ export default class Caves extends Phaser.Scene {
         fill: "#ffffff",
         padding: { x: 20, y: 10 }
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0)
+      .setDepth(50);
+  }
+
+  updateScore() {
+    this.scoreDis.destroy();
+    this.scoreText = "Memories: " + String(this.score);
+
+    this.scoreDis = this.add
+      .text(16, 16, this.scoreText, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -390,12 +407,13 @@ export default class Caves extends Phaser.Scene {
       }
 
       this.updateInventory();
+      this.updateScore();
     }
   }
     //Searching the bushes ****FIX TEXT BOX BOUNDS
   interactBush(player, bush) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 3) {
-      console.log(bush.y);
+      //console.log(bush.y);
         //Scroll
       if (bush.x >= 2256.66 && bush.y == 990 && this.scrolls == 0) {
         this.scrolls = true;
@@ -404,7 +422,7 @@ export default class Caves extends Phaser.Scene {
 
         this.bushMsg.destroy();
         this.bushMsg = this.add
-          .text(bush.x-100, bush.y-100, "You found a map! But you can't read it. Maybe it's someone's.", {
+          .text(bush.x-100, bush.y-100, "You found a map! But you can't read it. Maybe it's someone else's.", {
             font: "18px monospace",
             fill: "#ffffff",
             padding: { x: 20, y: 10 },
@@ -542,13 +560,15 @@ export default class Caves extends Phaser.Scene {
   }
     //Exiting Scene Zone
   exitInstruct(exitBox) {
-    this.exitBox = this.add.text(50, 150, "This is the exit. Are you sure you want to leave?", {
-      font: "18px monospace",
-      fill: "#fff",
-      padding: { x: 20, y: 10 },
-      backgroundColor: "#000",
-      wordWrap: { width: 300, useAdvancedWrap: true }
-    });
+    if (this.talked >= 5) {
+      this.exitBox = this.add.text(50, 150, "This is the exit. Are you sure you want to leave?", {
+        font: "18px monospace",
+        fill: "#fff",
+        padding: { x: 20, y: 10 },
+        backgroundColor: "#000",
+        wordWrap: { width: 300, useAdvancedWrap: true }
+      });
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -558,7 +578,7 @@ export default class Caves extends Phaser.Scene {
     mem_piece.disableBody(true, true);
 
     this.score += 1;
-    this.scoreText.setText("Memories: " + this.score);
+    this.updateScore();
   }
     //Collecting Scroll
   /*collectscroll(player, scroll) {
@@ -568,9 +588,11 @@ export default class Caves extends Phaser.Scene {
   }*/
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Returning to the body triggers end
-  playNextScene(player, body) {
-    this.nextScene = true;
+  //Leaving cave triggers next scene
+  playNextScene(player, exit) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && (this.talked >= 5)) {
+      this.nextScene = true;
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

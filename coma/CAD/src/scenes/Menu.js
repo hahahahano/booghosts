@@ -1,11 +1,13 @@
-/*global Phaser*/
+/*DELETE*/
 export default class Menu extends Phaser.Scene {
   constructor () {
     super('Menu');
   }
 
   init (data) {
-    // Initialization code goes here
+    this.player = data.player;
+    this.inventory = data.inventory;
+    this.score = data.score;
   }
 
   preload () {
@@ -38,7 +40,7 @@ export default class Menu extends Phaser.Scene {
     });
 
     b1.on("pointerup", function (event) {
-      this.scene.start('Instructions');
+      this.scene.start('Instructions', { player: this.player, inventory: this.inventory, score: this.score });
 
     }, this);
 

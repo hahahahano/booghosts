@@ -1,12 +1,9 @@
 /*global Phaser*/
 //import * as ChangeScene from './ChangeScenes.js';
+
 export default class BootScene extends Phaser.Scene {
   constructor () {
     super('preloader');
-  }
-
-  init (data) {
-    // Initialization code goes here
   }
 
   preload () {
@@ -78,7 +75,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
     //CAVES
-      //BACKGROUND
+      //BACKGROUND AND FOREGROUND
     this.load.image('caveBackground', "./assets/images/cave/cave_bg.jpg",{
       frameWidth: 2304, //432
       frameHeight: 3687, // 32
@@ -88,14 +85,16 @@ export default class BootScene extends Phaser.Scene {
       frameWidth: 1536, //432
       frameHeight: 2458, // 32
     });
+
     this.load.image('white', '.assets/images/cave/white.jpg');
+
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
-    //this.load.image('shrubs', "./assets/sprites/shrub1.png");
+    this.load.image('shrub', "./assets/sprites/shrub1.png");
     this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap5.json")
 
       //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('body', "./assets/sprites/bones_sketch.png");
+    this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
@@ -117,14 +116,31 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
 
     //FOREST
-    this.load.image('bg', './assets/images/cave_to_forest_transition.jpg');
-    this.load.image('t1', './assets/images/ctft_text1.png');
-    this.load.image('t2', './assets/images/ctft_text2.png');
-
+      //BACKGROUND AND FOREGROUND
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
-    this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json")
+    this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
+
+    //CITY
+      //BACKGROUND AND FOREGROUND
+    this.load.image('cityBackground', "./assets/images/city_sky1.jpg",{
+      frameWidth: 3968,
+      frameHeight: 1024,
+    });
+    this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
+    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
+
+    //MINIGAME
+      //RACE
+    this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
+    this.load.image("raceTiles2", 'CAD/assets/tilesets/ground_tileset1.png');
+    this.load.tilemapTiledJSON("raceMap", 'CAD/assets/tilemaps/map1b.json');
+    this.load.audio("aralia", 'CAD/assets/music/pranilzaman_burymymind.mp3');
+    this.load.image("racer", 'CAD/assets/cars/red_car2.png');
+      //TRY AGAIN
+    this.load.image('try', './CAD/assets/images/tryagain.png');
+    this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
 }
 
   create () {
