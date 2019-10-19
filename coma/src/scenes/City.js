@@ -22,13 +22,10 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    this.load.image('cityBackground', "./assets/images/city_sky1.jpg",{
-      frameWidth: 3968,
-      frameHeight: 1024,
-    });
+    this.load.image('cityBackground', "./assets/images/city_sky1.jpg");
 
-    this.load.image('cityTiles', "./assets/images/city_tilemap1.png");
-    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1..json");
+    this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
+    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -71,9 +68,9 @@ export default class City extends Phaser.Scene {
 
     //Platforms
     const cityMap = this.make.tilemap({ key: 'cityMap' });
-    const cityTileset = cityMap.addTilesetImage( 'city_tilemap1.','cityTiles');
+    const cityTileset = cityMap.addTilesetImage( 'city_tileset1','cityTiles');
 
-    this.buildings = cityMap.createStaticLayer('buildings', cityTileset, 0, 0);
+    this.buildings = cityMap.createStaticLayer('Front', cityTileset, 0, 0);
 
     //Foreground test
     //const foreground = this.add.image(768, 1229, 'foreground');

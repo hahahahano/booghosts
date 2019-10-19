@@ -124,13 +124,9 @@ export default class BootScene extends Phaser.Scene {
 
     //CITY
       //BACKGROUND AND FOREGROUND
-    this.load.image('cityBackground', "./assets/images/city_sky1.jpg",{
-      frameWidth: 3968,
-      frameHeight: 1024,
-    });
+    this.load.image('cityBackground', "./assets/images/city_sky1.jpg");
     this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
     this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
-
     //MINIGAME
       //RACE
     this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
