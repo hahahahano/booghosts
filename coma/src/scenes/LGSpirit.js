@@ -1,13 +1,13 @@
 /*
     CHARACTER CLASS: NPC-Large Spirit
 */
+import msgBox from "./msgBox.js";
 
 export default class LGSpirit {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor(scene, x, y) {
     this.scene = scene;
-    this.msgbox = this.scene.add.text(null, null, null);
 
     //PLAYER ANIMATIONS
     const anims = scene.anims;
@@ -39,17 +39,11 @@ export default class LGSpirit {
 
     if (scroll) {
       if (i >= 10) {
-        this.msgbox.destroy();
+        this.msgBox.hideMessageBox();
       } else {
-        this.msgbox.destroy();
-            
-        this.msgbox = this.scene.add.text(xpos, ypos, "You found it! Thank you so much! Here's something I found while I was lost.", {
-          font: "18px monospace",
-          fill: "#fff",
-          padding: { x: 20, y: 10 },
-          backgroundColor: "#000",
-          wordWrap: { width: 250, useAdvancedWrap: true }
-        });
+        this.msgBox.hideMessageBox();
+        this.msgBox = new msgBox(this.scene, "You found it! Thank you so much! Here's something I found while I was lost.");
+
         this.scene.talked += 10;
         this.scene.score++;
       }
@@ -57,65 +51,31 @@ export default class LGSpirit {
       switch (i)
       {
         case 0:
-          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
-            font: "18px monospace",
-            fill: "#fff",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#000",
-            wordWrap: { width: 250, useAdvancedWrap: true }
-          });
+          this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
         case 1:
-          this.msgbox.destroy();
-
-          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
-            font: "18px monospace",
-            fill: "#fff",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#000",
-            wordWrap: { width: 250, useAdvancedWrap: true }
-          });
+          this.msgBox.hideMessageBox();
+          this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
-          case 2:
-          this.msgbox.destroy();
-          
-          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
-            font: "18px monospace",
-            fill: "#fff",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#000",
-            wordWrap: { width: 250, useAdvancedWrap: true }
-          });
+        case 2:
+          this.msgBox.hideMessageBox();
+          this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
-          case 3:
-          this.msgbox.destroy();
-          
-          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
-            font: "18px monospace",
-            fill: "#fff",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#000",
-            wordWrap: { width: 250, useAdvancedWrap: true }
-          });
+        case 3:
+          this.msgBox.hideMessageBox();
+          this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
-          case 4:
-          this.msgbox.destroy();
-          
-          this.msgbox = this.scene.add.text(xpos, ypos, instructions[i], {
-            font: "18px monospace",
-            fill: "#fff",
-            padding: { x: 20, y: 10 },
-            backgroundColor: "#000",
-            wordWrap: { width: 250, useAdvancedWrap: true }
-          });
+        case 4:
+          this.msgBox.hideMessageBox();
+          this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
           case 5:
-          this.msgbox.destroy();
+          this.msgBox.hideMessageBox();
           break;
       }
 
