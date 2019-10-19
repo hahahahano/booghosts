@@ -115,7 +115,7 @@ export default class City extends Phaser.Scene {
 
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS
-    //this.buildings.setCollisionByProperty({ collides: true });
+    this.buildings.setCollisionByProperty({ collides: true });
 
     this.physics.world.addCollider( [this.player.sprite], this.buildings);
 
