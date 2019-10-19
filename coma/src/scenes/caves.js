@@ -97,6 +97,7 @@ export default class Caves extends Phaser.Scene {
     this.score = 0;
     this.scoreText = "";
     this.scoreDis = this.add.text(null, null, null);
+
     this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
