@@ -33,7 +33,6 @@ export default class Caves extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('white', '.assets/images/cave/white.jpg');
 
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
@@ -97,7 +96,7 @@ export default class Caves extends Phaser.Scene {
     this.scoreText = "";
     this.scoreDis = this.add.text(null, null, null);
 
-    this.nextScene = false;
+    this.nextScene = true;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -427,7 +426,7 @@ export default class Caves extends Phaser.Scene {
     //this.instructBox = new msgBox(this, this.instructionsText, this.instructionsText.length);
     //this.player.sprite.immovable();
     //this.launch('cave_instructions');
-    
+
 
     switch (this.inter)
       {
@@ -499,7 +498,7 @@ export default class Caves extends Phaser.Scene {
         case 1:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.memsBox.hideMessageBox();
-            this.memsBox = new msgBox(this, this.MemsText[this.memIntro]); 
+            this.memsBox = new msgBox(this, this.MemsText[this.memIntro]);
             this.memIntro++;
           }
           break;

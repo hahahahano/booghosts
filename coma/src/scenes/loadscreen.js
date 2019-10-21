@@ -86,7 +86,6 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-    this.load.image('white', '.assets/images/cave/white.jpg');
 
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
@@ -97,6 +96,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
+    this.load.image('boy_ghost', './assets/sprites/boy_ghost.png');
+    this.load.image('car_side', './assets/sprites/car_side.png');
 
       //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
@@ -114,6 +115,7 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
+    this.load.audio('forest_music', "./assets/music/forest_music.mp3");
 
     //FOREST
       //BACKGROUND AND FOREGROUND

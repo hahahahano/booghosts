@@ -33,7 +33,7 @@ export default class Forest extends Phaser.Scene {
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
     //OBJECTS
     this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
-    this.load.image('exit', "./assets/sprites/bones_sketch.png");
+    this.load.image('exit', "./assets/sprites/boy_ghost.png");
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
@@ -43,7 +43,7 @@ export default class Forest extends Phaser.Scene {
     });
 
     //SOUNDS
-    this.load.audio('cave_music1', "./assets/music/cave_music.mp3");
+    this.load.audio('forest_music', "./assets/music/forest_music.mp3");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -129,28 +129,29 @@ export default class Forest extends Phaser.Scene {
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
     //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
-    this.x = 150;
-    this.y = 650;
+    this.x = 150; //150
+    this.y = 805;
     this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
+    this.cameras.main.followOffset.set(0, 175);
 
     this.cameras.main.setBounds(0, 0, 8192, 1180);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 500;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Acorns
     this.acorns = this.physics.add.group();
 
     var i;
-    for (i=0; i<5; i++) {
+    for (i=0; i<2; i++) {
       this.createAcorns();
     }
-    
+
     //Memories Collected (Score Display)
     this.updateScore();
 
@@ -158,14 +159,20 @@ export default class Forest extends Phaser.Scene {
     this.updateInventory();
 
     //Creates exit (placeholder)
-    this.exit = this.physics.add.sprite(7750, 300, 'exit');
+    this.exit = this.physics.add.sprite(7550, 250, 'boy_ghost');
     this.exit.setDepth(-1);
     this.exit.setCollideWorldBounds(true);
+
+    this.car = this.physics.add.sprite(8000, 300, 'car_side');
+    this.car.setDepth(-1);
+    this.car.setCollideWorldBounds(true);
+
+
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.forestWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.rock], this.forestWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.car, this.rock], this.forestWorldLayer);
 
       //Hits an acorn
     this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
@@ -199,8 +206,8 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
-    this.forestMusic = this.sound.add('cave_music1');
-    this.forestMusic.volume = .3;
+    this.forestMusic = this.sound.add('forest_music');
+    this.forestMusic.volume = .6;
     this.forestMusic.play();
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
@@ -353,7 +360,7 @@ export default class Forest extends Phaser.Scene {
   //Zones
   memories1() {
     this.memDis = this.add
-      .text(1500, 632, this.memoriesText[0], {
+      .text(1700, 632, this.memoriesText[0], {
         font: "18px monospace",
         backgroundColor: "#000",
         fill: "#ffffff",
@@ -377,7 +384,7 @@ export default class Forest extends Phaser.Scene {
 
   memories3() {
     this.memDis = this.add
-      .text(3500, 568, this.memoriesText[2], {
+      .text(3400, 568, this.memoriesText[2], {
         font: "18px monospace",
         backgroundColor: "#000",
         fill: "#ffffff",
@@ -401,7 +408,7 @@ export default class Forest extends Phaser.Scene {
 
   memories5() {
     this.memDis = this.add
-      .text(5500, 632, this.memoriesText[4], {
+      .text(5800, 632, this.memoriesText[4], {
         font: "18px monospace",
         backgroundColor: "#000",
         fill: "#ffffff",
@@ -441,6 +448,9 @@ export default class Forest extends Phaser.Scene {
         padding: { x: 20, y: 10 }
       })
       .setDepth(-1);
+      var i = 0;
+
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -462,12 +472,12 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   createAcorns(acorn) {
-    var x = Phaser.Math.Between(-1000, 1000);
+    var x = Phaser.Math.Between(-1000, 1200);
 
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);
-    acorn.setDepth(10);
-    acorn.setVelocity(Phaser.Math.Between(-200, 200));
+    acorn.setDepth(5);
+    acorn.setVelocity(Phaser.Math.Between(-0, 0));
     acorn.allowGravity = false;
   }
 /*****************************************************************************************************************************************************/

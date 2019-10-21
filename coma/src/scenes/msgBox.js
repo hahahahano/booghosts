@@ -30,18 +30,19 @@ export default class msgBox {
     /*if (this.msgBox) {
       this.hideMessageBox();
     }
-    
+
     this.showMessageBox(this.text[this.count]);*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   showMessageBox(text, w = 1280 * 0.9, h = 720 * .8) {
     //Container for the creation of the box and the text
-    var msgBox = this.scene.add.container(0, 720*0.8);
-    
+    var msgBox = this.scene.add.container(0, 720*0.875);
+
     //Creating the box for the textbox
     var boxBack = this.scene.add.image(1280 * 0.5, 720 * .1, "caveTestRock");
     boxBack.setDisplaySize(1280, 720*0.2);
+    boxBack.alpha = (.5);
     //var boxFrame = this.scene.add.sprite(0, 0, "boxFrame");
 
     //Creating text
