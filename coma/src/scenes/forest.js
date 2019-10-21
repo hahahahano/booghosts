@@ -32,7 +32,7 @@ export default class Forest extends Phaser.Scene {
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
     //OBJECTS
-    this.load.image('mem_piece', "./assets/sprites/mem.png");
+    this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
     this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
@@ -77,6 +77,7 @@ export default class Forest extends Phaser.Scene {
     //Background
     this.physics.world.setBounds(0, 0, 8192, 1280);
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
+    forest_sky.setDepth(-10);
     forest_sky.setScale(2);
     //Platforms
     const forestMap = this.make.tilemap({ key: 'forest_map' });
@@ -84,6 +85,7 @@ export default class Forest extends Phaser.Scene {
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
     this.forestWorldLayer = forestMap.createStaticLayer('platforms', tileset, 0, 0);
+    this.forestWorldLayer.setDepth(-10);
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
@@ -124,9 +126,31 @@ export default class Forest extends Phaser.Scene {
     this.mem6.body.setAllowGravity(false);
     this.mem6.body.moves = false;
 
-///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
-    //Memory Pieces
+///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
+    //Creates player character
+    //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
+    this.x = 150;
+    this.y = 650;
+    this.player = new Ghost_Player(this, this.x, this.y);
+    this.player.sprite.setCollideWorldBounds(true);
 
+    //Cameras
+    this.cameras.main.startFollow(this.player.sprite);
+
+    this.cameras.main.setBounds(0, 0, 8192, 1180);
+
+    //Gravity for this scene
+    this.physics.world.gravity.y = 500;
+
+///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
+    //Acorns
+    this.acorns = this.physics.add.group();
+
+    var i;
+    for (i=0; i<5; i++) {
+      this.createAcorns();
+    }
+    
     //Memories Collected (Score Display)
     this.updateScore();
 
@@ -135,31 +159,16 @@ export default class Forest extends Phaser.Scene {
 
     //Creates exit (placeholder)
     this.exit = this.physics.add.sprite(7750, 300, 'exit');
+    this.exit.setDepth(-1);
     this.exit.setCollideWorldBounds(true);
-
-///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
-    //Creates player character
-    //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 150, 0);
-    this.player.sprite.setCollideWorldBounds(true);
-
-    //Cameras
-    this.cameras.main.startFollow(this.player.sprite);
-
-    this.cameras.main.setBounds(0, 0, 8192, 1280);
-
-    //Gravity for this scene
-    this.physics.world.gravity.y = 500;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.forestWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.exit, this.rock], this.forestWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.rock], this.forestWorldLayer);
 
-      //Hits an enemy
-
+      //Hits an acorn
+    this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
       //Collects a memory piece
 
       //Exit
@@ -177,8 +186,9 @@ export default class Forest extends Phaser.Scene {
       //Tutorial
     this.memoriesText = ["Memories come flooding back to you.", "Flashes of a kid... Your kid...cheerful and playful, running around everywhere.",
     "You drop off your son at school, watching him run off, excited for school. You smile... Children always seem so full of life.",
-    "\"---! May teach said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
-    "\"Are we there yet? I'm so excited! I can't wait to see---....\"", "You feel a flash of pain flare briefly across your body..."];
+    "\"---! My teach said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
+    "\"Are we there yet? I'm so excited! I can't wait to see---....\"", "You feel a flash of pain flare briefly across your body...",
+    "You realize you're in a coma. This isn't really you - this form is your spirit....", "How am I going to get out of this coma...."];
 
     this.physics.add.overlap(this.player.sprite, this.mem1, this.memories1, null, this);
     this.physics.add.overlap(this.player.sprite, this.mem2, this.memories2, null, this);
@@ -215,6 +225,15 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
+
+    this.acorns.children.each(
+      function (b) {
+        if (b.y > this.forestWorldLayer.height) {
+          this.acorns.remove(b, null, true);
+          this.createAcorns();
+        }
+      }.bind(this)
+    );
 
     if (this.nextScene) {
       // fade to white
@@ -341,7 +360,7 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
   }
 
   memories2() {
@@ -353,7 +372,7 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
   }
 
   memories3() {
@@ -365,7 +384,7 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
   }
 
   memories4() {
@@ -377,7 +396,7 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
   }
 
   memories5() {
@@ -389,7 +408,7 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
   }
 
   memories6() {
@@ -401,7 +420,27 @@ export default class Forest extends Phaser.Scene {
         wordWrap: { width: 400, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
-      .setDepth(50);
+      .setDepth(-1);
+
+    this.memDis = this.add
+      .text(7000, 568, this.memoriesText[6], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(-1);
+
+    this.memDis = this.add
+      .text(7000, 645, this.memoriesText[7], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(-1);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -423,8 +462,20 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
-  enemyHit(player, sm_spirit) {
-    this.player.destroy();
+  createAcorns(acorn) {
+    var x = Phaser.Math.Between(-1000, 1000);
+
+    var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
+    acorn.setScale(0.05);
+    acorn.setDepth(10);
+    acorn.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    acorn.allowGravity = false;
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  //When the player touches an enemy, return to spawn
+  enemyHit(player) {
+    this.player.destroy(this.x, this.y);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

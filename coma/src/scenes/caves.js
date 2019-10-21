@@ -245,7 +245,9 @@ export default class Caves extends Phaser.Scene {
 
     //Creates player character
     const spawnPoint = caveMap.findObject("otherObjects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, spawnPoint.x, spawnPoint.y);
+    this.x = spawnPoint.x;
+    this.y = spawnPoint.y;
+    this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
@@ -425,11 +427,13 @@ export default class Caves extends Phaser.Scene {
     //this.instructBox = new msgBox(this, this.instructionsText, this.instructionsText.length);
     //this.player.sprite.immovable();
     //this.launch('cave_instructions');
-    //this.pause();
+    
 
     switch (this.inter)
       {
         case 0:
+          //this.physics.pause();
+
           this.instructBox = new msgBox(this, this.instructionsText[this.inter]);
           this.inter++;
           break;
@@ -461,7 +465,7 @@ export default class Caves extends Phaser.Scene {
         case 4:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.instructBox.hideMessageBox();
-            //this.player.sprite.movable();
+            //this.physics.resume();
             break;
           }
       }
@@ -551,7 +555,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   enemyHit(player, sm_spirit) {
-    this.player.destroy();
+    this.player.destroy(this.x, this.y);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
