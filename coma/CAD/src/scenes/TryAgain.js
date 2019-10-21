@@ -32,7 +32,7 @@ export default class TryAgain extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   create (data) {
-    var deadText = this.add.text(this.centerX-100, this.centerY, 'I have died');
+    var deadText = this.add.text(this.centerX-110, this.centerY, 'You veered off the road!');
 
     var tryAgainButt = this.add.sprite(640, 400, 'try').setInteractive();
 
@@ -49,6 +49,7 @@ export default class TryAgain extends Phaser.Scene {
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     var music = this.sound.add('romulus');
+    music.volume = 0.05;
     music.play();
   }
 /*****************************************************************************************************************************************************/

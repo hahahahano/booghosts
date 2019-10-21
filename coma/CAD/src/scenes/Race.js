@@ -43,8 +43,10 @@ export default class Race extends Phaser.Scene {
     const raceWorldLayer = raceMap.createStaticLayer("worldLayer", raceTileset, 0, 0);
     const raceFinish = raceMap.createStaticLayer("finish", raceTileset, 0, 0);
 
+    raceBelowLayer.setCollisionByProperty({ collides: true });
     raceWorldLayer.setCollisionByProperty({ collides: true });
     raceFinish.setCollisionByProperty({ collides: true });
+    //this.physics.world.setBounds(0, 0, raceMap.widthInPixels, raceMap.heightInPixels);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (CAR)///////////////////////////////////////////////////////////////////////////////////
     //Car
@@ -59,7 +61,7 @@ export default class Race extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 ///////////////////////////////////////////////COLLISIONS//////////////////////////////////////////////////////////////////////////////////////////////
     //Collides into objects (buildings, trees, etc.)
-    this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
+    this.physics.add.collider(this.carPlayer, raceBelowLayer, this.loser, null, this);
     //Collides with ending
     this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,7 +79,7 @@ export default class Race extends Phaser.Scene {
         .graphics()
         .setAlpha(0.75)
         .setDepth(20);
-      this.raceWorldLayer.renderDebug(graphics, {
+      raceBelowLayer.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges

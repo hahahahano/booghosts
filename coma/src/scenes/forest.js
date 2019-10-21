@@ -15,9 +15,9 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    /*this.player = data.player;
+    this.player = data.player;
     this.inventory = data.inventory;
-    this.score = data.score;*/
+    this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -62,8 +62,8 @@ export default class Forest extends Phaser.Scene {
     this.rock;
 
     this.player;
-    this.inventory = [];
-    this.score = 0;
+    //this.inventory = [];
+    //this.score = 0;
 
     this.invText = "";
     this.invTextDis = this.add.text(null, null, null);
@@ -186,7 +186,7 @@ export default class Forest extends Phaser.Scene {
       //Tutorial
     this.memoriesText = ["Memories come flooding back to you.", "Flashes of a kid... Your kid...cheerful and playful, running around everywhere.",
     "You drop off your son at school, watching him run off, excited for school. You smile... Children always seem so full of life.",
-    "\"---! My teach said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
+    "\"---! My teacher said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
     "\"Are we there yet? I'm so excited! I can't wait to see---....\"", "You feel a flash of pain flare briefly across your body...",
     "You realize you're in a coma. This isn't really you - this form is your spirit....", "How am I going to get out of this coma...."];
 
@@ -293,15 +293,15 @@ export default class Forest extends Phaser.Scene {
   moveRock(){
 
   }
-    //Dialogue with the Large Spirit
-  //Searching the bushes
+
+    //Searching the bushes
   interactBush() {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       //this.plants
       //this.enemyHit();
     }
   }
-
+    //Interacting with the kid NPC
   kidInter(){
     switch (this.kidCount)
       {
@@ -452,7 +452,6 @@ export default class Forest extends Phaser.Scene {
     this.score += 1;
     this.updateScore();
   }
-
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Ending is triggered
