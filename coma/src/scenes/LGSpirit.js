@@ -38,13 +38,14 @@ export default class LGSpirit {
     "I last used the map by a bush, so you should probably search those.", "Thank you so much!"]
 
     if (scroll) {
-      if (i >= 10) {
+      if (i === 6) {
         this.msgBox.hideMessageBox();
+        this.scene.scrolls = false;
       } else {
         this.msgBox.hideMessageBox();
         this.msgBox = new msgBox(this.scene, "You found it! Thank you so much! Here's something I found while I was lost.");
 
-        this.scene.talked += 10;
+        this.scene.talked++;
         this.scene.score++;
       }
     } else {
@@ -74,7 +75,7 @@ export default class LGSpirit {
           this.msgBox = new msgBox(this.scene, instructions[i]);
           break;
 
-          case 5:
+        case 5:
           this.msgBox.hideMessageBox();
           break;
       }

@@ -4,6 +4,7 @@
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
+import msgBox from "./msgBox.js";
 
 export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/

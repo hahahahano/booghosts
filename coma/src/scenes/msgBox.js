@@ -23,8 +23,8 @@ export default class msgBox {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  messageBox(textArray, len) {
-    this.showMessageBox(textArray, len);
+  messageBox(textArray) {
+    this.showMessageBox(textArray);
     /*if (this.msgBox) {
       this.hideMessageBox();
     }

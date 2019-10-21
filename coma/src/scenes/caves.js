@@ -82,11 +82,10 @@ export default class Caves extends Phaser.Scene {
 
     this.instructBox;
     this.zoneStart;
-    //this.memsBox = this.add.text(null, null, null);
     this.collectTut = 0;
     this.zoneMem;
-    this.exitBox;
-    this.zoneExit;
+    this.memsBox = new msgBox(this, null);
+    this.exitChecked = 0;
 
     this.lg_spirit;
     this.scrolls = false;
@@ -175,15 +174,11 @@ export default class Caves extends Phaser.Scene {
     this.zoneStart.body.setAllowGravity(false);
     this.zoneStart.body.moves = false;
     //Memory Zone: Explains the memory pieces
-    this.zoneMem = this.add.zone(1200, 2450).setSize(800, 450);
+    this.zoneMem = this.add.zone(1250, 2500).setSize(450, 200);
     this.physics.world.enable(this.zoneMem);
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
-    //Exit Zone: Explains leaving
-    this.zoneExit = this.add.zone(200, 220).setSize(750, 400);
-    this.physics.world.enable(this.zoneExit);
-    this.zoneExit.body.setAllowGravity(false);
-    this.zoneExit.body.moves = false;
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates spirits
       //Small Spirits
@@ -280,7 +275,7 @@ export default class Caves extends Phaser.Scene {
       //With bushes
     this.physics.add.overlap(this.player.sprite, this.cavePlants, this.interactBush, null, this);
       //With exit
-    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
+    this.physics.add.overlap(this.player.sprite, this.exit, this.exitInstruct, null, this);
 
     //ZONES
       //Tutorial
@@ -292,8 +287,6 @@ export default class Caves extends Phaser.Scene {
     this.MemsText = ["That looks familiar.", "I think if you pick it up, you might remember something about yourself."];
     this.memIntro = 0;
     this.physics.add.overlap(this.player.sprite, this.zoneMem, this.memsInstruct, null, this);
-      //Exiting the scene
-    this.physics.add.overlap(this.player.sprite, this.zoneExit, this.exitInstruct, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -391,7 +384,7 @@ export default class Caves extends Phaser.Scene {
       this.lg_spirit.interact(1850, 2325, this.scrolls, this.talked, this.score);
     }
 
-    if (this.talked > 5) {
+    if (this.talked === 6 && !this.scrolls) {
       var index = this.inventory.indexOf("Scroll");
       if (index > -1) {
         this.inventory.splice(index, 1);
@@ -399,19 +392,21 @@ export default class Caves extends Phaser.Scene {
 
       this.updateInventory();
       this.updateScore();
+      this.talked++;
     }
   }
     //Searching the bushes ****FIX TEXT BOX BOUNDS
   interactBush(player, bush) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 3) {
         //Scroll
-      if (bush.x >= 2256.66 && bush.y == 990 && this.scrolls == 0) {
+      if (bush.x >= 2256.66 && bush.y == 990 && !this.scrolls) {
         this.scrolls = true;
         this.inventory.push("Scroll");
         this.updateInventory();
 
         this.bushMsg.hideMessageBox();
         this.bushMsg = new msgBox(this, "You found a map! But you can't read it. Maybe it's someone else's.");
+        this.bush = false;
       } else if (this.bush) {
         this.bushMsg.hideMessageBox();
         this.bushMsg = new msgBox(this, "You didn't find anything in this bush...");
@@ -428,7 +423,10 @@ export default class Caves extends Phaser.Scene {
     //Tutorial Zone
   instructions(instructBox) {
     //this.instructBox = new msgBox(this, this.instructionsText, this.instructionsText.length);
-    
+    //this.player.sprite.immovable();
+    //this.launch('cave_instructions');
+    //this.pause();
+
     switch (this.inter)
       {
         case 0:
@@ -463,6 +461,7 @@ export default class Caves extends Phaser.Scene {
         case 4:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.instructBox.hideMessageBox();
+            //this.player.sprite.movable();
             break;
           }
       }
@@ -511,15 +510,20 @@ export default class Caves extends Phaser.Scene {
     }
   }
     //Exiting Scene Zone
-  exitInstruct(exitBox) {
-    this.exitText = new msgBox(this, "This is the exit. Are you sure you want to leave?");
+  exitInstruct() {
+    //this.exitText = new msgBox(this, "This is the exit. Are you sure you want to leave?");
 
-    /*if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 5) {
-      this.exitText = new msgBox(this, "This is the exit. Are you sure you want to leave?");
-      this.yesExit = true;
-    } else if (this.exitText.visible && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      this.playNextScene();
-    }*/
+    if (this.talked >= 3) {
+      if (this.exitChecked == 2 && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+        this.playNextScene();
+      } else if (this.exitChecked == 1 && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+          this.exitText.hideMessageBox();
+          this.exitChecked++;
+      } else if (this.exitChecked == 0) {
+        this.exitText = new msgBox(this, "This is the exit. Are you sure you want to leave?");
+        this.exitChecked++;
+      }
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -541,9 +545,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //Leaving cave triggers next scene
   playNextScene(player, exit) {
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && (this.talked >= 5)) {
-      this.nextScene = true;
-    }
+    this.nextScene = true;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
