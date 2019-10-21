@@ -15,9 +15,9 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.player = data.player;
+    /*this.player = data.player;
     this.inventory = data.inventory;
-    this.score = data.score;
+    this.score = data.score;*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -34,7 +34,7 @@ export default class Forest extends Phaser.Scene {
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('exit', "./assets/sprites/bones_sketch.png");
-    this.load.image('rock', './assets/sprites/test_rock.png');
+    this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
@@ -51,13 +51,19 @@ export default class Forest extends Phaser.Scene {
     //Add change scene event listeners
     //ChangeScene.addSceneEventListeners(this);
 
-    this.mems;
+    this.mem1;
+    this.mem2;
+    this.mem3;
+    this.mem4;
+    this.mem5;
+    this.mem6;
+
     this.exit;
     this.rock;
 
     this.player;
-    //this.inventory = [];
-    //this.score = 0;
+    this.inventory = [];
+    this.score = 0;
 
     this.invText = "";
     this.invTextDis = this.add.text(null, null, null);
@@ -86,14 +92,39 @@ export default class Forest extends Phaser.Scene {
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
+///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
+    //Memory 1
+    this.mem1 = this.add.zone(1500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem1);
+    this.mem1.body.setAllowGravity(false);
+    this.mem1.body.moves = false;
+    //Memory 2
+    this.mem2 = this.add.zone(2500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem2);
+    this.mem2.body.setAllowGravity(false);
+    this.mem2.body.moves = false;
+    //Memory 3
+    this.mem3 = this.add.zone(3500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem3);
+    this.mem3.body.setAllowGravity(false);
+    this.mem3.body.moves = false;
+    //Memory 4
+    this.mem4 = this.add.zone(4500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem4);
+    this.mem4.body.setAllowGravity(false);
+    this.mem4.body.moves = false;
+    //Memory 5
+    this.mem5 = this.add.zone(5500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem5);
+    this.mem5.body.setAllowGravity(false);
+    this.mem5.body.moves = false;
+    //Memory 6
+    this.mem6 = this.add.zone(6500, 600).setSize(1, 1000);
+    this.physics.world.enable(this.mem6);
+    this.mem6.body.setAllowGravity(false);
+    this.mem6.body.moves = false;
+
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
-    this.instructBox = this.add.text(7600, 600, "Can you take me to the town?", {
-      font: "18px monospace",
-      fill: "#fff",
-      padding: { x: 20, y: 10 },
-      backgroundColor: "#000",
-      wordWrap: { width: 300, useAdvancedWrap: true }
-    });
     //Memory Pieces
 
     //Memories Collected (Score Display)
@@ -132,13 +163,29 @@ export default class Forest extends Phaser.Scene {
       //Collects a memory piece
 
       //Exit
-    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
+    this.kidText = ["Hey there! Are you busy? I need some help.", "You see, there's this event going on in the city, but my parents are too busy to take me there.",
+    "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?"]
+    this.kidCount = 0;
+
+    this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
       //character and rock INTERACTION
     this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
 
     //ZONES
+      //Tutorial
+    this.memoriesText = ["Memories come flooding back to you.", "Flashes of a kid... Your kid...cheerful and playful, running around everywhere.",
+    "You drop off your son at school, watching him run off, excited for school. You smile... Children always seem so full of life.",
+    "\"---! May teach said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
+    "\"Are we there yet? I'm so excited! I can't wait to see---....\"", "You feel a flash of pain flare briefly across your body..."];
+
+    this.physics.add.overlap(this.player.sprite, this.mem1, this.memories1, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mem2, this.memories2, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mem3, this.memories3, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mem4, this.memories4, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mem5, this.memories5, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mem6, this.memories6, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -228,20 +275,134 @@ export default class Forest extends Phaser.Scene {
 
   }
     //Dialogue with the Large Spirit
-//Searching the bushes
+  //Searching the bushes
   interactBush() {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       //this.plants
       //this.enemyHit();
     }
   }
+
+  kidInter(){
+    switch (this.kidCount)
+      {
+        case 0:
+          this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
+          this.kidCount++;
+          break;
+
+        case 1:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.kidBox.hideMessageBox();
+            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
+            this.kidCount++;
+            break;
+          }
+
+        case 2:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.kidBox.hideMessageBox();
+            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
+            this.kidCount++;
+            break;
+          }
+
+        case 3:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.kidBox.hideMessageBox();
+            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
+            this.kidCount++;
+            break;
+          }
+
+        case 4:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.kidBox.hideMessageBox();
+            this.kidCount++;
+            break;
+          }
+
+        case 5:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.playNextScene();
+            break;
+          }
+      }
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Zones
-    //Tutorial Zone
+  memories1() {
+    this.memDis = this.add
+      .text(1500, 632, this.memoriesText[0], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
 
-    //Exiting Scene Zone
+  memories2() {
+    this.memDis = this.add
+      .text(2500, 536, this.memoriesText[1], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
 
+  memories3() {
+    this.memDis = this.add
+      .text(3500, 568, this.memoriesText[2], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
+
+  memories4() {
+    this.memDis = this.add
+      .text(4500, 632, this.memoriesText[3], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
+
+  memories5() {
+    this.memDis = this.add
+      .text(5500, 632, this.memoriesText[4], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
+
+  memories6() {
+    this.memDis = this.add
+      .text(6500, 568, this.memoriesText[5], {
+        font: "18px monospace",
+        backgroundColor: "#000",
+        fill: "#ffffff",
+        wordWrap: { width: 400, useAdvancedWrap: true },
+        padding: { x: 20, y: 10 }
+      })
+      .setDepth(50);
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Collecting Items
@@ -257,9 +418,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //Ending is triggered
   playNextScene(player, exit) {
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      this.nextScene = true;
-    }
+    this.nextScene = true;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
