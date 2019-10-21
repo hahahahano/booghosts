@@ -129,7 +129,7 @@ export default class Forest extends Phaser.Scene {
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
     //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
-    this.x = 150; //150
+    this.x = 100; //150
     this.y = 805;
     this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);

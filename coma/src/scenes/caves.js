@@ -69,7 +69,7 @@ export default class Caves extends Phaser.Scene {
 
     this.mems;
     this.exit;
-    this.rock;
+    //this.rock;
     this.scroll;
     this.cavePlants;
     this.bushMsg = new msgBox(this, null);
@@ -96,7 +96,7 @@ export default class Caves extends Phaser.Scene {
     this.scoreText = "";
     this.scoreDis = this.add.text(null, null, null);
 
-    this.nextScene = true;
+    this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -152,8 +152,8 @@ export default class Caves extends Phaser.Scene {
     this.updateInventory();
 
     //Create test rock to move
-    this.rock = this.physics.add.sprite(300, 1825, 'caveTestRock');
-    this.rock.setCollideWorldBounds(true);
+    //this.rock = this.physics.add.sprite(300, 1825, 'caveTestRock');
+    //this.rock.setCollideWorldBounds(true);
 
     //Creates planta
     this.cavePlants = this.physics.add.group({
@@ -259,7 +259,7 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.caveWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, this.exit, this.scroll, this.rock], this.caveWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, this.exit], this.caveWorldLayer);
 
       //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirits, this.enemyHit, null, this);
@@ -268,7 +268,7 @@ export default class Caves extends Phaser.Scene {
       //Collects the scroll
     //this.physics.world.addCollider(this.player.sprite, this.scroll, this.collectscroll, null, this);
       //character and rock INTERACTION
-    this.physics.add.collider(this.player.sprite, this.rock, this.moveRock, null, this);
+    //this.physics.add.collider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
       //With large spirit
@@ -385,7 +385,7 @@ export default class Caves extends Phaser.Scene {
       this.lg_spirit.interact(1850, 2325, this.scrolls, this.talked, this.score);
     }
 
-    if (this.talked === 6 && !this.scrolls) {
+    if (this.talked === 6) {
       var index = this.inventory.indexOf("Scroll");
       if (index > -1) {
         this.inventory.splice(index, 1);
@@ -406,6 +406,14 @@ export default class Caves extends Phaser.Scene {
         this.updateInventory();
 
         this.bushMsg.hideMessageBox();
+        this.caveScroll = this.physics.add.sprite(2256, 990, 'caveScroll');
+        this.tweens.add({
+          targets: this.caveScroll,
+          y: 890,
+          ease: 'Linear',
+          duration: 1500,
+          hideOnComplete: true
+        });
         this.bushMsg = new msgBox(this, "You found a map! But you can't read it. Maybe it's someone else's.");
         this.bush = false;
       } else if (this.bush) {

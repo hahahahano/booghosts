@@ -38,9 +38,8 @@ export default class LGSpirit {
     "I last used the map by a bush, so you should probably search those.", "Thank you so much!"]
 
     if (scroll) {
-      if (i === 6) {
+      if (i === 7) {
         this.msgBox.hideMessageBox();
-        this.scene.scrolls = false;
       } else {
         this.msgBox.hideMessageBox();
         this.msgBox = new msgBox(this.scene, "You found it! Thank you so much! Here's something I found while I was lost.");
