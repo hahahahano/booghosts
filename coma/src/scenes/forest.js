@@ -468,7 +468,7 @@ export default class Forest extends Phaser.Scene {
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);
     acorn.setDepth(10);
-    acorn.setVelocity(Phaser.Math.Between(-200, 200), 20);
+    acorn.setVelocity(Phaser.Math.Between(-200, 200));
     acorn.allowGravity = false;
   }
 /*****************************************************************************************************************************************************/
