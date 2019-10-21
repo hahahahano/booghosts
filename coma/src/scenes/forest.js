@@ -74,6 +74,8 @@ export default class Forest extends Phaser.Scene {
     this.nextScene = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
+
+
     //Background
     this.physics.world.setBounds(0, 0, 8192, 1280);
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
@@ -310,6 +312,7 @@ export default class Forest extends Phaser.Scene {
   }
     //Interacting with the kid NPC
   kidInter(){
+
     switch (this.kidCount)
       {
         case 0:
@@ -472,7 +475,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   createAcorns(acorn) {
-    var x = Phaser.Math.Between(-1000, 1200);
+    var x = Phaser.Math.Between(-1000, 1000);
 
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);

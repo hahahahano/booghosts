@@ -323,7 +323,7 @@ export default class Caves extends Phaser.Scene {
       // fade to white
 
       this.caveMusic.stop();
-      this.scene.start('Forest', { player: this.player, inventory: this.inventory, score: this.score });
+      this.scene.start('CTFT', { player: this.player, inventory: this.inventory, score: this.score });
       return;
     }
 

@@ -54,14 +54,16 @@ export default class Race extends Phaser.Scene {
 
     //Cameras
     const camera = this.cameras.main;
-    camera.startFollow(this.carPlayer);
+    camera.startFollow(this.carPlayer, true, 0.09, 0.09);
     camera.setBounds(0, 0, raceMap.widthInPixels, raceMap.heightInPixels);
+
+    this.cameras.main.setZoom(1.75);
 
     //Keys
     this.cursors = this.input.keyboard.createCursorKeys();
 ///////////////////////////////////////////////COLLISIONS//////////////////////////////////////////////////////////////////////////////////////////////
     //Collides into objects (buildings, trees, etc.)
-    this.physics.add.collider(this.carPlayer, raceBelowLayer, this.loser, null, this);
+    this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
     //Collides with ending
     this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +91,7 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update (time, delta) {
-    const speed = 175;
+    const speed = 150;
     const prevVelocity = this.carPlayer.body.velocity.clone();
 
     //Stop any previous movement from the last frame
@@ -114,9 +116,9 @@ export default class Race extends Phaser.Scene {
 
     //Update the animation last and give left/right animations precedence over up/down animations
     if (this.cursors.left.isDown) {
-      this.carPlayer.body.rotation = -15;
+      this.carPlayer.body.rotation = -90;
     } else if (this.cursors.right.isDown) {
-      this.carPlayer.body.rotation = 15;
+      this.carPlayer.body.rotation = 90;
     } else {
       this.carPlayer.body.rotation = 0;
     }
