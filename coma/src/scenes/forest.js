@@ -150,7 +150,7 @@ export default class Forest extends Phaser.Scene {
     this.acorns = this.physics.add.group();
 
     var i;
-    for (i=0; i<2; i++) {
+    for (i=0; i<1; i++) {
       this.createAcorns();
     }
 
