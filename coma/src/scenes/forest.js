@@ -72,6 +72,7 @@ export default class Forest extends Phaser.Scene {
     this.scoreDis = this.add.text(null, null, null);
 
     this.nextScene = false;
+    this.kidtoken = true;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
 
@@ -234,16 +235,16 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-
-    this.acorns.children.each(
-      function (b) {
-        if (b.y > this.forestWorldLayer.height) {
-          this.acorns.remove(b, null, true);
-          this.createAcorns();
-        }
-      }.bind(this)
-    );
-
+    if (this.kidtoken) {
+      this.acorns.children.each(
+        function (b) {
+          if (b.y > this.forestWorldLayer.height) {
+            this.acorns.remove(b, null, true);
+            this.createAcorns();
+          }
+        }.bind(this)
+      );
+    }
     if (this.nextScene) {
       // fade to white
 
@@ -312,6 +313,7 @@ export default class Forest extends Phaser.Scene {
   }
     //Interacting with the kid NPC
   kidInter(){
+    this.kidtoken = false
 
     switch (this.kidCount)
       {
@@ -475,12 +477,12 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   createAcorns(acorn) {
-    var x = Phaser.Math.Between(-1000, 1000);
+    var x = Phaser.Math.Between(-800, 800);
 
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);
     acorn.setDepth(5);
-    acorn.setVelocity(Phaser.Math.Between(-0, 0));
+    acorn.setVelocity(.5);
     acorn.allowGravity = false;
   }
 /*****************************************************************************************************************************************************/
