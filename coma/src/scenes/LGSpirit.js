@@ -35,7 +35,7 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
   interact(xpos, ypos, scroll, i, score) {
     const instructions = ["Oh no! I'm so lost! (Press X to continue)","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?",
-    "I last used the map by a bush, so you should probably search those.", "Thank you so much!"]
+    "I last used the map by a bush, so you should probably search those.", "Thank you so much! (Press X to close)"]
 
     if (scroll) {
       if (i === 7) {
@@ -82,7 +82,7 @@ export default class LGSpirit {
       if (i < 5) {
         this.scene.talked++;
       }
-    } 
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

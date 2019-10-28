@@ -327,12 +327,12 @@ export default class Caves extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.exit, this.exitInstruct, null, this);
 
     //ZONES
-      //Tutorial
+    //Tutorial
     this.instructionsText = ["Hey there. I'm glad you're awake. It's me. You. Hahaha. (Press X to continue)", "You should probably explore the area; maybe you'll remember something about yourself.",
     "But be careful; it looks like that small spirit could hurt you."];
     this.inter = 0;
     this.physics.add.overlap(this.player.sprite, this.zoneStart, this.instructions, null, this);
-      //Memory Pieces
+    //Memory Pieces
     this.MemsText = ["That looks familiar. (Press X to continue)", "I think if you pick it up, you might remember something about yourself."];
     this.memIntro = 0;
     this.physics.add.overlap(this.player.sprite, this.zoneMem, this.memsInstruct, null, this);
@@ -470,12 +470,12 @@ export default class Caves extends Phaser.Scene {
           duration: 1500,
           hideOnComplete: true
         });
-        this.bushMsg = new msgBox(this, "You found a map! But you can't read it. Maybe it's someone else's.");
+        this.bushMsg = new msgBox(this, "You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)");
         this.bush = false;
       } else if (this.bush) {
         this.bushFX.play();
         this.bushMsg.hideMessageBox();
-        this.bushMsg = new msgBox(this, "You didn't find anything in this bush...");
+        this.bushMsg = new msgBox(this, "You didn't find anything in this bush... (Press X to close)");
         this.bush = false;
       } else if (!this.bush) {
         this.bushMsg.hideMessageBox();

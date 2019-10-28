@@ -174,7 +174,7 @@ export default class Forest extends Phaser.Scene {
     this.forestScene = true;
 
     //Car
-    this.car = this.physics.add.sprite(8000, 300, 'car_side');
+    this.car = this.physics.add.sprite(8000, 350, 'car_side');
     this.car.setDepth(-1);
     this.car.setCollideWorldBounds(true);
 
@@ -242,6 +242,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
+
     this.player.update();
     if (this.kidtoken) {
       this.acorns.children.each(
@@ -360,6 +361,7 @@ export default class Forest extends Phaser.Scene {
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.kidBox.hideMessageBox();
             this.kidCount++;
+            this.add.image(1280/2, 1080/2, 'pressX').setScrollFactor(0);
             break;
           }
 
