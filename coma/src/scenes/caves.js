@@ -96,7 +96,7 @@ export default class Caves extends Phaser.Scene {
 
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap5.json")
+    this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap6.json")
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -133,10 +133,11 @@ export default class Caves extends Phaser.Scene {
     this.nextScene = false;
 
     this.leftStep = this.sound.add('left_step');
-    this.leftStep.volume = .3;
+    this.leftStep.volume = 2;
+
 
     this.rightStep = this.sound.add('right_step');
-    this.rightStep.volume = .3;
+    this.rightStep.volume = 2;
 
     this.bushFX = this.sound.add('bush');
     this.bushFX.volume = 1.75;
@@ -240,7 +241,7 @@ export default class Caves extends Phaser.Scene {
           case 111:
             this.tweens.add({
               targets: smallSp,
-              x: 1960,
+              x: 500,
               ease: 'Linear',
               yoyo: true,
               duration: 5000,
@@ -251,7 +252,7 @@ export default class Caves extends Phaser.Scene {
           case 112:
             this.tweens.add({
               targets: smallSp,
-              x: 1472,
+              x: 1000,
               ease: 'Linear',
               yoyo: true,
               duration: 4500,
@@ -305,7 +306,7 @@ export default class Caves extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2304, 2700);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 400;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
@@ -365,9 +366,10 @@ export default class Caves extends Phaser.Scene {
     this.player.update();
     this.lg_spirit.update();
 
+
     if (this.talked > 0) {
       this.plantDirection = this.add
-      .text(2100, 2350, "Press X to search", {
+      .text(2100, 2450, "Press X to search", {
         font: "20px monospace",
         fill: "#ffffff",
         wordWrap: { width: 150, useAdvancedWrap: true },
@@ -486,11 +488,15 @@ export default class Caves extends Phaser.Scene {
   //Zones
     //Tutorial Zone
   instructions(instructBox) {
+    this.pressX = this.add.image('pressX');
+
     //this.instructBox = new msgBox(this, this.instructionsText, this.instructionsText.length);
     //this.player.sprite.immovable();
     //this.launch('cave_instructions');
 
+    //this.scene.pause();
 
+    //this.player.anims.stop();
     switch (this.inter)
       {
         case 0:
@@ -498,6 +504,7 @@ export default class Caves extends Phaser.Scene {
 
           this.instructBox = new msgBox(this, this.instructionsText[this.inter]);
           this.inter++;
+          this.pressX.destroy();
           break;
 
         case 1:
@@ -505,6 +512,7 @@ export default class Caves extends Phaser.Scene {
             this.instructBox.hideMessageBox();
             this.instructBox = new msgBox(this, this.instructionsText[this.inter]);
             this.inter++;
+            this.pressX.destroy();
             break;
           }
 
@@ -513,12 +521,14 @@ export default class Caves extends Phaser.Scene {
             this.instructBox.hideMessageBox();
             this.instructBox = new msgBox(this, this.instructionsText[this.inter]);
             this.inter++;
+            this.pressX.destroy();
             break;
           }
 
         case 3:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.instructBox.hideMessageBox();
+            this.pressX.destroy();
             //this.physics.resume();
             break;
           }

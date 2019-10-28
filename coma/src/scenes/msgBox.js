@@ -42,7 +42,7 @@ export default class msgBox {
     //Creating the box for the textbox
     var boxBack = this.scene.add.image(1280 * 0.5, 720 * .1, "caveTestRock");
     boxBack.setDisplaySize(1280, 720*0.2);
-    boxBack.alpha = (.5);
+    boxBack.alpha = (1);
     //var boxFrame = this.scene.add.sprite(0, 0, "boxFrame");
 
     //Creating text
