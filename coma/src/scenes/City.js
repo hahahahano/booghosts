@@ -110,7 +110,7 @@ export default class City extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 3968, 1024);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 400;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
     //COLLISIONS

@@ -130,7 +130,7 @@ export default class Caves extends Phaser.Scene {
     //Add change scene event listeners
     //ChangeScene.addSceneEventListeners(this);
 
-    this.nextScene = true;
+    this.nextScene = false;
 
     this.leftStep = this.sound.add('left_step');
     this.leftStep.volume = 2;
@@ -241,7 +241,7 @@ export default class Caves extends Phaser.Scene {
           case 111:
             this.tweens.add({
               targets: smallSp,
-              x: 500,
+              x: 1600,
               ease: 'Linear',
               yoyo: true,
               duration: 5000,
@@ -252,10 +252,10 @@ export default class Caves extends Phaser.Scene {
           case 112:
             this.tweens.add({
               targets: smallSp,
-              x: 1000,
+              x: 850,
               ease: 'Linear',
               yoyo: true,
-              duration: 4500,
+              duration: 3500,
               repeat: -1
             });
             break;
@@ -441,7 +441,7 @@ export default class Caves extends Phaser.Scene {
     }
 
     if (this.talked === 6) {
-      var index = this.inventory.indexOf("Scroll");
+      var index = this.inventory.indexOf("Map");
       if (index > -1) {
         this.inventory.splice(index, 1);
       }
@@ -455,17 +455,17 @@ export default class Caves extends Phaser.Scene {
   interactBush(player, bush) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 3) {
         //Scroll
-      if (bush.x >= 2256.66 && bush.y == 990 && !this.scrolls) {
+      if (bush.x == 400 && bush.y == 1245 && !this.scrolls) {
         this.bushFX.play();
         this.scrolls = true;
-        this.inventory.push("Scroll");
+        this.inventory.push("Map");
         this.updateInventory();
 
         this.bushMsg.hideMessageBox();
-        this.caveScroll = this.physics.add.sprite(2256, 990, 'caveScroll');
+        this.caveScroll = this.physics.add.sprite(400, 1250, 'caveScroll');
         this.tweens.add({
           targets: this.caveScroll,
-          y: 890,
+          y: 1150,
           ease: 'Linear',
           duration: 1500,
           hideOnComplete: true

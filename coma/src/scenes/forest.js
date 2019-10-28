@@ -145,7 +145,7 @@ export default class Forest extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 8192, 1180);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 1000;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Acorns

@@ -73,11 +73,11 @@
                  "name":"plantSpawn",
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"scroll",
                  "visible":true,
                  "width":0,
                  "x":400,
-                 "y":1279.5
+                 "y":1279
                 }, 
                 {
                  "height":0,
@@ -160,7 +160,7 @@
                  "visible":true,
                  "width":0,
                  "x":162,
-                 "y":2528
+                 "y":2528.81818181818
                 }, 
                 {
                  "ellipse":true,
@@ -242,7 +242,7 @@
                  "visible":true,
                  "width":0,
                  "x":1730,
-                 "y":2440
+                 "y":2424
                 }, 
                 {
                  "height":0,
@@ -253,8 +253,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":998,
-                 "y":2257
+                 "x":335.69696969697,
+                 "y":2254.78787878788
                 }, 
                 {
                  "height":0,
@@ -265,8 +265,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":1620,
-                 "y":2038.66666666667
+                 "x":1616,
+                 "y":2017.33333333334
                 }, 
                 {
                  "height":0,
@@ -302,7 +302,7 @@
  "nextobjectid":125,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.4",
+ "tiledversion":"1.2.5",
  "tileheight":32,
  "tilesets":[
         {
