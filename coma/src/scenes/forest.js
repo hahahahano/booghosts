@@ -15,26 +15,27 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.player = data.player;
     this.inventory = data.inventory;
     this.score = data.score;
+    this.talked = data.talked;
+    this.collectTut = data.collectTut;
+    this.scrolls = data.scrolls;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
     //BACKGROUND AND FOREGROUND
-    //this.load.image('background', "./assets/images/cave_bg_test004.jpg");
-    //this.load.image('waterfall', './assets/images/blue1.png');
-    //this.load.image('foreground', "./assets/images/cave_fg_test003.png");
-
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
+
     //OBJECTS
     this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
-    this.load.image('exit', "./assets/sprites/boy_ghost.png");
+    this.load.image('boy_ghost', "./assets/sprites/boy_ghost.png");
+    this.load.image('car_side', "./assets/sprites/car_side.png");
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
+    this.load.image('caveEntrance', "./assets/sprites/bones_sketch.png")
 
     //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
@@ -59,6 +60,7 @@ export default class Forest extends Phaser.Scene {
     this.mem6;
 
     this.exit;
+    this.caveEntrance;
     this.rock;
 
     this.player;
@@ -75,8 +77,6 @@ export default class Forest extends Phaser.Scene {
     this.kidtoken = true;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
-
-
     //Background
     this.physics.world.setBounds(0, 0, 8192, 1280);
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
@@ -93,6 +93,7 @@ export default class Forest extends Phaser.Scene {
 
     //Foreground test
     const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+    scenery.setDepth(-2);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
@@ -131,9 +132,9 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
-    //const spawnPoint = map.findObject("other objects", obj => obj.name === "Spawn Point");
-    this.x = 100; //150
-    this.y = 805;
+    const spawnPoint = forestMap.findObject("otherObjects", obj => obj.name === "Spawn Point");
+    this.x = spawnPoint.x;
+    this.y = spawnPoint.y;
     this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);
 
@@ -144,7 +145,7 @@ export default class Forest extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 8192, 1180);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 700;
+    this.physics.world.gravity.y = 400;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Acorns
@@ -166,16 +167,21 @@ export default class Forest extends Phaser.Scene {
     this.exit.setDepth(-1);
     this.exit.setCollideWorldBounds(true);
 
+    //Creates cave entrance
+    this.caveEntrance = this.physics.add.sprite(100, 810, 'caveEntrance');
+    this.caveEntrance.setDepth(-1);
+    this.caveEntrance.setCollideWorldBounds(true);
+    this.forestScene = true;
+
+    //Car
     this.car = this.physics.add.sprite(8000, 300, 'car_side');
     this.car.setDepth(-1);
     this.car.setCollideWorldBounds(true);
 
-
-
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.forestWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.car, this.rock], this.forestWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.caveEntrance, this.car, this.rock], this.forestWorldLayer);
 
       //Hits an acorn
     this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
@@ -183,10 +189,12 @@ export default class Forest extends Phaser.Scene {
 
       //Exit
     this.kidText = ["Hey there! Are you busy? I need some help.", "You see, there's this event going on in the city, but my parents are too busy to take me there.",
-    "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?"]
+    "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?", "You won't be able to come back after you drive me to town..."]
     this.kidCount = 0;
 
     this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
+      //Cave Entrance
+    //this.physics.add.overlap(this.player.sprite, this.caveEntrance, this.caveEnter, null, this);
       //character and rock INTERACTION
     this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
@@ -245,11 +253,10 @@ export default class Forest extends Phaser.Scene {
         }.bind(this)
       );
     }
-    if (this.nextScene) {
-      // fade to white
 
+    if (this.nextScene) {
       this.forestMusic.stop();
-      this.scene.start('Race', { player: this.player, inventory: this.inventory, score: this.score });
+      this.scene.start('Race', { inventory: this.inventory, score: this.score });
       return;
     }
 
@@ -299,11 +306,6 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
-    //Push and Pull the rock
-  moveRock(){
-
-  }
-
     //Searching the bushes
   interactBush() {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
@@ -349,11 +351,19 @@ export default class Forest extends Phaser.Scene {
         case 4:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.kidBox.hideMessageBox();
+            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
             this.kidCount++;
             break;
           }
 
         case 5:
+          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+            this.kidBox.hideMessageBox();
+            this.kidCount++;
+            break;
+          }
+
+        case 6:
           if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
             this.playNextScene();
             break;
@@ -454,8 +464,6 @@ export default class Forest extends Phaser.Scene {
       })
       .setDepth(-1);
       var i = 0;
-
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -475,6 +483,16 @@ export default class Forest extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+  //Ending is triggered
+  caveEnter(player, exit) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.forestMusic.stop();
+      this.scene.start('caves', { forestScene: this.forestScene, inventory: this.inventory, score: this.score, talked: this.talked, collectTut: this.collectTut, scrolls: this.scrolls  });
+      return;
+    }
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   createAcorns(acorn) {
     var x = Phaser.Math.Between(-800, 800);
@@ -482,7 +500,7 @@ export default class Forest extends Phaser.Scene {
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);
     acorn.setDepth(5);
-    acorn.setVelocity(.5);
+    acorn.setVelocity(Phaser.Math.Between(-300, 300), 20);
     acorn.allowGravity = false;
   }
 /*****************************************************************************************************************************************************/

@@ -11,7 +11,6 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.player = data.player;
     this.inventory = data.inventory;
     this.score = data.score;
   }
@@ -132,12 +131,12 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   winner (player) {
     this.sound.stopAll();
-    this.scene.start('City', { player: this.player, inventory: this.inventory, score: this.score });
+    this.scene.start('City', { inventory: this.inventory, score: this.score });
   }
 
   loser (player) {
     this.sound.stopAll();
-    this.scene.start('TryAgain', { player: this.player, inventory: this.inventory, score: this.score });
+    this.scene.start('TryAgain', { inventory: this.inventory, score: this.score });
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

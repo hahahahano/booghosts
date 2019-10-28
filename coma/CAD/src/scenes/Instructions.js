@@ -11,7 +11,6 @@ export default class Instructions extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.player = data.player;
     this.inventory = data.inventory;
     this.score = data.score;
   }
@@ -44,7 +43,7 @@ export default class Instructions extends Phaser.Scene {
     var i = 0;
 
     if (keyX.isDown){
-      this.scene.start('Forest', { player: this.player, inventory: this.inventory, score: this.score });
+      this.scene.start('Forest', { inventory: this.inventory, score: this.score });
     }
   }
 /*****************************************************************************************************************************************************/

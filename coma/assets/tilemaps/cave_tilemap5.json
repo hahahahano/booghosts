@@ -141,7 +141,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -159,8 +159,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":176,
-                 "y":2536
+                 "x":162,
+                 "y":2528
                 }, 
                 {
                  "ellipse":true,
@@ -200,17 +200,6 @@
                 }, 
                 {
                  "height":0,
-                 "id":109,
-                 "name":"scroll",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":1137,
-                 "y":834
-                }, 
-                {
-                 "height":0,
                  "id":121,
                  "name":"exit",
                  "rotation":0,
@@ -222,14 +211,15 @@
                 }, 
                 {
                  "height":0,
-                 "id":122,
-                 "name":"",
+                 "id":123,
+                 "name":"Other Spawn Point",
+                 "point":true,
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":440,
-                 "y":732
+                 "x":257,
+                 "y":339
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -289,18 +279,30 @@
                  "width":0,
                  "x":320.333333333333,
                  "y":1543.83333333333
+                }, 
+                {
+                 "height":0,
+                 "id":124,
+                 "name":"small",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1284.5,
+                 "y":849
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }],
  "nextlayerid":11,
- "nextobjectid":123,
+ "nextobjectid":125,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.2.4",
+ "tiledversion":"1.2.5",
  "tileheight":32,
  "tilesets":[
         {

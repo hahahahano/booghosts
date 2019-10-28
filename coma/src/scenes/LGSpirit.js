@@ -34,7 +34,7 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   interact(xpos, ypos, scroll, i, score) {
-    const instructions = ["Oh no! I'm so lost!","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?",
+    const instructions = ["Oh no! I'm so lost! (Press X to continue)","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?",
     "I last used the map by a bush, so you should probably search those.", "Thank you so much!"]
 
     if (scroll) {

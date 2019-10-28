@@ -14,7 +14,6 @@ export default class City extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.player = data.player;
     this.inventory = data.inventory;
     this.score = data.score;
   }
@@ -117,12 +116,12 @@ export default class City extends Phaser.Scene {
     //COLLISIONS
     this.buildings.setCollisionByProperty({ collides: true });
 
-    this.physics.world.addCollider( [this.player.sprite], this.buildings);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.mems], this.buildings);
 
       //Hits an enemy
 
       //Collects a memory piece
-    this.physics.world.addCollider(this.player.sprite, this.mems, this.collectMem, null, this);
+    this.physics.add.overlap(this.player.sprite, this.mems, this.collectMem, null, this);
 
     //INTERACTION
       //With kid NPC
