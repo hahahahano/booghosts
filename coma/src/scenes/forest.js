@@ -257,6 +257,7 @@ export default class Forest extends Phaser.Scene {
 
     if (this.nextScene) {
       this.forestMusic.stop();
+
       this.scene.start('Race', { inventory: this.inventory, score: this.score });
       return;
     }
@@ -472,6 +473,9 @@ export default class Forest extends Phaser.Scene {
   //Collecting Items
     //Collecting Memory Piece
   collectMem(player, mem_piece) {
+    this.memory_collect = this.sound.add('memory_collect');
+    this.memory_collect.volume = .5;
+    this.memory_collect.play();
     mem_piece.disableBody(true, true);
 
     this.score += 1;

@@ -130,7 +130,7 @@ export default class Caves extends Phaser.Scene {
     //Add change scene event listeners
     //ChangeScene.addSceneEventListeners(this);
 
-    this.nextScene = false;
+    this.nextScene = true;
 
     this.leftStep = this.sound.add('left_step');
     this.leftStep.volume = 2;
@@ -140,7 +140,7 @@ export default class Caves extends Phaser.Scene {
     this.rightStep.volume = 2;
 
     this.bushFX = this.sound.add('bush');
-    this.bushFX.volume = 1.75;
+    this.bushFX.volume = 2.5;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -598,8 +598,10 @@ export default class Caves extends Phaser.Scene {
   //Collecting Items
     //Collecting Memory Piece
   collectMem(player, mem_piece) {
+    this.memory_collect = this.sound.add('memory_collect');
+    this.memory_collect.volume = .5;
+    this.memory_collect.play();
     mem_piece.disableBody(true, true);
-
     this.score += 1;
     this.updateScore();
   }
