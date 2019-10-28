@@ -38,6 +38,9 @@ export default class Ghost_Player {
       down: DOWN,
       x: X
     });
+
+
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -45,13 +48,16 @@ export default class Ghost_Player {
     const { keys, sprite } = this;
     const onGround = sprite.body.blocked.down;
 
+
     //MOVEMENT KEYS
     if (keys.left.isDown) {
       sprite.setVelocityX(-300);
       sprite.setFlipX(true);
+      //this.leftStep.play();
     } else if (keys.right.isDown) {
       sprite.setVelocityX(300);
       sprite.setFlipX(false);
+      //this.rightStep.play();
     } else {
       sprite.setVelocityX(0);
     }

@@ -121,6 +121,10 @@ export default class BootScene extends Phaser.Scene {
       //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
     this.load.audio('forest_music', "./assets/music/forest_music.mp3");
+    this.load.audio('left_step', "./assets/sounds/left_step.mp3");
+    this.load.audio('right_step', "./assets/sounds/right_step.mp3");
+    this.load.audio('bush', "./assets/sounds/bushes.mp3");
+
 
     //FOREST
       //BACKGROUND AND FOREGROUND

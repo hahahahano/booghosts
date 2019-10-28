@@ -60,6 +60,9 @@ export default class Caves extends Phaser.Scene {
 
     //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
+    this.load.audio('left_step', "./assets/sounds/left_step.mp3");
+    this.load.audio('right_step', "./assets/sounds/right_step.mp3");
+    this.load.audio('bush', "./assets/sounds/bushes.mp3");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -97,6 +100,14 @@ export default class Caves extends Phaser.Scene {
     this.scoreDis = this.add.text(null, null, null);
 
     this.nextScene = false;
+    this.leftStep = this.sound.add('left_step');
+    this.leftStep.volume = .3;
+
+    this.rightStep = this.sound.add('right_step');
+    this.rightStep.volume = .3;
+
+    this.bushFX = this.sound.add('bush');
+    this.bushFX.volume = 1.75;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -400,7 +411,9 @@ export default class Caves extends Phaser.Scene {
   interactBush(player, bush) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 3) {
         //Scroll
+
       if (bush.x >= 2256.66 && bush.y == 990 && !this.scrolls) {
+        this.bushFX.play();
         this.scrolls = true;
         this.inventory.push("Scroll");
         this.updateInventory();
@@ -417,6 +430,7 @@ export default class Caves extends Phaser.Scene {
         this.bushMsg = new msgBox(this, "You found a map! But you can't read it. Maybe it's someone else's.");
         this.bush = false;
       } else if (this.bush) {
+        this.bushFX.play();
         this.bushMsg.hideMessageBox();
         this.bushMsg = new msgBox(this, "You didn't find anything in this bush...");
         this.bush = false;
