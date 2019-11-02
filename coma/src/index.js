@@ -23,10 +23,7 @@ class Game extends Phaser.Game {
     this.scene.add('start', start);
     this.scene.add('caves', caves);
     this.scene.add('Forest', Forest);
-<<<<<<< HEAD
-=======
     this.scene.add('City', City);
->>>>>>> b6fc8d6221a4c5732aea4d0d64a268dd5a88323b
     this.scene.add('Hospital', Hospital);
     this.scene.add('GameOverScene', GameOverScene);
     this.scene.add('message', message);
