@@ -6,14 +6,6 @@ export default class Start extends Phaser.Scene {
   }
 
   preload () {
-    // Preload assets
-    this.load.spritesheet('buttons', './UI-Elements/PlayButton.png',{
-      frameHeight: 1000,
-      frameWidth: 2000
-    });
-
-    this.load.audio('pops', './assets/sounds/buttonPops.mp3');
-
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
@@ -52,8 +44,9 @@ export default class Start extends Phaser.Scene {
     b1.on("pointerup", function()
       {
         sound.play('high');
-        this.forestScene = false;
-        this.scene.start('caves', { forestScene: this.forestScene });
+        this.scene.start('Hospital')
+        //this.forestScene = false;
+        //this.scene.start('caves', { forestScene: this.forestScene });
       }, this
     );
   }

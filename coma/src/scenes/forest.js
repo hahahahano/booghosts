@@ -67,11 +67,25 @@ export default class Forest extends Phaser.Scene {
     //this.inventory = [];
     //this.score = 0;
 
-    this.invText = "";
-    this.invTextDis = this.add.text(null, null, null);
+    this.invTextDis = this.add
+      .text(16, 36, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateInventory();
 
-    this.scoreText = "";
-    this.scoreDis = this.add.text(null, null, null);
+    this.scoreDis = this.add
+      .text(16, 16, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateScore();
 
     this.nextScene = false;
     this.kidtoken = true;
@@ -195,8 +209,6 @@ export default class Forest extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
       //Cave Entrance
     //this.physics.add.overlap(this.player.sprite, this.caveEntrance, this.caveEnter, null, this);
-      //character and rock INTERACTION
-    this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
     //INTERACTION
 
@@ -242,8 +254,8 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-
     this.player.update();
+
     if (this.kidtoken) {
       this.acorns.children.each(
         function (b) {
@@ -256,8 +268,9 @@ export default class Forest extends Phaser.Scene {
     }
 
     if (this.nextScene) {
+      console.log("Playing next scene");
       this.forestMusic.stop();
-
+      console.log("Starting next xcene");
       this.scene.start('Race', { inventory: this.inventory, score: this.score });
       return;
     }
@@ -269,11 +282,8 @@ export default class Forest extends Phaser.Scene {
 
   updateInventory() {
     if (this.inventory.length == 0) {
-      this.invTextDis.destroy();
-
       this.invText = "Inventory: Empty";
     } else {
-      this.invTextDis.destroy();
       this.invText = "Inventory: " + this.inventory[0];
 
       var itemNum;
@@ -282,28 +292,13 @@ export default class Forest extends Phaser.Scene {
       }
     }
 
-    this.invTextDis = this.add
-      .text(16, 36, this.invText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
+    this.invTextDis.setText(this.invText);
   }
 
   updateScore() {
-    this.scoreDis.destroy();
     this.scoreText = "Memories: " + String(this.score);
 
-    this.scoreDis = this.add
-      .text(16, 16, this.scoreText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
+    this.scoreDis.setText(this.scoreText);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -317,61 +312,21 @@ export default class Forest extends Phaser.Scene {
   }
     //Interacting with the kid NPC
   kidInter(){
-    this.kidtoken = false
-
-    switch (this.kidCount)
-      {
-        case 0:
-          this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
-          this.kidCount++;
-          break;
-
-        case 1:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.kidBox.hideMessageBox();
-            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
-            this.kidCount++;
-            break;
-          }
-
-        case 2:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.kidBox.hideMessageBox();
-            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
-            this.kidCount++;
-            break;
-          }
-
-        case 3:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.kidBox.hideMessageBox();
-            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
-            this.kidCount++;
-            break;
-          }
-
-        case 4:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.kidBox.hideMessageBox();
-            this.kidBox = new msgBox(this, this.kidText[this.kidCount]);
-            this.kidCount++;
-            break;
-          }
-
-        case 5:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.kidBox.hideMessageBox();
-            this.kidCount++;
-            this.add.image(1280/2, 1080/2, 'pressX').setScrollFactor(0);
-            break;
-          }
-
-        case 6:
-          if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-            this.playNextScene();
-            break;
-          }
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      if (this.kidtoken) {
+        this.kidtoken = false;
+        this.exitCheck = false;
+        this.scene.pause();
+        this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
+      } else if (this.exitCheck) {
+        console.log("Calls this.playNextScene");
+        this.playNextScene();
+      } else {
+        this.exitCheck = true;
       }
+      console.log("exiting function");
+    }
+    console.log("Exit kidinter()");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
