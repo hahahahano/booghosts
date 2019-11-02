@@ -5,7 +5,7 @@ import LoadScene from './scenes/loadscreen.js';
 import start from './scenes/start.js';
 import caves from './scenes/caves.js';
 import Forest from './scenes/forest.js';
-import City from './scenes/City.js';
+import Hospital from './scenes/Hospital.js';
 import GameOverScene from './scenes/GameOverScene.js';
 
 import Instructions from '../CAD/src/scenes/instructions.js';
@@ -21,7 +21,7 @@ class Game extends Phaser.Game {
     this.scene.add('start', start);
     this.scene.add('caves', caves);
     this.scene.add('Forest', Forest);
-    this.scene.add('City', City);
+    this.scene.add('Hospital', Hospital);
     this.scene.add('GameOverScene', GameOverScene);
 
     this.scene.add('CarMiniGame', Instructions);
