@@ -33,54 +33,23 @@ export default class LGSpirit {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  interact(xpos, ypos, scroll, i, score) {
+  interact(scroll, i, score) {
     const instructions = ["Oh no! I'm so lost! (Press X to continue)","Oh, hi there! You look friendly.", "I lost my map somewhere in the caves. Can you please find it for me?",
     "I last used the map by a bush, so you should probably search those.", "Thank you so much! (Press X to close)"]
 
     if (scroll) {
-      if (i === 7) {
-        this.msgBox.hideMessageBox();
-      } else {
-        this.msgBox.hideMessageBox();
-        this.msgBox = new msgBox(this.scene, "You found it! Thank you so much! Here's something I found while I was lost.");
-
+      if (i == 6) {
         this.scene.talked++;
         this.scene.score++;
+
+        this.scene.scene.pause();
+        this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much! Here's something I found while I was lost."], returning: "caves" });
       }
     } else {
-      switch (i)
-      {
-        case 0:
-          this.msgBox = new msgBox(this.scene, instructions[i]);
-          break;
-
-        case 1:
-          this.msgBox.hideMessageBox();
-          this.msgBox = new msgBox(this.scene, instructions[i]);
-          break;
-
-        case 2:
-          this.msgBox.hideMessageBox();
-          this.msgBox = new msgBox(this.scene, instructions[i]);
-          break;
-
-        case 3:
-          this.msgBox.hideMessageBox();
-          this.msgBox = new msgBox(this.scene, instructions[i]);
-          break;
-
-        case 4:
-          this.msgBox.hideMessageBox();
-          this.msgBox = new msgBox(this.scene, instructions[i]);
-          break;
-
-        case 5:
-          this.msgBox.hideMessageBox();
-          break;
-      }
-
-      if (i < 5) {
-        this.scene.talked++;
+      if (i == 0) {
+        this.scene.talked = 6;
+        this.scene.scene.pause();
+        this.scene.scene.launch("message", { textArray: instructions, returning: "caves" });
       }
     }
   }

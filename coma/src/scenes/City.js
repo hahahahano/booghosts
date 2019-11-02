@@ -52,11 +52,25 @@ export default class City extends Phaser.Scene {
     //this.inventory = [];
     //this.score = 0;
 
-    this.invText = "";
-    this.invTextDis = this.add.text(null, null, null);
+    this.invTextDis = this.add
+      .text(16, 36, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateInventory();
 
-    this.scoreText = "";
-    this.scoreDis = this.add.text(null, null, null);
+    this.scoreDis = this.add
+      .text(16, 16, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateScore();
 
     this.nextScene = false;
 
@@ -172,11 +186,8 @@ export default class City extends Phaser.Scene {
 
   updateInventory() {
     if (this.inventory.length == 0) {
-      this.invTextDis.destroy();
-
       this.invText = "Inventory: Empty";
     } else {
-      this.invTextDis.destroy();
       this.invText = "Inventory: " + this.inventory[0];
 
       var itemNum;
@@ -185,28 +196,13 @@ export default class City extends Phaser.Scene {
       }
     }
 
-    this.invTextDis = this.add
-      .text(16, 36, this.invText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
+    this.invTextDis.setText(this.invText);
   }
 
   updateScore() {
-    this.scoreDis.destroy();
     this.scoreText = "Memories: " + String(this.score);
 
-    this.scoreDis = this.add
-      .text(16, 16, this.scoreText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
+    this.scoreDis.setText(this.scoreText);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

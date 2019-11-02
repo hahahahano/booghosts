@@ -69,8 +69,8 @@ export default class BootScene extends Phaser.Scene {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //START
     this.load.spritesheet('buttons', './UI-Elements/PlayButton.png',{
-      frameHeight: 1000,
-      frameWidth: 2000
+      frameHeight: 279,
+      frameWidth: 570
     });
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
