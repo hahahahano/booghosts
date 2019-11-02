@@ -68,10 +68,13 @@ export default class BootScene extends Phaser.Scene {
     });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
     //START
-    this.load.spritesheet('buttons', './UI-Elements/PlayButton.png',{
-      frameHeight: 279,
-      frameWidth: 570
+    this.load.spritesheet('playbutton', './assets/spriteSheets/playbutton.png',{
+      frameHeight: 224,
+      frameWidth: 500,
     });
+
+    this.load.image('titlepage', './assets/images/titlepage.jpg');
+
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
     //CAVES

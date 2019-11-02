@@ -27,26 +27,26 @@ export default class Start extends Phaser.Scene {
       duration: 1.5
     });
 
-    var text1 = this.add.text(this.centerX-90, this.centerY - 100, ' Coma ', { align: "center", fontSize: 50 });
-    var text2 = this.add.text(this.centerX-190, this.centerY, ' By Boo! Ghosts (Team 14) ', { align: "center", fontSize: 25 });
-
-    var b1 = this.add.sprite(this.centerX,this.centerY + 200, 'buttons', 0).setInteractive();
-    b1.setScale(.5)
-    b1.on('pointerover', function(){
-      this.setFrame(0)
+    //var text1 = this.add.text(this.centerX-90, this.centerY - 100, ' Coma ', { align: "center", fontSize: 50 });
+    //var text2 = this.add.text(this.centerX-190, this.centerY, ' By Boo! Ghosts (Team 14) ', { align: "center", fontSize: 25 });
+    const title = this.add.image(this.centerX, this.centerY, 'titlepage');
+    var b1 = this.add.sprite(this.centerX,this.centerY + 175, 'playbutton', 0).setInteractive();
+    b1.setScale(.75);
+    b1.setFrame(0);
+    b1.on('pointerover', function() {
+      this.setFrame(1);
       sound.play('low');
     });
 
-    b1.on('pointerout', function(){
+    b1.on('pointerout', function() {
       this.setFrame(0);
     });
 
-    b1.on("pointerup", function()
-      {
+    b1.on("pointerup", function() {
         sound.play('high');
-        this.scene.start('Hospital')
+        //this.scene.start('Hospital')
         //this.forestScene = false;
-        //this.scene.start('caves', { forestScene: this.forestScene });
+        this.scene.start('caves', { forestScene: this.forestScene });
       }, this
     );
   }
