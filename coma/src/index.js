@@ -5,7 +5,7 @@ import LoadScene from './scenes/loadscreen.js';
 import start from './scenes/start.js';
 import caves from './scenes/caves.js';
 import Forest from './scenes/forest.js';
-import City from './scenes/City.js';
+import Hospital from './scenes/Hospital.js';
 import GameOverScene from './scenes/GameOverScene.js';
 import message from './scenes/messages/messageBox.js';
 import Hospital from './scenes/hospital.js';
