@@ -15,8 +15,8 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = data.inventory;
-    this.score = data.score;
+    //this.inventory = data.inventory;
+    //this.score = data.score;
     this.talked = data.talked;
     this.collectTut = data.collectTut;
     this.scrolls = data.scrolls;
@@ -55,12 +55,13 @@ export default class Hospital extends Phaser.Scene {
 
     //Platforms
     const hospitalMap = this.make.tilemap({ key: 'hospital_map' });
-    const tileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
+    const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.hospitalPlatforms = forestMap.createStaticLayer('platforms', tileset, 0, 0);
-    this.hospitalWall = forestMap.createStaticLayer('wall', tileset, 0, 0);
-    this.hospitalDoor = forestMap.createStaticLayer('doors', tileset, 0, 0);
+
+    this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
+    this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
@@ -71,10 +72,7 @@ export default class Hospital extends Phaser.Scene {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
-    const spawnPoint = forestMap.findObject("otherObjects", obj => obj.name === "Spawn Point");
-    this.x = spawnPoint.x;
-    this.y = spawnPoint.y;
-    this.player = new Ghost_Player(this, this.x, this.y);
+    this.player = new Ghost_Player(this, 100, 825);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
@@ -84,37 +82,16 @@ export default class Hospital extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 8192, 1180);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 700;
+    this.physics.world.gravity.y = 1500;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-    //Memories Collected (Score Display)
-    this.updateScore();
-
-    //Inventory
-    this.updateInventory();
-
-    //Creates exit (placeholder)
-    this.exit = this.physics.add.sprite(7550, 250, 'boy_ghost');
-    this.exit.setDepth(-1);
-    this.exit.setCollideWorldBounds(true);
-
-    //Creates cave entrance
-    this.caveEntrance = this.physics.add.sprite(100, 810, 'caveEntrance');
-    this.caveEntrance.setDepth(-1);
-    this.caveEntrance.setCollideWorldBounds(true);
-    this.forestScene = true;
-
-    //Car
-    this.car = this.physics.add.sprite(8000, 350, 'car_side');
-    this.car.setDepth(-1);
-    this.car.setCollideWorldBounds(true);
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
-    this.forestWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.caveEntrance, this.car, this.rock], this.forestWorldLayer);
+    this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.caveEntrance, this.car, this.rock], this.hospitalWorldLayer);
 
       //Collects a memory piece
 
@@ -129,13 +106,7 @@ export default class Hospital extends Phaser.Scene {
       //character and rock INTERACTION
     this.physics.world.addCollider(this.player.sprite, this.rock, this.moveRock, null, this);
 
-    //INTERACTION
-\
-///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
-    //PLAYS BACKGROUND MUSIC
-    this.forestMusic = this.sound.add('forest_music');
-    this.forestMusic.volume = .6;
-    this.forestMusic.play();
+
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -163,44 +134,6 @@ export default class Hospital extends Phaser.Scene {
 
   }
 
-  updateInventory() {
-    if (this.inventory.length == 0) {
-      this.invTextDis.destroy();
-
-      this.invText = "Inventory: Empty";
-    } else {
-      this.invTextDis.destroy();
-      this.invText = "Inventory: " + this.inventory[0];
-
-      var itemNum;
-      for (itemNum = 1; itemNum < this.inventory.length; itemNum++) {
-        this.invText += ("\n\t\t\t\t\t\t\t\t\t\t\t" + this.inventory[itemNum]);
-      }
-    }
-
-    this.invTextDis = this.add
-      .text(16, 36, this.invText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
-  }
-
-  updateScore() {
-    this.scoreDis.destroy();
-    this.scoreText = "Memories: " + String(this.score);
-
-    this.scoreDis = this.add
-      .text(16, 16, this.scoreText, {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
-  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Interactions
@@ -223,8 +156,7 @@ export default class Hospital extends Phaser.Scene {
     this.memory_collect.play();
     mem_piece.disableBody(true, true);
 
-    this.score += 1;
-    this.updateScore();
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -232,8 +164,6 @@ export default class Hospital extends Phaser.Scene {
   playNextScene(player, exit) {
     this.nextScene = true;
   }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
 
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

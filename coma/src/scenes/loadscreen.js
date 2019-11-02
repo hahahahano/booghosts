@@ -130,7 +130,7 @@ export default class BootScene extends Phaser.Scene {
 
 
     //FOREST
-      //BACKGROUND AND FOREGROUND
+    //BACKGROUND AND FOREGROUND
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
@@ -141,6 +141,13 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('cityBackground', "./assets/images/city_sky1.jpg");
     this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
     this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
+
+    //HOSPITAL
+    //BACKGROUND AND FOREGROUND
+    this.load.image('hospital_tiles', "./assets/textures/hospital_tileset1.png");
+    this.load.tilemapTiledJSON('hospital_map', "./assets/tilemaps/hospital_tilemap1.json");
+
+
     //MINIGAME
       //RACE
     this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
