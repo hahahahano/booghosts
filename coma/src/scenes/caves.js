@@ -163,10 +163,10 @@ export default class Caves extends Phaser.Scene {
     otherObjects.forEach(otherObject => {
       if (otherObject.name === "mem") {
         const memPie = this.mems.create(otherObject.x, otherObject.y, 'mem_piece');
-      } else if (otherObject.name === "exit") {
+      } /*else if (otherObject.name === "exit") {
         this.exit = this.physics.add.sprite(otherObject.x, otherObject.y, 'exit');
         this.exit.setCollideWorldBounds(true);
-      }
+      }*/
     });
 
     //Memories Collected (Score Display)
@@ -197,6 +197,11 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.enable(this.zoneMem);
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
+    //Exit Zone
+    this.exit = this.add.zone(250, 250).setSize(450, 350);
+    this.physics.world.enable(this.exit);
+    this.exit.body.setAllowGravity(false);
+    this.exit.body.moves = false;
 
     this.arrowDir = this.add
       .text(300, 2400, "Arrow keys to move, UP to jump, X to interact", {
@@ -283,12 +288,12 @@ export default class Caves extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2304, 2700);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 800;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.caveWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, this.exit], this.caveWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.mems, this.sm_spirits, this.lg_spirit.sprite, /*this.exit*/], this.caveWorldLayer);
 
       //Hits an enemy
     this.physics.add.overlap(this.player.sprite, this.sm_spirits, this.enemyHit, null, this);
