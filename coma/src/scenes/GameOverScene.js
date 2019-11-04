@@ -6,7 +6,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   init (data) {
-    //this.score = data.score;
+    this.score = data.score;
     //this.kidTalked = data.kidTalked;
     //this.endReached = data.endReached;
   }
@@ -15,7 +15,7 @@ export default class GameOverScene extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-    this.score = 0;
+    //this.score = 0;
   }
 
   create (data) {
