@@ -1,7 +1,6 @@
 /*
     CHARACTER CLASS: NPC-Large Spirit
 */
-import msgBox from "./msgBox.js";
 
 export default class LGSpirit {
 /*****************************************************************************************************************************************************/
