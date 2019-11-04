@@ -1,6 +1,3 @@
-/*
-  CITY SCENE 1
-*/
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
@@ -20,23 +17,6 @@ export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
-    //BACKGROUND AND FOREGROUND
-    this.load.image('cityBackground', "./assets/images/city_sky1.jpg");
-
-    this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
-    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
-
-    //OBJECTS
-    this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('exit', "./assets/sprites/bones_sketch.png");
-
-    //LIVE CHARACTERS (ghost, people, kid NPC)
-    this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
-      frameWidth: 148,
-      frameHeight: 200
-    });
-
-    //SOUNDS
 
   }
 /*****************************************************************************************************************************************************/
@@ -45,7 +25,6 @@ export default class HosNo extends Phaser.Scene {
     //Add change scene event listeners
     //ChangeScene.addSceneEventListeners(this);
 
-    this.mems;
     this.exit;
 
     this.player;
@@ -76,112 +55,74 @@ export default class HosNo extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    const cityBackground = this.add.image(3968/2, 512, 'cityBackground');
-    this.physics.world.setBounds(0, 0, 3968, 1024);
+    this.physics.world.setBounds(0, 0, 2048, 1024);
 
     //Platforms
-    const cityMap = this.make.tilemap({ key: 'cityMap' });
-    const cityTileset = cityMap.addTilesetImage( 'city_tileset1','cityTiles');
+    const hospitalMap = this.make.tilemap({ key: 'hospital_map' });
+    const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
 
-    this.buildings = cityMap.createStaticLayer('Front', cityTileset, 0, 0);
+    this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
+    this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
-    //Foreground test
-    //const foreground = this.add.image(768, 1229, 'foreground');
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
-///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
-    //Memory Pieces
-    this.mems = this.physics.add.group([
-      {key: 'mem_piece',
-      setXY: { x: 50, y: 321}},
-      {key: 'mem_piece',
-      setXY: { x: 1200, y: 722}}
-    ]);
-
-    //Memories Collected (Score Display)
-    this.updateScore();
-
-    //Inventory
-    this.updateInventory();
-
-    //Creates ghost's human body
-    this.exit = this.physics.add.sprite(1400, 270, 'exit');
-    this.exit.setCollideWorldBounds(true);
-
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
-    //Creates kid NPC
-
-    //Creates people
-
     //Creates player character
-    //const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
-    this.player = new Ghost_Player(this, 100, 0);
+    this.player = new Ghost_Player(this, 100, 825);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.setBounds(0, 0, 3968, 1024);
+    this.cameras.main.followOffset.set(0, 200);
+
+    this.cameras.main.setBounds(0, 0, 2048, 1024);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 700;
+    this.physics.world.gravity.y = 1500;
 
-///////////////////////////////////////////////COLLISIONS AND INTERACTIONS/////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
-    this.buildings.setCollisionByProperty({ collides: true });
-
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.mems], this.buildings);
-
-      //Hits an enemy
+    this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
+    this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
+    this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
 
       //Collects a memory piece
-    this.physics.add.overlap(this.player.sprite, this.mems, this.collectMem, null, this);
 
-    //INTERACTION
-      //With kid NPC
-
-      //With body (need to code in the choice to leave~)
-    this.physics.add.overlap(this.player.sprite, this.exit, this.playNextScene, null, this);
-
-///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
-    //PLAYS BACKGROUND MUSIC
-    /*this.music = this.sound.add('cave_music1');
-    this.music.volume = .3;
-    this.music.play();*/
+      //Exit
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
       // Turn on physics debugging to show player's hitbox
       this.physics.world.createDebugGraphic();
 
-      // Create frontBuildings collision graphic above the player, but below the help text
+      // Create worldLayer collision graphic above the player, but below the help text
       const graphics = this.add
         .graphics()
         .setAlpha(0.75)
         .setDepth(20);
-      this.buildings.renderDebug(graphics, {
+      this.hospitalWorldLayer.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+
   update() {
+    var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
     this.player.update();
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
+      var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
+      this.scene.start(rand, { inventory: this.inventory, score: this.score });
 
-    if (this.nextScene) {
-      //this.music.stop();
-      this.scene.start('GameOverScene', { score: this.score });
-      return;
     }
-
-    /*if (this.player.sprite.y > this.frontBuildings.height) {
-      this.player.destroy();
-    }*/
-
   }
 
   updateInventory() {
@@ -204,36 +145,4 @@ export default class HosNo extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
   }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
-  //Interactions
-  interactKid() {
-    if (this.player.keys.x.isDown) {
-
-    }
-  }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
-  //Collecting items
-  collectMem(player, mem_piece) {
-    mem_piece.disableBody(true, true);
-
-    //Update the score
-    this.score += 1;
-    this.updateScore();
-  }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
-  //PLay next scene
-  playNextScene(player, exit) {
-    this.nextScene = true;
-  }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
-  //When the player touches an enemy, return to spawn
-  enemyHit(player) {
-    this.player.destroy();
-  }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
 }

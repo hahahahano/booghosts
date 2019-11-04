@@ -89,6 +89,7 @@ export default class Hospital extends Phaser.Scene {
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
+    this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
 
       //Collects a memory piece
 
@@ -113,8 +114,15 @@ export default class Hospital extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+
   update() {
+    var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
     this.player.update();
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
+      var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
+      this.scene.start(rand, { inventory: this.inventory, score: this.score });
+
+    }
   }
 
   updateInventory() {

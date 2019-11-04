@@ -9,6 +9,8 @@ import Forest from './scenes/forest.js';
 import GameOverScene from './scenes/GameOverScene.js';
 import message from './scenes/messages/messageBox.js';
 import Hospital from './scenes/hospital.js';
+import HosNo from './scenes/HosNo.js';
+import HosYes from './scenes/HosYes.js';
 
 import Instructions from '../CAD/src/scenes/instructions.js';
 import Race1 from '../CAD/src/scenes/Race.js';
@@ -25,8 +27,10 @@ class Game extends Phaser.Game {
     this.scene.add('CTFT', Instructions);
     this.scene.add('Forest', Forest);
     this.scene.add('Hospital', Hospital);
+    this.scene.add('HosNo', HosNo);
+    this.scene.add('HosYes', HosYes);
     this.scene.add('GameOverScene', GameOverScene);
-    
+
     this.scene.add('Race', Race1);
     this.scene.add('TryAgain', TryAgain);
 
