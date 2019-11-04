@@ -283,7 +283,7 @@ export default class Caves extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2304, 2700);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 700;
+    this.physics.world.gravity.y = 800;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
