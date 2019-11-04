@@ -4,7 +4,6 @@
 //import * as ChangeScene from './ChangeScenes.js';
 
 import Ghost_Player from "./ghost_player.js";
-import msgBox from "./msgBox.js";
 
 export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -17,13 +16,11 @@ export default class Forest extends Phaser.Scene {
   init (data) {
     this.inventory = data.inventory;
     this.score = data.score;
-    this.talked = data.talked;
-    this.collectTut = data.collectTut;
-    this.scrolls = data.scrolls;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
+    /*
     //BACKGROUND AND FOREGROUND
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
@@ -45,6 +42,7 @@ export default class Forest extends Phaser.Scene {
 
     //SOUNDS
     this.load.audio('forest_music', "./assets/music/forest_music.mp3");
+    */
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -60,7 +58,7 @@ export default class Forest extends Phaser.Scene {
     this.mem6;
 
     this.exit;
-    this.caveEntrance;
+    this.exitCheck;
     this.rock;
 
     this.player;
@@ -166,7 +164,7 @@ export default class Forest extends Phaser.Scene {
     this.acorns = this.physics.add.group();
 
     var i;
-    for (i=0; i<1; i++) {
+    for (i=0; i<2; i++) {
       this.createAcorns();
     }
 
@@ -181,12 +179,6 @@ export default class Forest extends Phaser.Scene {
     this.exit.setDepth(-1);
     this.exit.setCollideWorldBounds(true);
 
-    //Creates cave entrance
-    this.caveEntrance = this.physics.add.sprite(100, 810, 'caveEntrance');
-    this.caveEntrance.setDepth(-1);
-    this.caveEntrance.setCollideWorldBounds(true);
-    this.forestScene = true;
-
     //Car
     this.car = this.physics.add.sprite(8000, 350, 'car_side');
     this.car.setDepth(-1);
@@ -195,7 +187,7 @@ export default class Forest extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.forestWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.caveEntrance, this.car, this.rock], this.forestWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.car, this.rock], this.forestWorldLayer);
 
       //Hits an acorn
     this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
@@ -207,15 +199,12 @@ export default class Forest extends Phaser.Scene {
     this.kidCount = 0;
 
     this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
-      //Cave Entrance
-    //this.physics.add.overlap(this.player.sprite, this.caveEntrance, this.caveEnter, null, this);
 
     //INTERACTION
 
     //ZONES
       //Tutorial
-    this.memoriesText = ["Memories come flooding back to you.", "Flashes of a kid... Your kid...cheerful and playful, running around everywhere.",
-    "You drop off your son at school, watching him run off, excited for school. You smile... Children always seem so full of life.",
+    this.memoriesText = ["Memories come flooding back to you.", "Flashes of a kid... Your child...cheerful and playful, running around everywhere.",
     "\"---! My teacher said there was this cool exhibit in town! Can we please go to the museum in the city? Pleease....\"",
     "\"Are we there yet? I'm so excited! I can't wait to see---....\"", "You feel a flash of pain flare briefly across your body...",
     "You realize you're in a coma. This isn't really you - this form is your spirit....", "How am I going to get out of this coma...."];
@@ -249,7 +238,6 @@ export default class Forest extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -268,9 +256,7 @@ export default class Forest extends Phaser.Scene {
     }
 
     if (this.nextScene) {
-      console.log("Playing next scene");
       this.forestMusic.stop();
-      console.log("Starting next xcene");
       this.scene.start('Race', { inventory: this.inventory, score: this.score });
       return;
     }
@@ -319,14 +305,11 @@ export default class Forest extends Phaser.Scene {
         this.scene.pause();
         this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
       } else if (this.exitCheck) {
-        console.log("Calls this.playNextScene");
         this.playNextScene();
       } else {
         this.exitCheck = true;
       }
-      console.log("exiting function");
     }
-    console.log("Exit kidinter()");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -411,17 +394,6 @@ export default class Forest extends Phaser.Scene {
         padding: { x: 20, y: 10 }
       })
       .setDepth(-1);
-
-    this.memDis = this.add
-      .text(7000, 645, this.memoriesText[7], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
-      var i = 0;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -444,16 +416,6 @@ export default class Forest extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //Ending is triggered
-  caveEnter(player, exit) {
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      this.forestMusic.stop();
-      this.scene.start('caves', { forestScene: this.forestScene, inventory: this.inventory, score: this.score, talked: this.talked, collectTut: this.collectTut, scrolls: this.scrolls  });
-      return;
-    }
-  }
-/*****************************************************************************************************************************************************/
-/*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   createAcorns(acorn) {
     var x = Phaser.Math.Between(-800, 800);
@@ -461,8 +423,8 @@ export default class Forest extends Phaser.Scene {
     var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
     acorn.setScale(0.05);
     acorn.setDepth(5);
-    acorn.setVelocity(Phaser.Math.Between(-300, 300), 20);
     acorn.allowGravity = false;
+    acorn.setVelocity(Phaser.Math.Between(-300, 300), 0);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

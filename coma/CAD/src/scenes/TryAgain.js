@@ -17,12 +17,14 @@ export default class TryAgain extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload () {
+    /*
     //OBJECTS
     this.load.image('try', './CAD/assets/images/tryagain.png');
 
     //SOUNDS
     this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
-
+    */
+    
     //Defining center of scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;

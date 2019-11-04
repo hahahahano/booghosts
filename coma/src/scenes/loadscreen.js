@@ -89,24 +89,16 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 2458, // 32
     });
 
-
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
     this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap6.json")
-    this.load.image("pressX", "./assets/images/pressX.png")
-
-    // Transitions
-    this.load.image("ctft", "./assets/images/cave_to_forest_transition.jpg");
-    this.load.image("ctft1", "./assets/images/ctft_text1.png");
-    this.load.image("ctft2", "./assets/images/ctft_text2.png");
+    this.load.image('pressXCropped', "./assets/images/pressXCropped.png");
 
       //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
     this.load.image('caveTestRock', './assets/sprites/test_rock.png');
-    this.load.image('boy_ghost', './assets/sprites/boy_ghost.png');
-    this.load.image('car_side', './assets/sprites/car_side.png');
 
       //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
@@ -124,20 +116,44 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
-    this.load.audio('forest_music', "./assets/music/forest_music.mp3");
     this.load.audio('left_step', "./assets/sounds/left_step.mp3");
     this.load.audio('right_step', "./assets/sounds/right_step.mp3");
     this.load.audio('bush', "./assets/sounds/bushes.mp3");
     this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
-    this.load.audio('kids', "./assets/sounds/kids.mp3");
 
+    //Cave to Forest Transition
+    this.load.image('ctft', "./assets/images/cave_to_forest_transition.jpg");
+    this.load.image('ctft1', "./assets/images/ctft_text1.png");
+    this.load.image('ctft2', "./assets/images/ctft_text2.png");
 
     //FOREST
-    //BACKGROUND AND FOREGROUND
+      //BACKGROUND AND FOREGROUND
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
     this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
     this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
+
+      //OBJECTS
+    this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
+    this.load.image('boy_ghost', "./assets/sprites/boy_ghost.png");
+    this.load.image('car_side', "./assets/sprites/car_side.png");
+
+      //SOUNDS
+    this.load.audio('forest_music', "./assets/music/forest_music.mp3");
+
+    //MINIGAME
+      //BACKGROUND
+    this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
+    this.load.image("raceTiles2", 'CAD/assets/tilesets/ground_tileset1.png');
+    this.load.tilemapTiledJSON("raceMap", 'CAD/assets/tilemaps/map1b.json');
+    this.load.image('try', './CAD/assets/images/tryagain.png');
+
+      //LIVE CHARACTERS (car)
+    this.load.image("racer", 'CAD/assets/cars/red_car2.png');
+
+      //SOUNDS
+    this.load.audio('aralia', 'CAD/assets/music/pranilzaman_burymymind.mp3');
+    this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
 
     //CITY
       //BACKGROUND AND FOREGROUND
@@ -146,21 +162,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
 
     //HOSPITAL
-    //BACKGROUND AND FOREGROUND
+      //BACKGROUND AND FOREGROUND
     this.load.image('hospital_tiles', "./assets/textures/hospital_tileset1.png");
     this.load.tilemapTiledJSON('hospital_map', "./assets/tilemaps/hospital_tilemap1.json");
-
-
-    //MINIGAME
-      //RACE
-    this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
-    this.load.image("raceTiles2", 'CAD/assets/tilesets/ground_tileset1.png');
-    this.load.tilemapTiledJSON("raceMap", 'CAD/assets/tilemaps/map1b.json');
-    this.load.audio("aralia", 'CAD/assets/music/pranilzaman_burymymind.mp3');
-    this.load.image("racer", 'CAD/assets/cars/red_car2.png');
-      //TRY AGAIN
-    this.load.image('try', './CAD/assets/images/tryagain.png');
-    this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
 }
 
   create () {

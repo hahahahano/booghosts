@@ -15,63 +15,34 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    if (data.forestScene) {
-      this.forestScene = true;
+    this.mems;
+    this.exit;
+    this.caveScroll;
+    this.cavePlants;
 
-      this.mems;
-      this.exit;
-      this.caveScroll;
-      this.cavePlants;
+    this.bush = true;
+    this.bushFound = false;
 
-      this.bush = true;
-      this.bushFound = false;
+    this.inventory = [];
 
-      this.inventory = data.inventory;
+    this.instructBox;
+    this.zoneStart;
+    this.collectTut = true;
+    this.zoneMem;
 
-      this.instructBox;
-      this.zoneStart;
-      this.collectTut = data.collectTut;
-      this.zoneMem;
+    this.exitChecked = 0;
 
-      this.exitChecked = data.exitChecked;
+    this.lg_spirit;
+    this.scrolls = false;
+    this.talked = 0;
+    this.player;
 
-      this.lg_spirit;
-      this.scrolls = data.scrolls;
-      this.talked = data.talked;
-      this.player;
-
-      this.score = data.score;
-    } else if (!data.forestScene) {
-      this.forestScene = false;
-
-      this.mems;
-      this.exit;
-      this.caveScroll;
-      this.cavePlants;
-
-      this.bush = true;
-      this.bushFound = false;
-
-      this.inventory = [];
-
-      this.instructBox;
-      this.zoneStart;
-      this.collectTut = true;
-      this.zoneMem;
-
-      this.exitChecked = 0;
-
-      this.lg_spirit;
-      this.scrolls = false;
-      this.talked = 0;
-      this.player;
-
-      this.score = 0;
-    }
+    this.score = 0;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
+    /*
     //BACKGROUND AND FOREGROUND
     this.load.image('caveBackground', "./assets/images/cave/cave_bg.jpg",{
       frameWidth: 2304, //432
@@ -86,6 +57,7 @@ export default class Caves extends Phaser.Scene {
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
     this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap6.json")
+    this.load.image('pressXCropped', "./assets/images/pressXCropped.png");
 
     //OBJECTS
     this.load.image('mem_piece', "./assets/sprites/mem.png");
@@ -112,6 +84,8 @@ export default class Caves extends Phaser.Scene {
     this.load.audio('left_step', "./assets/sounds/left_step.mp3");
     this.load.audio('right_step', "./assets/sounds/right_step.mp3");
     this.load.audio('bush', "./assets/sounds/bushes.mp3");
+    this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
+    */
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -143,7 +117,6 @@ export default class Caves extends Phaser.Scene {
 
     this.leftStep = this.sound.add('left_step');
     this.leftStep.volume = 2;
-
 
     this.rightStep = this.sound.add('right_step');
     this.rightStep.volume = 2;
@@ -299,12 +272,7 @@ export default class Caves extends Phaser.Scene {
     });
 
     //Creates player character
-    var spawnPoint;
-    if (this.forestScene) {
-      spawnPoint = caveMap.findObject("otherObjects", obj => obj.name === "Other Spawn Point");
-    } else {
-      spawnPoint = caveMap.findObject("otherObjects", obj => obj.name === "Spawn Point");
-    }
+    var spawnPoint = caveMap.findObject("otherObjects", obj => obj.name === "Spawn Point");
     this.x = spawnPoint.x;
     this.y = spawnPoint.y;
     this.player = new Ghost_Player(this, this.x, this.y);
@@ -336,12 +304,12 @@ export default class Caves extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.exit, this.exitInstruct, null, this);
 
     //ZONES
-    //Tutorial
+      //Tutorial
     this.instructionsText = ["Hey there. I'm glad you're awake. It's me. You. Hahaha. (Press X to continue)", "You should probably explore the area; maybe you'll remember something about yourself.",
     "But be careful; it looks like that small spirit could hurt you."];
     this.inter = true;
     this.physics.add.overlap(this.player.sprite, this.zoneStart, this.instructions, null, this);
-    //Memory Pieces
+      //Memory Pieces
     this.MemsText = ["That looks familiar. (Press X to continue)", "I think if you pick it up, you might remember something about yourself."];
     this.memIntro = true;
     this.physics.add.overlap(this.player.sprite, this.zoneMem, this.memsInstruct, null, this);
@@ -375,14 +343,9 @@ export default class Caves extends Phaser.Scene {
     this.player.update();
     this.lg_spirit.update();
 
-
-    /*if (this.nextScene && this.forestScene) {
+    if (this.nextScene) {
       this.caveMusic.stop();
-      this.scene.start('Forest', { inventory: this.inventory, score: this.score, talked: this.talked, collectTut: this.collectTut, scrolls: this.scrolls });
-      return;
-    } else */if (this.nextScene && !this.forestScene) {
-      this.caveMusic.stop();
-      this.scene.start('CTFT', { inventory: this.inventory, score: this.score, talked: this.talked, collectTut: this.collectTut, scrolls: this.scrolls });
+      this.scene.start('CTFT', { inventory: this.inventory, score: this.score });
       return;
     }
 
@@ -483,7 +446,7 @@ export default class Caves extends Phaser.Scene {
   //Zones
     //Tutorial Zone
   instructions(instructBox) {
-    this.pressX = this.add.image('pressX');
+    this.pressX = this.add.image('pressXCropped');
 
     if (this.inter) {
       this.inter = false;
@@ -513,8 +476,6 @@ export default class Caves extends Phaser.Scene {
   }
     //Exiting Scene Zone
   exitInstruct() {
-    //this.exitText = new msgBox(this, "This is the exit. Are you sure you want to leave?");
-
     if (this.talked >= 3) {
       if (this.exitChecked == 1 && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
         this.playNextScene();
@@ -533,6 +494,7 @@ export default class Caves extends Phaser.Scene {
   collectMem(player, mem_piece) {
     this.memory_collect = this.sound.add('memory_collect');
     this.memory_collect.volume = .5;
+    this.memory_collect.setRate(2);
     this.memory_collect.play();
     mem_piece.disableBody(true, true);
     this.score += 1;

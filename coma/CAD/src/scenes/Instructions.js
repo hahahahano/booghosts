@@ -1,5 +1,5 @@
 /*
-  CAR MINIGAME - INSTRUCTIONS/TRANSITION
+  CAVE TO FOREST TRANSITION
 */
 
 export default class Instructions extends Phaser.Scene {
@@ -17,17 +17,9 @@ export default class Instructions extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload () {
-    // Preload assets
-
-    //this.load.image('menu', './assets/images/menu.png');
-    //this.load.image('buttons', ['./assets/images/playgame.png', './assets/images/playgamehover.png']);
-
-    //this.load.audio('romulus', 'assets/music/romdiprisco_romulus3.mp3');
-
     //Defining center of scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

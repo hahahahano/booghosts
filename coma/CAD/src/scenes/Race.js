@@ -17,6 +17,7 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload () {
+    /*
     //BACKGROUND
     this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
     this.load.image("raceTiles2", 'CAD/assets/tilesets/ground_tileset1.png');
@@ -27,6 +28,7 @@ export default class Race extends Phaser.Scene {
 
     //SOUNDS
     this.load.image("racer", 'CAD/assets/cars/red_car2.png');
+    */
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -131,7 +133,7 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   winner (player) {
     this.sound.stopAll();
-    this.scene.start('City', { inventory: this.inventory, score: this.score });
+    this.scene.start('Hospital', { inventory: this.inventory, score: this.score });
   }
 
   loser (player) {
