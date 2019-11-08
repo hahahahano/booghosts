@@ -111,10 +111,12 @@ export default class Hospital extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
+
+    /*var initialTime = 60; 
+    this.countDown(initialTime);*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-
   update() {
     var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
     this.player.update();
@@ -145,4 +147,31 @@ export default class Hospital extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
   }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  /*countDown(initialTime) {
+    this.initialTime = initialTime;
+    var text = this.add.text(16, 56, 'Countdown: ' + formatTime(this.initialTime));
+
+    // Each 1000 ms call onEvent
+    var timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
+          
+    function formatTime(seconds){
+        // Minutes
+        var minutes = Math.floor(seconds/60);
+        // Seconds
+        var partInSeconds = seconds%60;
+        // Adds left zeros to seconds
+        partInSeconds = partInSeconds.toString().padStart(2,'0');
+        // Returns formated time
+        return `${minutes}:${partInSeconds}`;
+    }
+        
+    function onEvent ()
+    {
+        this.initialTime -= 1; // One second
+        text.setText('Countdown: ' + formatTime(this.initialTime));
+        console.log('Countdown: ' + formatTime(this.initialTime));
+    }
+  }*/
 }

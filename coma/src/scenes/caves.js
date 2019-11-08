@@ -140,7 +140,7 @@ export default class Caves extends Phaser.Scene {
         scale: {start: 1.25, end: 0},
         blendMode: 'ADD'
     });
-    waterEmitter.setPosition(1075, -0);
+    waterEmitter.setPosition(1075, -200);
 
     //Platforms
     const caveMap = this.make.tilemap({ key: 'caveMap' });
@@ -188,7 +188,7 @@ export default class Caves extends Phaser.Scene {
 
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //Tutorial Zone: Explains the movements
-    this.zoneStart = this.add.zone(250, 2450).setSize(800, 400);
+    this.zoneStart = this.add.zone(200, 2500).setSize(200, 200);
     this.physics.world.enable(this.zoneStart);
     this.zoneStart.body.setAllowGravity(false);
     this.zoneStart.body.moves = false;
@@ -198,7 +198,7 @@ export default class Caves extends Phaser.Scene {
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
     //Exit Zone
-    this.exit = this.add.zone(250, 250).setSize(450, 350);
+    this.exit = this.add.zone(275, 250).setSize(225, 350);    
     this.physics.world.enable(this.exit);
     this.exit.body.setAllowGravity(false);
     this.exit.body.moves = false;
@@ -386,7 +386,6 @@ export default class Caves extends Phaser.Scene {
   interactLG() {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.lg_spirit.interact(this.scrolls, this.talked, this.score);
-      this.player.sprite.setVelocity(0, 0);
 
       this.plantDirection = this.add
       .text(2100, 2450, "Press X to search", {
@@ -410,41 +409,48 @@ export default class Caves extends Phaser.Scene {
   }
     //Searching the bushes ****FIX TEXT BOX BOUNDS
   interactBush(player, bush) {
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.talked >= 3 && this.bush) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 5000) && this.talked >= 3) {
         //Scroll
-      if (bush.x == 400 && bush.y == 1245 && !this.scrolls) {
-        this.bushFX.play();
-        this.scrolls = true;
-        this.bushFound = true;
-        this.inventory.push("Map");
-        this.updateInventory();
+      if (this.bush) {
+        if (bush.x == 400 && bush.y == 1245 && !this.scrolls) {
+          this.bushFX.play();
+          this.scrolls = true;
+          this.bushFound = true;
+          this.inventory.push("Map");
+          this.updateInventory();
 
-        this.caveScroll = this.physics.add.sprite(400, 1250, 'caveScroll');
-        this.tweens.add({
-          targets: this.caveScroll,
-          y: 1150,
-          ease: 'Linear',
-          duration: 1500,
-          hideOnComplete: true
-        });
-
-        if (this.bushFound) {
-          this.player.sprite.setVelocity(0, 0);
+          this.caveScroll = this.physics.add.sprite(400, 1250, 'caveScroll');
+          var scrollTween = this.tweens.add({
+            targets: this.caveScroll,
+            allowGravity: false,
+            y: 1150,
+            ease: 'Linear',
+            duration: 1500
+          });
+          scrollTween.on("complete", event => { this.caveScroll.destroy() });
+          //Make a parallel scene to pause everything, force the player to watch the tween lol
+          //Can better add in the cpmpleteion delay
+          
+          this.bush = false;
           this.scene.pause();
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
           this.scene.launch("message", { textArray: ["You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)"], returning: "caves" });
+        } else {
+          this.bush = false;
+          this.bushFX.play();
+          this.scene.pause();
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
+          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "caves" });
         }
-
-        this.bush = false;
-      } else {
-        this.bush = false;
-        this.player.sprite.setVelocity(0, 0);
-        this.bushFX.play();
-        this.scene.pause();
-        this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "caves" });
       }
     }
     this.bush = true;
-    return;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -455,8 +461,11 @@ export default class Caves extends Phaser.Scene {
 
     if (this.inter) {
       this.inter = false;
-      this.player.sprite.setVelocity(0, 0);
       this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
       this.scene.launch("message", { textArray: this.instructionsText, returning: "caves" });
     }
   }
@@ -464,18 +473,24 @@ export default class Caves extends Phaser.Scene {
   memsInstruct(memsBox) {
     if (this.score >= 1) {
       if (this.collectTut) {
-        this.player.sprite.setVelocity(0, 0);
         this.collectTut = false;
         this.scene.pause();
+        this.player.keys.left.reset();
+        this.player.keys.right.reset();
+        this.player.keys.up.reset();
+        this.player.keys.x.reset();
         this.scene.launch("message", { textArray: ["Whoa. Did you feel that? I felt a hazy memory there. A car. Hm. (Press X to close)"], returning: "caves" });
       }
 
     } else{
       if (this.memIntro) {
-        this.player.sprite.setVelocityX(0);
         this.memIntro = false;
         this.scene.pause();
-        this.scene.launch("message", { textArray: this.MemsText, returning: "caves" });
+        this.player.keys.left.reset();
+        this.player.keys.right.reset();
+        this.player.keys.up.reset();
+        this.player.keys.x.reset();
+        this.scene.launch("message", { textArray: this.MemsText, player: this.player, returning: "caves" });
       }
     }
   }
@@ -486,8 +501,11 @@ export default class Caves extends Phaser.Scene {
         this.playNextScene();
       } else if (this.exitChecked == 0) {
           this.exitChecked++;
-          this.player.sprite.setVelocity(0, 0);
           this.scene.pause();
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
           this.scene.launch("message", { textArray: ["This is the exit. Are you sure you want to leave? (Press X to close, press X again to exit)"], returning: "caves" });
       }
     }
