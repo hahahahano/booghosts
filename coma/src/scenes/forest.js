@@ -14,8 +14,8 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = data.inventory;
-    this.score = data.score;
+    //this.inventory = data.inventory;
+    //this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -62,8 +62,8 @@ export default class Forest extends Phaser.Scene {
     this.rock;
 
     this.player;
-    //this.inventory = [];
-    //this.score = 0;
+    this.inventory = [];
+    this.score = 0;
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -90,7 +90,7 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    this.physics.world.setBounds(0, 0, 8192, 1280);
+    this.physics.world.setBounds(100, 20, 8192, 1280);
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
     forest_sky.setDepth(-10);
     forest_sky.setScale(2);
@@ -99,13 +99,13 @@ export default class Forest extends Phaser.Scene {
     const tileset = forestMap.addTilesetImage('ground_tileset1', 'forest_tiles');
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.forestWorldLayer = forestMap.createStaticLayer('platforms', tileset, 0, 0);
+    this.forestWorldLayer = forestMap.createStaticLayer('platforms2', tileset, 0, 0);
     this.forestWorldLayer.setDepth(-10);
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
-    const scenery = this.add.image(8192/2, 1280/2, 'scenery');
-    scenery.setDepth(-2);
+    //const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+    //scenery.setDepth(-2);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
@@ -152,9 +152,9 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.followOffset.set(0, 175);
+    //this.cameras.main.followOffset.set(0, 100);
 
-    this.cameras.main.setBounds(0, 0, 8192, 1180);
+    this.cameras.main.setBounds(100, 20, 8192, 1280);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 700;

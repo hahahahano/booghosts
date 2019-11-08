@@ -14,6 +14,7 @@ import HosYes from './scenes/HosYes.js';
 
 import Instructions from '../CAD/src/scenes/instructions.js';
 import Race1 from '../CAD/src/scenes/Race.js';
+import RacePopup from '../CAD/src/scenes/RacePopup.js';
 import TryAgain from '../CAD/src/scenes/TryAgain.js';
 import Winner from '../CAD/src/scenes/Winner.js';
 
@@ -32,6 +33,7 @@ class Game extends Phaser.Game {
     this.scene.add('GameOverScene', GameOverScene);
 
     this.scene.add('Race', Race1);
+    this.scene.add('RacePopup', RacePopup);
     this.scene.add('TryAgain', TryAgain);
 
     this.scene.start('preloader');
