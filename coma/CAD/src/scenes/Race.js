@@ -47,16 +47,23 @@ export default class Race extends Phaser.Scene {
     raceBelowLayer.setCollisionByProperty({ collides: true });
     raceWorldLayer.setCollisionByProperty({ collides: true });
     raceFinish.setCollisionByProperty({ collides: true });
+
+    this.physics.world.setBounds(0, 0, 80*16, 250*16);
+
+
     //this.physics.world.setBounds(0, 0, raceMap.widthInPixels, raceMap.heightInPixels);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (CAR)///////////////////////////////////////////////////////////////////////////////////
     //Car
-    this.carPlayer = this.physics.add.sprite(645, 3900, 'racer')
+    this.carPlayer = this.physics.add.sprite(645, 3900, 'racer');
+    this.carPlayer.setCollideWorldBounds(true);
+    this.carPlayer.onWorldBounds = true;
+
 
     //Cameras
     const camera = this.cameras.main;
     camera.startFollow(this.carPlayer, true, 0.09, 0.09);
-    camera.setBounds(0, 0, raceMap.widthInPixels, raceMap.heightInPixels);
+    camera.setBounds(0, 0, 80*16, 250*16);
 
     this.cameras.main.setZoom(1.75);
 

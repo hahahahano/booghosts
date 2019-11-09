@@ -39,6 +39,8 @@ export default class HosNo extends Phaser.Scene {
       })
       .setScrollFactor(0)
       .setDepth(50);
+
+    /*
     this.updateInventory();
 
     this.scoreDis = this.add
@@ -52,14 +54,15 @@ export default class HosNo extends Phaser.Scene {
     this.updateScore();
 
     this.nextScene = false;
+    */
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     this.physics.world.setBounds(0, 0, 2048, 1024);
 
     //Platforms
-    const hospitalMap = this.make.tilemap({ key: 'hospital_map' });
-    const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
+    const hospitalMap = this.make.tilemap({ key: 'hospital_room1' });
+    const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset2', 'hospital_tiles2');
 
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
     this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
@@ -70,14 +73,16 @@ export default class HosNo extends Phaser.Scene {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
-    this.player = new Ghost_Player(this, 100, 825);
+    this.player = new Ghost_Player(this, 600, 600);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.followOffset.set(0, 200);
+    this.cameras.main.followOffset.set(0, 50);
 
-    this.cameras.main.setBounds(0, 0, 2048, 1024);
+    this.cameras.main.setBounds(0, 0, 1280, 1024);
+    this.cameras.main.setZoom(1.5);
+
 
     //Gravity for this scene
     this.physics.world.gravity.y = 1500;
@@ -125,6 +130,7 @@ export default class HosNo extends Phaser.Scene {
     }
   }
 
+  /*
   updateInventory() {
     if (this.inventory.length == 0) {
       this.invText = "Inventory: Empty";
@@ -137,12 +143,16 @@ export default class HosNo extends Phaser.Scene {
       }
     }
 
+
     this.invTextDis.setText(this.invText);
   }
+
+
 
   updateScore() {
     this.scoreText = "Memories: " + String(this.score);
 
     this.scoreDis.setText(this.scoreText);
   }
+  */
 }
