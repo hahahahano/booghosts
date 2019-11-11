@@ -27,7 +27,7 @@ export default class RacePopup extends Phaser.Scene {
     this.count = 0;
 
     //Creating text
-    this.raceInstructions = ["hi", "gross"];
+    this.raceInstructions = ["Thank you so much for driving me to the city.", "I'm not sure which way to go, but I know it's up north.", "Also please be careful and don't drive off road."];
     this.createContainer();
   }
 /*****************************************************************************************************************************************************/
