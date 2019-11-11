@@ -474,11 +474,11 @@ export default class Caves extends Phaser.Scene {
     if (this.score >= 1) {
       if (this.collectTut) {
         this.collectTut = false;
-        this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
         this.player.keys.up.reset();
         this.player.keys.x.reset();
+        this.scene.pause();
         this.scene.launch("message", { textArray: ["Whoa. Did you feel that? I felt a hazy memory there. A car. Hm. (Press X to close)"], returning: "caves" });
       }
 
