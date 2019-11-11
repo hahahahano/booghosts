@@ -69,15 +69,15 @@ export default class HosNo extends Phaser.Scene {
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
     //Adult on hospital bed
-    this.adult = this.physics.add.sprite(950, 500, 'adult');
-    this.adult.setCollideWorldBounds(true);
+    this.kid = this.physics.add.sprite(950, 720, 'kid');
+    this.kid.setCollideWorldBounds(true);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
-    this.player = new Ghost_Player(this, 600, 600);
+    this.player = new Ghost_Player(this, 500, 740);
     this.player.sprite.setCollideWorldBounds(true);
 
     //Cameras
@@ -97,7 +97,7 @@ export default class HosNo extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.adult], this.hospitalWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.kid], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
 
       //Collects a memory piece

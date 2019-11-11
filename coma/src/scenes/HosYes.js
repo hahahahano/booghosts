@@ -69,7 +69,7 @@ create() {
   this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
   //Adult on hospital bed
-  this.adult = this.physics.add.sprite(950, 500, 'adult');
+  this.adult = this.physics.add.sprite(950, 720, 'adult');
   this.adult.setCollideWorldBounds(true);
 
   //foreground.setDepth(10);
@@ -77,7 +77,7 @@ create() {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
   //Creates player character
-  this.player = new Ghost_Player(this, 600, 600);
+  this.player = new Ghost_Player(this, 500, 740);
   this.player.sprite.setCollideWorldBounds(true);
 
   //Cameras
