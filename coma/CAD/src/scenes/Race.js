@@ -55,7 +55,10 @@ export default class Race extends Phaser.Scene {
 
 ///////////////////////////////////////////////LIVE CHARACTERS (CAR)///////////////////////////////////////////////////////////////////////////////////
     //Car
-    this.carPlayer = this.physics.add.sprite(645, 3900, 'racer');
+    this.carPlayer = this.physics.add
+      .sprite(645, 3900, 'racer')
+      .setSize(32, 32);
+
     this.carPlayer.setCollideWorldBounds(true);
     this.carPlayer.onWorldBounds = true;
 
