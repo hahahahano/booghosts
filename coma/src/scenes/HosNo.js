@@ -68,6 +68,10 @@ export default class HosNo extends Phaser.Scene {
     this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
+    //Adult on hospital bed
+    this.adult = this.physics.add.sprite(950, 500, 'adult');
+    this.adult.setCollideWorldBounds(true);
+
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
@@ -93,7 +97,7 @@ export default class HosNo extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.adult], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
 
       //Collects a memory piece
