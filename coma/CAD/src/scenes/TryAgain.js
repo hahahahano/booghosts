@@ -44,7 +44,7 @@ export default class TryAgain extends Phaser.Scene {
         this.clearTint();
     });
     tryAgainButt.on("pointerup", function (event) {
-      this.scene.start('Race', { inventory: this.inventory, score: this.score });
+      this.scene.start('Race', { inventory: this.inventory, score: this.score, new: false });
       this.sound.stopAll();
     }, this);
 

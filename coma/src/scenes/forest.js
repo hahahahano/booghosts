@@ -99,13 +99,13 @@ export default class Forest extends Phaser.Scene {
     const tileset = forestMap.addTilesetImage('ground_tileset1', 'forest_tiles');
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.forestWorldLayer = forestMap.createStaticLayer('platforms2', tileset, 0, 0);
+    this.forestWorldLayer = forestMap.createStaticLayer('platforms', tileset, 0, 0);
     this.forestWorldLayer.setDepth(-10);
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
-    //const scenery = this.add.image(8192/2, 1280/2, 'scenery');
-    //scenery.setDepth(-2);
+    const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+    scenery.setDepth(-2);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
@@ -152,7 +152,7 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    //this.cameras.main.followOffset.set(0, 100);
+    this.cameras.main.followOffset.set(0, 100);
 
     this.cameras.main.setBounds(100, 20, 8192, 1280);
 
@@ -257,7 +257,7 @@ export default class Forest extends Phaser.Scene {
 
     if (this.nextScene) {
       this.forestMusic.stop();
-      this.scene.start('Race', { inventory: this.inventory, score: this.score });
+      this.scene.start('Race', { inventory: this.inventory, score: this.score, new: true });
       return;
     }
 
@@ -303,6 +303,10 @@ export default class Forest extends Phaser.Scene {
         this.kidtoken = false;
         this.exitCheck = false;
         this.scene.pause();
+        this.player.keys.left.reset();
+        this.player.keys.right.reset();
+        this.player.keys.up.reset();
+        this.player.keys.x.reset();
         this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
       } else if (this.exitCheck) {
         this.playNextScene();
