@@ -200,7 +200,7 @@ export default class Caves extends Phaser.Scene {
     this.zoneStart.body.setAllowGravity(false);
     this.zoneStart.body.moves = false;
     //Memory Zone: Explains the memory pieces
-    this.zoneMem = this.add.zone(1250, 2500).setSize(450, 200);
+    this.zoneMem = this.add.zone(1300, 2500).setSize(500, 200);
     this.physics.world.enable(this.zoneMem);
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
