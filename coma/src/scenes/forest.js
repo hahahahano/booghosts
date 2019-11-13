@@ -14,8 +14,8 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    //this.inventory = data.inventory;
-    //this.score = data.score;
+    this.inventory = data.inventory;
+    this.score = data.score;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -62,8 +62,8 @@ export default class Forest extends Phaser.Scene {
     this.rock;
 
     this.player;
-    this.inventory = [];
-    this.score = 0;
+    //this.inventory = [];
+    //this.score = 0;
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -154,7 +154,7 @@ export default class Forest extends Phaser.Scene {
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.followOffset.set(0, 100);
 
-    this.cameras.main.setBounds(100, 20, 8192, 1280);
+    this.cameras.main.setBounds(100, 20, 8192, 1180);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 700;

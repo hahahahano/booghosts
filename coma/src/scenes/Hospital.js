@@ -80,7 +80,7 @@ export default class Hospital extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 2048, 1024);
 
     //Gravity for this scene
-    this.physics.world.gravity.y = 1500;
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 

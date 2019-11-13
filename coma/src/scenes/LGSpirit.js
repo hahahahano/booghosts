@@ -27,7 +27,6 @@ export default class LGSpirit {
 /*****************************************************************************************************************************************************/
   update() {
     const { sprite } = this;
-    sprite.setFlipX(true);
     sprite.anims.play('idle_sp', true);
   }
 /*****************************************************************************************************************************************************/
@@ -39,15 +38,13 @@ export default class LGSpirit {
     if (scroll) {
       if (i == 6) {
         this.scene.talked++;
-        this.scene.score++;
-        this.scene.updateScore();
 
         this.scene.scene.pause();
         this.scene.player.keys.left.reset();
         this.scene.player.keys.right.reset();
         this.scene.player.keys.up.reset();
         this.scene.player.keys.x.reset();
-        this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much! Here's something I found while I was lost."], returning: "caves" });
+        this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much!", "I hid something I found while I was lost in that bush next to me. I think it might be yours."], returning: "caves" });
       }
     } else {
       if (i == 0) {

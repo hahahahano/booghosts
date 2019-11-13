@@ -91,7 +91,7 @@ export default class BootScene extends Phaser.Scene {
 
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap6.json")
+    this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap7.json")
     this.load.image('pressXCropped', "./assets/images/pressXCropped.png");
 
       //OBJECTS

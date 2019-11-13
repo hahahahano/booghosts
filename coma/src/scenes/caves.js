@@ -183,12 +183,19 @@ export default class Caves extends Phaser.Scene {
 
     const plantObjects = caveMap.getObjectLayer('plantSpawn')['objects'];
     plantObjects.forEach(plantObject => {
-      const cavePlant = this.cavePlants.create(plantObject.x, plantObject.y-34, 'shrub');
+      const cavePlant = this.cavePlants.create(plantObject.x, plantObject.y, 'shrub');
+      if (plantObject.type === "map") {
+        this.mapBushX = plantObject.x;
+        this.mapBushY = plantObject.y;
+      } else if (plantObject.type === "mem") {
+        this.memBushX = plantObject.x;
+        this.memBushY = plantObject.y;
+      }
     });
 
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //Tutorial Zone: Explains the movements
-    this.zoneStart = this.add.zone(200, 2500).setSize(200, 200);
+    this.zoneStart = this.add.zone(400, 2500).setSize(200, 200);
     this.physics.world.enable(this.zoneStart);
     this.zoneStart.body.setAllowGravity(false);
     this.zoneStart.body.moves = false;
@@ -204,7 +211,7 @@ export default class Caves extends Phaser.Scene {
     this.exit.body.moves = false;
 
     this.arrowDir = this.add
-      .text(300, 2400, "Arrow keys to move, UP to jump, X to interact", {
+      .text(200, 2350, "Arrow keys to move, UP to jump, X to interact", {
         font: "20px monospace",
         fill: "#ffffff",
         wordWrap: { width: 300, useAdvancedWrap: true },
@@ -228,10 +235,10 @@ export default class Caves extends Phaser.Scene {
           case 111:
             this.tweens.add({
               targets: smallSp,
-              x: 1600,
+              x: 1570,
               ease: 'Linear',
               yoyo: true,
-              duration: 5000,
+              duration: 2000,
               repeat: -1
             });
             break;
@@ -239,7 +246,7 @@ export default class Caves extends Phaser.Scene {
           case 112:
             this.tweens.add({
               targets: smallSp,
-              x: 850,
+              x: 640,
               ease: 'Linear',
               yoyo: true,
               duration: 3500,
@@ -253,7 +260,7 @@ export default class Caves extends Phaser.Scene {
               x: 1630,
               ease: 'Linear',
               yoyo: true,
-              duration: 2000,
+              duration: 1500,
               repeat: -1
             });
             break;
@@ -261,10 +268,10 @@ export default class Caves extends Phaser.Scene {
           case 114:
             this.tweens.add({
               targets: smallSp,
-              x: 30,
+              x: 20,
               ease: 'Linear',
               yoyo: true,
-              duration: 1500,
+              duration: 3500,
               repeat: -1
             });
             break;
@@ -388,10 +395,11 @@ export default class Caves extends Phaser.Scene {
       this.lg_spirit.interact(this.scrolls, this.talked, this.score);
 
       this.plantDirection = this.add
-      .text(2100, 2450, "Press X to search", {
+      .text(1800, 2200, "Press X to search the bush", {
         font: "20px monospace",
         fill: "#ffffff",
-        wordWrap: { width: 150, useAdvancedWrap: true },
+        align: "center",
+        wordWrap: { width: 200, useAdvancedWrap: true },
         padding: { x: 20, y: 10 }
       })
       .setDepth(-1);
@@ -412,24 +420,24 @@ export default class Caves extends Phaser.Scene {
     if (this.input.keyboard.checkDown(this.player.keys.x, 5000) && this.talked >= 3) {
         //Scroll
       if (this.bush) {
-        if (bush.x == 400 && bush.y == 1245 && !this.scrolls) {
+        if (bush.x == this.mapBushX && bush.y == this.mapBushY && !this.scrolls) {
           this.bushFX.play();
           this.scrolls = true;
           this.bushFound = true;
-          this.inventory.push("Map");
-          this.updateInventory();
 
-          this.caveScroll = this.physics.add.sprite(400, 1250, 'caveScroll');
+          this.caveScroll = this.physics.add.sprite(this.mapBushX, this.mapBushY, 'caveScroll');
           var scrollTween = this.tweens.add({
             targets: this.caveScroll,
             allowGravity: false,
-            y: 1150,
+            y: this.mapBushY-100,
             ease: 'Linear',
             duration: 1500
           });
-          scrollTween.on("complete", event => { this.caveScroll.destroy() });
-          //Make a parallel scene to pause everything, force the player to watch the tween lol
-          //Can better add in the cpmpleteion delay
+          scrollTween.on("complete", event => {
+            this.inventory.push("Map");
+            this.updateInventory();
+            this.caveScroll.destroy();
+          });
           
           this.bush = false;
           this.scene.pause();
@@ -438,6 +446,24 @@ export default class Caves extends Phaser.Scene {
           this.player.keys.up.reset();
           this.player.keys.x.reset();
           this.scene.launch("message", { textArray: ["You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)"], returning: "caves" });
+        } else if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
+          this.bushFX.play();
+          this.memory_collect.play();
+          this.talked++;
+          
+          this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
+          var memTween = this.tweens.add({
+            targets: this.memQ,
+            allowGravity: false,
+            y: this.memBushY-100,
+            ease: 'Linear',
+            duration: 1500
+          });
+          memTween.on("complete", event => { 
+            this.score++;
+            this.updateScore();
+            this.memQ.destroy();
+          });
         } else {
           this.bush = false;
           this.bushFX.play();
