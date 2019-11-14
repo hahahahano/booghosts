@@ -121,8 +121,6 @@ export default class Hospital extends Phaser.Scene {
     var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
-      this.registry.set("score", this.score);
-      this.registry.set("inventory", this.inventory);
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
       this.scene.start(rand, { inventory: this.inventory, score: this.score });
 
@@ -142,12 +140,14 @@ export default class Hospital extends Phaser.Scene {
     }
 
     this.invTextDis.setText(this.invText);
+    this.registry.set("inventory", this.inventory);
   }
 
   updateScore() {
     this.scoreText = "Memories: " + String(this.score);
 
     this.scoreDis.setText(this.scoreText);
+    this.registry.set("score", this.score);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

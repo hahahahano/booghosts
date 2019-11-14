@@ -355,8 +355,6 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit.update();
 
     if (this.nextScene) {
-      this.registry.set("score", this.score);
-      this.registry.set("inventory", this.inventory);
       this.caveMusic.stop();
       this.scene.start('CTFT');
       return;
@@ -380,12 +378,14 @@ export default class Caves extends Phaser.Scene {
     }
 
     this.invTextDis.setText(this.invText);
+    this.registry.set("inventory", this.inventory);
   }
 
   updateScore() {
     this.scoreText = "Memories: " + String(this.score);
 
     this.scoreDis.setText(this.scoreText);
+    this.registry.set("score", this.score);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

@@ -255,8 +255,6 @@ export default class Forest extends Phaser.Scene {
     }
 
     if (this.nextScene) {
-      this.registry.set("score", this.score);
-      this.registry.set("inventory", this.inventory);
       this.forestMusic.stop();
       this.scene.start('Race');
       return;
@@ -280,12 +278,14 @@ export default class Forest extends Phaser.Scene {
     }
 
     this.invTextDis.setText(this.invText);
+    this.registry.set("inventory", this.inventory);
   }
 
   updateScore() {
     this.scoreText = "Memories: " + String(this.score);
 
     this.scoreDis.setText(this.scoreText);
+    this.registry.set("score", this.score);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
