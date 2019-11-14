@@ -1,8 +1,7 @@
 /*
   FOREST SCENE
 */
-//import * as ChangeScene from './ChangeScenes.js';
-
+import * as changeScene from './changeScene.js';
 import Ghost_Player from "./ghost_player.js";
 
 export default class Forest extends Phaser.Scene {
@@ -14,8 +13,8 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = data.inventory;
-    this.score = data.score;
+    this.inventory = this.registry.get("inventory");
+    this.score = this.registry.get("score");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -48,7 +47,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this);
+    changeScene.addSceneEventListeners(this);
 
     this.mem1;
     this.mem2;
@@ -256,8 +255,10 @@ export default class Forest extends Phaser.Scene {
     }
 
     if (this.nextScene) {
+      this.registry.set("score", this.score);
+      this.registry.set("inventory", this.inventory);
       this.forestMusic.stop();
-      this.scene.start('Race', { inventory: this.inventory, score: this.score, new: true });
+      this.scene.start('Race');
       return;
     }
 

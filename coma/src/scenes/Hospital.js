@@ -1,5 +1,7 @@
-//import * as ChangeScene from './ChangeScenes.js';
-
+/*
+  HOSPITAL SCENE
+*/
+import * as changeScene from './changeScene.js';
 import Ghost_Player from "./ghost_player.js";
 
 export default class Hospital extends Phaser.Scene {
@@ -11,8 +13,8 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = data.inventory;
-    this.score = data.score;
+    this.inventory = this.registry.get("inventory", this.inventory);
+    this.score = this.registry.get("score", this.score);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -23,13 +25,11 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this);
+    changeScene.addSceneEventListeners(this);
 
     this.exit;
 
     this.player;
-    //this.inventory = [];
-    //this.score = 0;
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -121,6 +121,8 @@ export default class Hospital extends Phaser.Scene {
     var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
+      this.registry.set("score", this.score);
+      this.registry.set("inventory", this.inventory);
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
       this.scene.start(rand, { inventory: this.inventory, score: this.score });
 

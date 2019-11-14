@@ -1,8 +1,7 @@
 /*
   CAVE SCENE
 */
-//import * as ChangeScene from './ChangeScenes.js';
-
+import * as changeScene from './changeScene.js';
 import Ghost_Player from "./ghost_player.js";
 import LGSpirit from "./LGSpirit.js";
 
@@ -23,7 +22,7 @@ export default class Caves extends Phaser.Scene {
     this.bush = true;
     this.bushFound = false;
 
-    this.inventory = [];
+    this.inventory = this.registry.get("inventory");
 
     this.instructBox;
     this.zoneStart;
@@ -37,7 +36,7 @@ export default class Caves extends Phaser.Scene {
     this.talked = 0;
     this.player;
 
-    this.score = 0;
+    this.score = this.registry.get("score");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -91,7 +90,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this);
+    changeScene.addSceneEventListeners(this);
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -356,8 +355,10 @@ export default class Caves extends Phaser.Scene {
     this.lg_spirit.update();
 
     if (this.nextScene) {
+      this.registry.set("score", this.score);
+      this.registry.set("inventory", this.inventory);
       this.caveMusic.stop();
-      this.scene.start('CTFT', { inventory: this.inventory, score: this.score });
+      this.scene.start('CTFT');
       return;
     }
 
