@@ -87,6 +87,7 @@ export default class Forest extends Phaser.Scene {
 
     this.nextScene = false;
     this.kidtoken = true;
+    this.kidTalked = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -305,7 +306,7 @@ export default class Forest extends Phaser.Scene {
 
     if (this.nextScene) {
       this.forestMusic.stop();
-      this.scene.start('Race');
+      this.scene.start('Race', {new: true});
       return;
     }
 
@@ -379,7 +380,8 @@ export default class Forest extends Phaser.Scene {
     //Interacting with the kid NPC
   kidInter(){
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      if (this.kidtoken) {
+      if (!this.kidTalked) {
+        this.kidTalked = true;
         this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
