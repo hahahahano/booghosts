@@ -3,8 +3,10 @@
 import Config from './config/config.js';
 import LoadScene from './scenes/loadscreen.js';
 import start from './scenes/start.js';
+import intro_video from './scenes/transitions/intro_video.js';
 import caves from './scenes/caves.js';
 import Forest from './scenes/forest.js';
+import fth_video from './scenes/transitions/fth_video.js';
 //import Hospital from './scenes/Hospital.js';
 import GameOverScene from './scenes/GameOverScene.js';
 import message from './scenes/messages/messageBox.js';
@@ -24,9 +26,11 @@ class Game extends Phaser.Game {
 
     this.scene.add('preloader', LoadScene);
     this.scene.add('start', start);
+    this.scene.add('intro_video', intro_video);
     this.scene.add('caves', caves);
     this.scene.add('CTFT', Instructions);
     this.scene.add('Forest', Forest);
+    this.scene.add('fth_video', fth_video);
     this.scene.add('Hospital', Hospital);
     this.scene.add('HosNo', HosNo);
     this.scene.add('HosYes', HosYes);

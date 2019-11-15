@@ -44,6 +44,13 @@ function addSceneEventListeners (that) {
   );
 
   that.input.keyboard.on(
+    "keydown_SEVEN",
+      function () {
+        that.scene.start('fth_video');
+      }
+  );
+
+  that.input.keyboard.on(
     "keydown_ESC",
       function () {
         that.scene.start('start');

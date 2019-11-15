@@ -79,6 +79,10 @@ export default class BootScene extends Phaser.Scene {
 
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
+    //TRANSITION VIDEOS
+    this.load.video('intro', './assets/videos/intro_storyboard.mp4', 'loadeddata', false, true);
+    this.load.video('city', './assets/videos/cth_storyboard.mp4', 'loadeddata', false, true);
+
     //CAVES
       //BACKGROUND AND FOREGROUND
     this.load.image('caveBackground', "./assets/images/cave/cave_bg.jpg",{

@@ -151,7 +151,7 @@ export default class Race extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   winner (player) {
     this.sound.stopAll();
-    this.scene.start('Hospital');
+    this.scene.start('fth_video');
   }
 
   loser (player) {
