@@ -55,14 +55,15 @@ export default class Forest extends Phaser.Scene {
     this.mem4;
     this.mem5;
     this.mem6;
+    this.memCheck = 0;
 
     this.exit;
-    this.exitCheck;
     this.rock;
+    this.mems;
+    this.bush = true;
+    this.bushFound = false;
 
     this.player;
-    //this.inventory = [];
-    //this.score = 0;
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -111,32 +112,32 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory 1
-    this.mem1 = this.add.zone(1500, 600).setSize(1, 1000);
+    this.mem1 = this.add.zone(1250, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem1);
     this.mem1.body.setAllowGravity(false);
     this.mem1.body.moves = false;
     //Memory 2
-    this.mem2 = this.add.zone(2500, 600).setSize(1, 1000);
+    this.mem2 = this.add.zone(2400, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem2);
     this.mem2.body.setAllowGravity(false);
     this.mem2.body.moves = false;
     //Memory 3
-    this.mem3 = this.add.zone(3500, 600).setSize(1, 1000);
+    this.mem3 = this.add.zone(3520, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem3);
     this.mem3.body.setAllowGravity(false);
     this.mem3.body.moves = false;
     //Memory 4
-    this.mem4 = this.add.zone(4500, 600).setSize(1, 1000);
+    this.mem4 = this.add.zone(5055, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem4);
     this.mem4.body.setAllowGravity(false);
     this.mem4.body.moves = false;
     //Memory 5
-    this.mem5 = this.add.zone(5500, 600).setSize(1, 1000);
+    this.mem5 = this.add.zone(6150, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem5);
     this.mem5.body.setAllowGravity(false);
     this.mem5.body.moves = false;
     //Memory 6
-    this.mem6 = this.add.zone(6500, 600).setSize(1, 1000);
+    this.mem6 = this.add.zone(7585, 600).setSize(1, 1200);
     this.physics.world.enable(this.mem6);
     this.mem6.body.setAllowGravity(false);
     this.mem6.body.moves = false;
@@ -166,16 +167,19 @@ export default class Forest extends Phaser.Scene {
       this.createAcorns();
     }
 
-    //Memories Collected (Score Display)
-    this.updateScore();
+    //Memory Pieces
+    this.mems = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
 
-    //Inventory
-    this.updateInventory();
-
-    //Creating kid and car sprites
+      //Mem pieces, kid, and car sprites
     const otherObjects = forestMap.getObjectLayer('otherObjects')['objects'];
     otherObjects.forEach(otherObject => {
-      if (otherObject.name === "kid") {
+      if (otherObject.name === "mem") {
+        const memPie = this.mems.create(otherObject.x, otherObject.y, 'mem_piece');
+        memPie.setDepth(-1);
+      } else if (otherObject.name === "kid") {
         this.exit = this.physics.add.sprite(otherObject.x, otherObject.y, 'boy_ghost');
         this.exit.setDepth(-1);
         this.exit.setCollideWorldBounds(true);
@@ -184,6 +188,31 @@ export default class Forest extends Phaser.Scene {
         this.car.setDepth(-1);
         this.car.setCollideWorldBounds(false);
       }
+    });
+
+    //Memories Collected (Score Display)
+    this.updateScore();
+
+    //Items Collected (Inventory Display)
+    this.updateInventory();
+
+    //Creates plants
+    this.forestPlants = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
+
+    const plantObjects = forestMap.getObjectLayer('plantSpawn')['objects'];
+    plantObjects.forEach(plantObject => {
+      const forestPlant = this.forestPlants.create(plantObject.x, plantObject.y, 'shrub');
+      forestPlant.setDepth(-1);
+      /*if (plantObject.type === "map") {
+        this.mapBushX = plantObject.x;
+        this.mapBushY = plantObject.y;
+      } else if (plantObject.type === "mem") {
+        this.memBushX = plantObject.x;
+        this.memBushY = plantObject.y;
+      }*/
     });
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
@@ -195,15 +224,17 @@ export default class Forest extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
     this.physics.world.addCollider(this.acorns, this.forestWorldLayer, this.newAcorn, null, this);
       //Collects a memory piece
-
+    this.physics.add.overlap(this.player.sprite, this.mems, this.collectMem, null, this);
+      
+    //INTERACTION
+      //With bushes
+    this.physics.add.overlap(this.player.sprite, this.forestPlants, this.interactBush, null, this);
       //Exit
     this.kidText = ["Hey there! Are you busy? I need some help.", "You see, there's this event going on in the city, but my parents are too busy to take me there.",
     "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?", "You won't be able to come back after you drive me to town..."]
     this.kidCount = 0;
 
     this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
-
-    //INTERACTION
 
     //ZONES
       //Tutorial
@@ -224,6 +255,15 @@ export default class Forest extends Phaser.Scene {
     this.forestMusic = this.sound.add('forest_music');
     this.forestMusic.volume = .6;
     this.forestMusic.play();
+
+    //COLLECTING MEMORY SOUND
+    this.memory_collect = this.sound.add('memory_collect');
+    this.memory_collect.volume = .5;
+    this.memory_collect.setRate(2);
+
+    //SEARCHING BUSH SOUND
+    this.bushFX = this.sound.add('bush');
+    this.bushFX.volume = 2.5;
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -253,6 +293,12 @@ export default class Forest extends Phaser.Scene {
           if (b.y > this.forestWorldLayer.height) {
             this.newAcorn(b);
           }
+        }.bind(this)
+      );
+    } else if (!this.kidtoken) {
+      this.acorns.children.each(
+        function (b) {
+          this.acorns.remove(b, null, true);
         }.bind(this)
       );
     }
@@ -294,28 +340,54 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //Interactions
     //Searching the bushes
-  interactBush() {
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      //this.plants
-      //this.enemyHit();
+  interactBush(player, bush) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 5000)) {
+        //Items
+      /*if (this.bush) {
+        if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
+          this.bushFX.play();
+          this.memory_collect.play();
+          this.talked++;
+          
+          this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
+          var memTween = this.tweens.add({
+            targets: this.memQ,
+            allowGravity: false,
+            y: this.memBushY-100,
+            ease: 'Linear',
+            duration: 1500
+          });
+          memTween.on("complete", event => { 
+            this.score++;
+            this.updateScore();
+            this.memQ.destroy();
+          });
+        } else {*/
+          this.bush = false;
+          this.bushFX.play();
+          this.scene.pause();
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
+          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "Forest" });
+        //}
+      //}
     }
+    this.bush = true;
   }
     //Interacting with the kid NPC
   kidInter(){
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       if (this.kidtoken) {
-        this.kidtoken = false;
-        this.exitCheck = false;
         this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
         this.player.keys.up.reset();
         this.player.keys.x.reset();
         this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
-      } else if (this.exitCheck) {
-        this.playNextScene();
       } else {
-        this.exitCheck = true;
+        this.playNextScene();
       }
     }
   }
@@ -323,96 +395,119 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //Zones
   memories1() {
-    this.memDis = this.add
-      .text(1700, 632, this.memoriesText[0], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 1) {
+      this.memDis = this.add
+        .text(1040, 830, this.memoriesText[0], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+    }
   }
 
   memories2() {
-    this.memDis = this.add
-      .text(2500, 536, this.memoriesText[1], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 2) {
+      this.memDis = this.add
+        .text(2220, 100, this.memoriesText[1], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+    }
   }
 
   memories3() {
-    this.memDis = this.add
-      .text(3400, 568, this.memoriesText[2], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 3) {
+      this.memDis = this.add
+        .text(3310, 895, this.memoriesText[2], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+    }
   }
 
   memories4() {
-    this.memDis = this.add
-      .text(4500, 632, this.memoriesText[3], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 4) {
+      this.memDis = this.add
+        .text(4840, 400, this.memoriesText[3], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+      this.kidtoken = false;
+    }
   }
 
   memories5() {
-    this.memDis = this.add
-      .text(5800, 632, this.memoriesText[4], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 5) {
+      this.memDis = this.add
+        .text(5950, 450, this.memoriesText[4], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+    }
   }
 
   memories6() {
-    this.memDis = this.add
-      .text(6500, 568, this.memoriesText[5], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+    if (this.memCheck < 6) {
+      this.memDis = this.add
+        .text(7350, 300, this.memoriesText[5], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
 
-    this.memDis = this.add
-      .text(7000, 568, this.memoriesText[6], {
-        font: "18px monospace",
-        backgroundColor: "#000",
-        fill: "#ffffff",
-        wordWrap: { width: 400, useAdvancedWrap: true },
-        padding: { x: 20, y: 10 }
-      })
-      .setDepth(-1);
+      this.memDis = this.add
+        .text(7365, 400, this.memoriesText[6], {
+          font: "18px monospace",
+          backgroundColor: "#000",
+          fill: "#ffffff",
+          align: "center",
+          wordWrap: { width: 400, useAdvancedWrap: true },
+          padding: { x: 20, y: 10 }
+        })
+        .setDepth(-1);
+      this.memCheck++;
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   //Collecting Items
     //Collecting Memory Piece
   collectMem(player, mem_piece) {
-    this.memory_collect = this.sound.add('memory_collect');
-    this.memory_collect.volume = .5;
     this.memory_collect.play();
     mem_piece.disableBody(true, true);
-
     this.score += 1;
     this.updateScore();
   }

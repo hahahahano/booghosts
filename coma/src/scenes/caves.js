@@ -120,9 +120,6 @@ export default class Caves extends Phaser.Scene {
     this.rightStep = this.sound.add('right_step');
     this.rightStep.volume = 2;
 
-    this.bushFX = this.sound.add('bush');
-    this.bushFX.volume = 2.5;
-
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const caveBackground = this.add.image(1152, 1536, 'caveBackground');
@@ -330,6 +327,15 @@ export default class Caves extends Phaser.Scene {
     this.caveMusic = this.sound.add('cave_music');
     this.caveMusic.volume = .3;
     this.caveMusic.play();
+
+    //COLLECTING MEMORY SOUND
+    this.memory_collect = this.sound.add('memory_collect');
+    this.memory_collect.volume = .5;
+    this.memory_collect.setRate(2);
+
+    //SEARCHING BUSH SOUND
+    this.bushFX = this.sound.add('bush');
+    this.bushFX.volume = 2.5;
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -542,9 +548,6 @@ export default class Caves extends Phaser.Scene {
   //Collecting Items
     //Collecting Memory Piece
   collectMem(player, mem_piece) {
-    this.memory_collect = this.sound.add('memory_collect');
-    this.memory_collect.volume = .5;
-    this.memory_collect.setRate(2);
     this.memory_collect.play();
     mem_piece.disableBody(true, true);
     this.score += 1;
