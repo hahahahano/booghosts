@@ -89,7 +89,7 @@ export default class Forest extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    this.physics.world.setBounds(100, 20, 8192, 1280);
+    this.physics.world.setBounds(0, 0, 8192, 1280);
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
     forest_sky.setDepth(-10);
     forest_sky.setScale(2);
@@ -98,13 +98,13 @@ export default class Forest extends Phaser.Scene {
     const tileset = forestMap.addTilesetImage('ground_tileset1', 'forest_tiles');
     // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
-    this.forestWorldLayer = forestMap.createStaticLayer('platforms', tileset, 0, 0);
+    this.forestWorldLayer = forestMap.createStaticLayer('platforms2', tileset, 0, 0);
     this.forestWorldLayer.setDepth(-10);
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
-    const scenery = this.add.image(8192/2, 1280/2, 'scenery');
-    scenery.setDepth(-2);
+    //const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+    //scenery.setDepth(-2);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
@@ -151,19 +151,18 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.followOffset.set(0, 100);
 
-    this.cameras.main.setBounds(100, 20, 8192, 1180);
+    this.cameras.main.setBounds(0, 0, 8192, 1280);
 
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Acorns
-    this.acorns = this.physics.add.group();
+    this.acorns = this.physics.add.group({allowGravity: false});
 
     var i;
-    for (i=0; i<2; i++) {
+    for (i=0; i<1; i++) {
       this.createAcorns();
     }
 
@@ -173,15 +172,19 @@ export default class Forest extends Phaser.Scene {
     //Inventory
     this.updateInventory();
 
-    //Creates exit (placeholder)
-    this.exit = this.physics.add.sprite(7550, 250, 'boy_ghost');
-    this.exit.setDepth(-1);
-    this.exit.setCollideWorldBounds(true);
-
-    //Car
-    this.car = this.physics.add.sprite(8000, 350, 'car_side');
-    this.car.setDepth(-1);
-    this.car.setCollideWorldBounds(true);
+    //Creating kid and car sprites
+    const otherObjects = forestMap.getObjectLayer('otherObjects')['objects'];
+    otherObjects.forEach(otherObject => {
+      if (otherObject.name === "kid") {
+        this.exit = this.physics.add.sprite(otherObject.x, otherObject.y, 'boy_ghost');
+        this.exit.setDepth(-1);
+        this.exit.setCollideWorldBounds(true);
+      } else if (otherObject.name === "car") {
+        this.car = this.physics.add.sprite(otherObject.x, otherObject.y, 'car_side');
+        this.car.setDepth(-1);
+        this.car.setCollideWorldBounds(false);
+      }
+    });
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
@@ -190,6 +193,7 @@ export default class Forest extends Phaser.Scene {
 
       //Hits an acorn
     this.physics.add.overlap(this.player.sprite, this.acorns, this.enemyHit, null, this);
+    this.physics.world.addCollider(this.acorns, this.forestWorldLayer, this.newAcorn, null, this);
       //Collects a memory piece
 
       //Exit
@@ -247,8 +251,7 @@ export default class Forest extends Phaser.Scene {
       this.acorns.children.each(
         function (b) {
           if (b.y > this.forestWorldLayer.height) {
-            this.acorns.remove(b, null, true);
-            this.createAcorns();
+            this.newAcorn(b);
           }
         }.bind(this)
       );
@@ -421,15 +424,25 @@ export default class Forest extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  //When the player touches an enemy, return to spawn
-  createAcorns(acorn) {
-    var x = Phaser.Math.Between(-800, 800);
+  //When an acorn hits the platforms
+  newAcorn(acorn) {
+    if (this.kidtoken) {
+      var x = Phaser.Math.Between(-500, 500);
 
-    var acorn = this.acorns.create(this.player.sprite.x + x, 0, "acorn");
+      acorn.setPosition(this.player.sprite.x + x, -10);
+      acorn.setVelocity(Phaser.Math.Between(-300, 300), 500);
+    }
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  //Creating falling acorns
+  createAcorns(acorn) {
+    var x = Phaser.Math.Between(-300, 300);
+
+    var acorn = this.acorns.create(this.player.sprite.x + x, -10, "acorn");
     acorn.setScale(0.05);
     acorn.setDepth(5);
-    acorn.allowGravity = false;
-    acorn.setVelocity(Phaser.Math.Between(-300, 300), 0);
+    acorn.setVelocity(Phaser.Math.Between(-500, 500), 500);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
