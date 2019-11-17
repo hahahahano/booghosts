@@ -46,7 +46,7 @@ export default class Start extends Phaser.Scene {
         sound.play('high');
         //this.scene.start('Hospital')
         //this.forestScene = false;
-        this.scene.start('caves');
+        this.scene.start('intro_video');
       }, this
     );
   }

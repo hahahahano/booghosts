@@ -200,6 +200,11 @@ export default class Caves extends Phaser.Scene {
     this.physics.world.enable(this.zoneMem);
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
+    //LGSpirit Zone: Prompts player to talk to the large spirit
+    this.zoneSpirit = this.add.zone(1800, 2400).setSize(300, 300);
+    this.physics.world.enable(this.zoneSpirit);
+    this.zoneSpirit.body.setAllowGravity(false);
+    this.zoneSpirit.body.moves = false;
     //Exit Zone
     this.exit = this.add.zone(275, 250).setSize(225, 350);
     this.physics.world.enable(this.exit);
@@ -321,6 +326,10 @@ export default class Caves extends Phaser.Scene {
     this.MemsText = ["That looks familiar. (Press X to continue)", "I think if you pick it up, you might remember something about yourself."];
     this.memIntro = true;
     this.physics.add.overlap(this.player.sprite, this.zoneMem, this.memsInstruct, null, this);
+      //Large Spirit
+    this.spiritText = ["That large spirit looks friendly! And nervous... Maybe you should go talk to him. Remember X allows you to interact with others and objects. (Press X to close)"];
+    this.spiritIntro = true;
+    this.physics.add.overlap(this.player.sprite, this.zoneSpirit, this.spiritInstruct, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -525,6 +534,18 @@ export default class Caves extends Phaser.Scene {
         this.player.keys.x.reset();
         this.scene.launch("message", { textArray: this.MemsText, player: this.player, returning: "caves" });
       }
+    }
+  }
+    //Memory Pieces Zone
+  spiritInstruct(spiritBox) {
+    if (this.spiritIntro) {
+      this.spiritIntro = false;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.scene.launch("message", { textArray: this.spiritText, player: this.player, returning: "caves" });
     }
   }
     //Exiting Scene Zone

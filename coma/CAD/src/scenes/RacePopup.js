@@ -27,7 +27,7 @@ export default class RacePopup extends Phaser.Scene {
     this.count = 0;
 
     //Creating text
-    this.raceInstructions = ["You vaguely remember that the city is up straight ahead... but which road takes you that way? (Press X)", "Use the arrow keys to move the car. Remember how to drive! You have to stay on the roads. At the very least, don't hit any plants, signs, or buildings, or you'll have to start over! (Press X to start)"];
+    this.raceInstructions = ["You vaguely remember that the city is up straight ahead... but which road takes you that way? Maybe there's some markers directing which way to go. (Press X)", "Use the arrow keys to move the car. Remember how to drive! You have to stay on the roads. At the very least, don't hit any plants, signs, or buildings, or you'll have to start over! (Press X to start)"];
     this.createContainer();
   }
 /*****************************************************************************************************************************************************/

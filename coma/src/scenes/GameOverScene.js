@@ -6,7 +6,7 @@ export default class GameOverScene extends Phaser.Scene {
   }
 
   init (data) {
-    this.score = data.score;
+    this.score = this.registry.get("score");
     //this.kidTalked = data.kidTalked;
     //this.endReached = data.endReached;
   }
@@ -26,7 +26,7 @@ export default class GameOverScene extends Phaser.Scene {
     var score = this.add.text(this.centerX-150, this.centerY +35, 'Memories Collected: '+this.score);*/
 
     //if (this.endReached) {
-      if (this.score <= 2) {
+      if (this.score <= 5) {
         var text = this.add.text(this.centerX - 220, this.centerY, "You wake up, but you don't seem to remember anything... What happened?", {
           font: "18px monospace",
           fill: "#fff",

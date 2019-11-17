@@ -87,6 +87,7 @@ export default class Forest extends Phaser.Scene {
 
     this.nextScene = false;
     this.kidtoken = true;
+    this.kidTalked = false;
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
@@ -285,7 +286,9 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-    this.player.update();
+    if (!this.nextScene) {
+      this.player.update(); 
+    }
 
     if (this.kidtoken) {
       this.acorns.children.each(
@@ -304,9 +307,28 @@ export default class Forest extends Phaser.Scene {
     }
 
     if (this.nextScene) {
-      this.forestMusic.stop();
-      this.scene.start('Race');
-      return;
+      this.player.sprite.setDepth(-2);
+      this.exit.setDepth(1);
+      this.player.sprite.setVelocityX(200);
+      this.exit.setFlipX(true);
+
+      var kidTween = this.tweens.add({
+        targets: this.exit,
+        x: 8260,
+        ease: 'Linear',
+        duration: 1600
+      });
+      kidTween.on("complete", event => {
+        this.exit.setVisible(false);
+        this.player.getInCar();
+        this.car.setVelocityX(150);
+      });
+
+      if (this.car.x > this.forestWorldLayer.width+300) {
+        this.forestMusic.stop();
+        this.scene.start('Race', {new: true});
+        return;
+      }
     }
 
     if (this.player.sprite.y > this.forestWorldLayer.height) {
@@ -379,7 +401,8 @@ export default class Forest extends Phaser.Scene {
     //Interacting with the kid NPC
   kidInter(){
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
-      if (this.kidtoken) {
+      if (!this.kidTalked) {
+        this.kidTalked = true;
         this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
