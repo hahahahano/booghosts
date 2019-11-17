@@ -129,7 +129,7 @@ export default class Caves extends Phaser.Scene {
     //Particles - Waterfall
     var waterParticles = this.add.particles('caveWaterfall');
     var waterEmitter = waterParticles.createEmitter({
-        alpha: { start: 1, end: 0.25, ease: 'Expo.easeOut' },
+        alpha: { start: 1, end: 0.45, ease: 'Expo.easeOut' },
         lifespan: 5000,
         speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
@@ -201,7 +201,7 @@ export default class Caves extends Phaser.Scene {
     this.zoneMem.body.setAllowGravity(false);
     this.zoneMem.body.moves = false;
     //Exit Zone
-    this.exit = this.add.zone(275, 250).setSize(225, 350);    
+    this.exit = this.add.zone(275, 250).setSize(225, 350);
     this.physics.world.enable(this.exit);
     this.exit.body.setAllowGravity(false);
     this.exit.body.moves = false;
@@ -445,7 +445,7 @@ export default class Caves extends Phaser.Scene {
             this.updateInventory();
             this.caveScroll.destroy();
           });
-          
+
           this.bush = false;
           this.scene.pause();
           this.player.keys.left.reset();
@@ -457,7 +457,7 @@ export default class Caves extends Phaser.Scene {
           this.bushFX.play();
           this.memory_collect.play();
           this.talked++;
-          
+
           this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
           var memTween = this.tweens.add({
             targets: this.memQ,
@@ -466,7 +466,7 @@ export default class Caves extends Phaser.Scene {
             ease: 'Linear',
             duration: 1500
           });
-          memTween.on("complete", event => { 
+          memTween.on("complete", event => {
             this.score++;
             this.updateScore();
             this.memQ.destroy();

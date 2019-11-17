@@ -104,7 +104,7 @@ export default class Forest extends Phaser.Scene {
     //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
-    //const scenery = this.add.image(8192/2, 1280/2, 'scenery');
+    const scenery = this.add.image(8192/2, 1280/2, 'scenery');
     //scenery.setDepth(-2);
 
     //foreground.setDepth(10);
@@ -225,7 +225,7 @@ export default class Forest extends Phaser.Scene {
     this.physics.world.addCollider(this.acorns, this.forestWorldLayer, this.newAcorn, null, this);
       //Collects a memory piece
     this.physics.add.overlap(this.player.sprite, this.mems, this.collectMem, null, this);
-      
+
     //INTERACTION
       //With bushes
     this.physics.add.overlap(this.player.sprite, this.forestPlants, this.interactBush, null, this);
@@ -348,7 +348,7 @@ export default class Forest extends Phaser.Scene {
           this.bushFX.play();
           this.memory_collect.play();
           this.talked++;
-          
+
           this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
           var memTween = this.tweens.add({
             targets: this.memQ,
@@ -357,7 +357,7 @@ export default class Forest extends Phaser.Scene {
             ease: 'Linear',
             duration: 1500
           });
-          memTween.on("complete", event => { 
+          memTween.on("complete", event => {
             this.score++;
             this.updateScore();
             this.memQ.destroy();
