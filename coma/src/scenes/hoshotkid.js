@@ -29,6 +29,8 @@ export default class hoshotkid extends Phaser.Scene {
 
     this.exit;
 
+    this.inter6 = true;
+
     this.player;
 
     this.invTextDis = this.add
@@ -82,6 +84,11 @@ export default class hoshotkid extends Phaser.Scene {
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
+    this.zoneStart6 = this.add.zone(100, 900).setSize(500, 500);
+    this.physics.world.enable(this.zoneStart6);
+    this.zoneStart6.body.setAllowGravity(false);
+    this.zoneStart6.body.moves = false;
+
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -90,6 +97,7 @@ export default class hoshotkid extends Phaser.Scene {
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.add.overlap(this.player.sprite, this.zoneStart6, this.questions4, null, this);
 
       //Collects a memory piece
 
@@ -148,6 +156,19 @@ export default class hoshotkid extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
     this.registry.set("score", this.score);
+  }
+
+  questions4() {
+
+    if (this.inter6) {
+      this.inter6 = false;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.scene.launch("message", { textArray: ['Its closeby! I can feel it'], returning: "hoshotkid" });
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

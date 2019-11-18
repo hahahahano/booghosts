@@ -31,6 +31,8 @@ export default class hoscoldkid extends Phaser.Scene {
 
     this.player;
 
+    this.inter4 = true;
+
     this.invTextDis = this.add
       .text(16, 36, "", {
         font: "18px monospace",
@@ -82,6 +84,11 @@ export default class hoscoldkid extends Phaser.Scene {
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
+    this.zoneStart4 = this.add.zone(100, 900).setSize(500, 500);
+    this.physics.world.enable(this.zoneStart4);
+    this.zoneStart4.body.setAllowGravity(false);
+    this.zoneStart4.body.moves = false;
+
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -90,6 +97,7 @@ export default class hoscoldkid extends Phaser.Scene {
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.add.overlap(this.player.sprite, this.zoneStart4, this.questions2, null, this);
 
       //Collects a memory piece
 
@@ -148,6 +156,19 @@ export default class hoscoldkid extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
     this.registry.set("score", this.score);
+  }
+
+  questions2() {
+
+    if (this.inter4) {
+      this.inter4 = false;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.scene.launch("message", { textArray: ['The feeling is getting further away'], returning: "hoscoldkid" });
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

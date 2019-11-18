@@ -31,6 +31,8 @@ export default class hoshotadult extends Phaser.Scene {
 
     this.player;
 
+    this.inter5 = true;
+
     this.invTextDis = this.add
       .text(16, 36, "", {
         font: "18px monospace",
@@ -82,6 +84,11 @@ export default class hoshotadult extends Phaser.Scene {
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
+    this.zoneStart5 = this.add.zone(100, 900).setSize(500, 500);
+    this.physics.world.enable(this.zoneStart5);
+    this.zoneStart5.body.setAllowGravity(false);
+    this.zoneStart5.body.moves = false;
+
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -90,6 +97,7 @@ export default class hoshotadult extends Phaser.Scene {
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.add.overlap(this.player.sprite, this.zoneStart5, this.questions3, null, this);
 
       //Collects a memory piece
 
@@ -148,6 +156,19 @@ export default class hoshotadult extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
     this.registry.set("score", this.score);
+  }
+
+  questions3() {
+
+    if (this.inter5) {
+      this.inter5 = false;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.scene.launch("message", { textArray: ['Its closeby! I can feel it'], returning: "hoshotadult" });
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

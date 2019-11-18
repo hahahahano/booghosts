@@ -15,6 +15,7 @@ export default class Hospital extends Phaser.Scene {
   init (data) {
     this.inventory = this.registry.get("inventory", this.inventory);
     this.score = this.registry.get("score", this.score);
+    this.instructBox;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -30,6 +31,8 @@ export default class Hospital extends Phaser.Scene {
     this.exit;
 
     this.player;
+
+    this.inter2 = true;
 
     this.invTextDis = this.add
       .text(16, 36, "", {
@@ -82,6 +85,12 @@ export default class Hospital extends Phaser.Scene {
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
+    //questionzone1: Explains the movements
+    this.zoneStart2 = this.add.zone(100, 900).setSize(500, 500);
+    this.physics.world.enable(this.zoneStart2);
+    this.zoneStart2.body.setAllowGravity(false);
+    this.zoneStart2.body.moves = false;
+
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -90,6 +99,7 @@ export default class Hospital extends Phaser.Scene {
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.add.overlap(this.player.sprite, this.zoneStart2, this.questions, null, this);
 
       //Collects a memory piece
 
@@ -112,12 +122,14 @@ export default class Hospital extends Phaser.Scene {
       });
     });
 
+
     /*var initialTime = 60;
     this.countDown(initialTime);*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
+    this.player.update();
     var potentialscenes = ['hoscoldkid','hoshotkid','hoscoldkid','hoscoldkid']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
@@ -148,6 +160,19 @@ export default class Hospital extends Phaser.Scene {
 
     this.scoreDis.setText(this.scoreText);
     this.registry.set("score", this.score);
+  }
+
+  questions() {
+
+    if (this.inter2) {
+      this.inter2 = false;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.scene.launch("message", { textArray: ['I need to find something. Do the doors lead somwhere?'], returning: "Hospital" });
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
