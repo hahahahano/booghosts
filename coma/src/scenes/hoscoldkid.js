@@ -25,7 +25,7 @@ export default class hoscoldkid extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    changeScene.addSceneEventListeners(this);
+    //changeScene.addSceneEventListeners(this);
 
     this.exit;
 
@@ -118,7 +118,7 @@ export default class hoscoldkid extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-    var potentialscenes = ['Hoscoldkid','hoshotkid','Hoscoldkid','Hoscoldkid']
+    var potentialscenes = ['hoscoldkid','hoshotkid','hoscoldkid','hoscoldkid']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];

@@ -25,7 +25,7 @@ export default class hoshotkid extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    changeScene.addSceneEventListeners(this);
+    //changeScene.addSceneEventListeners(this);
 
     this.exit;
 
