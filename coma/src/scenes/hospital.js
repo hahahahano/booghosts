@@ -123,6 +123,7 @@ export default class Hospital extends Phaser.Scene {
     });
 
     /*var initialTime = 60;
+    /*var initialTime = 60;
 
     /*var initialTime = 60;
     this.countDown(initialTime);*/
@@ -130,6 +131,7 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
+    
     this.player.update();
     var potentialscenes = ['hoscoldkid','hoshotkid','hoscoldkid','hoscoldkid']
     this.player.update();
@@ -185,6 +187,7 @@ export default class Hospital extends Phaser.Scene {
     var timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
 
 
+
     function formatTime(seconds){
         // Minutes
         var minutes = Math.floor(seconds/60);
@@ -195,6 +198,7 @@ export default class Hospital extends Phaser.Scene {
         // Returns formated time
         return `${minutes}:${partInSeconds}`;
     }
+
 
 
     function onEvent ()
