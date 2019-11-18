@@ -129,7 +129,7 @@ export default class Caves extends Phaser.Scene {
     //Particles - Waterfall
     var waterParticles = this.add.particles('caveWaterfall');
     var waterEmitter = waterParticles.createEmitter({
-        alpha: { start: 1, end: 0.45, ease: 'Expo.easeOut' },
+        alpha: { start: 1, end: 0.65, ease: 'Expo.easeOut' },
         lifespan: 5000,
         speedX:{min: -70, max: 70},
         speedY:{min: -100, max:1000},
