@@ -13,8 +13,8 @@ export default class hoscoldadult extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = this.registry.get("inventory", this.inventory);
-    this.score = this.registry.get("score", this.score);
+    this.inventory = this.registry.get("inventory");
+    this.score = this.registry.get("score");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -130,7 +130,7 @@ export default class hoscoldadult extends Phaser.Scene {
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.scene.start(rand, { inventory: this.inventory, score: this.score });
+      this.scene.start(rand);
 
     }
   }
@@ -167,7 +167,7 @@ export default class hoscoldadult extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['The feeling is getting further away'], returning: "hoscoldadult" });
+      this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hoscoldadult" });
     }
   }
 /*****************************************************************************************************************************************************/

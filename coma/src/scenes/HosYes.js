@@ -64,7 +64,11 @@ export default class HosYes extends Phaser.Scene {
     const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset2', 'hospital_tiles2');
 
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
-    this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalDoors = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalDoor = this.add.zone(450, 690).setSize(110, 230);
+    this.physics.world.enable(this.hospitalDoor);
+    this.hospitalDoor.body.setAllowGravity(false);
+    this.hospitalDoor.body.moves = false;
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
     //Adult on hospital bed
@@ -133,9 +137,9 @@ export default class HosYes extends Phaser.Scene {
   update() {
     var potentialscenes = ['GameOverScene']
     this.player.update();
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.adult) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.scene.start(rand, { inventory: this.inventory, score: this.score });
+      this.scene.start(rand);
 
     }
   }
@@ -172,7 +176,7 @@ export default class HosYes extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['I long to return to who i was and who i am'], returning: "HosYes" });
+      this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body.'], returning: "HosYes" });
     }
   }
 

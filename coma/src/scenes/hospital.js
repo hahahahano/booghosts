@@ -13,8 +13,8 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = this.registry.get("inventory", this.inventory);
-    this.score = this.registry.get("score", this.score);
+    this.inventory = this.registry.get("inventory");
+    this.score = this.registry.get("score");
     this.instructBox;
   }
 /*****************************************************************************************************************************************************/
@@ -137,7 +137,7 @@ export default class Hospital extends Phaser.Scene {
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.scene.start(rand, { inventory: this.inventory, score: this.score });
+      this.scene.start(rand);
 
     }
   }
@@ -174,7 +174,7 @@ export default class Hospital extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['I need to find something. Do the doors lead somwhere?'], returning: "Hospital" });
+      this.scene.launch("message", { textArray: ['I need to find my body. Do the doors lead somewhere?'], returning: "Hospital" });
     }
   }
 /*****************************************************************************************************************************************************/

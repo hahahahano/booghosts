@@ -13,8 +13,8 @@ export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   init (data) {
-    this.inventory = this.registry.get("inventory", this.inventory);
-    this.score = this.registry.get("score", this.score);
+    this.inventory = this.registry.get("inventory");
+    this.score = this.registry.get("score");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -30,6 +30,8 @@ export default class HosNo extends Phaser.Scene {
     this.exit;
 
     this.player;
+    this.kidSpirit;
+    this.talked = false;
 
     this.inter2 = true;
 
@@ -64,7 +66,11 @@ export default class HosNo extends Phaser.Scene {
     const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset2', 'hospital_tiles2');
 
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
-    this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalDoors = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
+    this.hospitalDoor = this.add.zone(450, 690).setSize(110, 230);
+    this.physics.world.enable(this.hospitalDoor);
+    this.hospitalDoor.body.setAllowGravity(false);
+    this.hospitalDoor.body.moves = false;
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
     //Adult on hospital bed
@@ -75,6 +81,10 @@ export default class HosNo extends Phaser.Scene {
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
+    //Creates the kid character
+    this.kidSpirit = this.physics.add.sprite(1000, 740, 'boy_ghost');
+    this.kidSpirit.setCollideWorldBounds(true);
+
     //Creates player character
     this.player = new Ghost_Player(this, 500, 740);
     this.player.sprite.setCollideWorldBounds(true);
@@ -102,13 +112,16 @@ export default class HosNo extends Phaser.Scene {
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.kid], this.hospitalWorldLayer);
+    this.physics.world.addCollider( [this.player.sprite, this.exit, this.kid, this.kidSpirit], this.hospitalWorldLayer);
     this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
     this.physics.add.overlap(this.player.sprite, this.zoneStart2, this.questions, null, this);
 
       //Collects a memory piece
 
       //Exit
+
+    //Interaction
+    this.physics.add.overlap(this.player.sprite, this.kidSpirit, this.kidTalked, null, this);
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -135,9 +148,13 @@ export default class HosNo extends Phaser.Scene {
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.scene.start(rand, { inventory: this.inventory, score: this.score });
-
+      this.registry.set("talked", this.talked);
+      this.scene.start(rand);
     }
+
+    /*if (this.talked) {
+      this.kidSpirit.setVisible(false);
+    }*/
   }
 
   updateInventory() {
@@ -175,4 +192,22 @@ export default class HosNo extends Phaser.Scene {
       this.scene.launch("message", { textArray: ['I feel a large presence here'], returning: "HosNo" });
     }
   }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  kidTalked() {
+    if (!this.talked && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.talked = true;
+      this.scene.pause();
+      this.player.keys.left.reset();
+      this.player.keys.right.reset();
+      this.player.keys.up.reset();
+      this.player.keys.x.reset();
+      this.kidReturn = ["Oh hi. What are you doing here?", "What about me? Well, that's me in the bed.", "I just felt like I had to come here for some reason. That's why I needed a ride to the city. I guess that pull I felt was my body calling to my spirit.",
+      "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do. But I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there's people waiting for me.",
+      "Well, thanks for helping me! Maybe I'll see you later."];
+      this.scene.launch("message", { textArray: this.kidReturn, returning: "HosNo" });
+    }
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 }
