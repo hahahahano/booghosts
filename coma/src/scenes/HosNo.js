@@ -14,7 +14,7 @@ export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   init (data) {
     this.inventory = this.registry.get("inventory", this.inventory);
-    this.score = this.registry.get("score", this.score);      
+    this.score = this.registry.get("score", this.score);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -122,7 +122,7 @@ export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 
   update() {
-    var potentialscenes = ['HosNo','HosYes','HosNo','HosNo']
+    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];

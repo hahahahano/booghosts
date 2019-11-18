@@ -13,6 +13,11 @@ import message from './scenes/messages/messageBox.js';
 import Hospital from './scenes/hospital.js';
 import HosNo from './scenes/HosNo.js';
 import HosYes from './scenes/HosYes.js';
+import hoscoldadult from './scenes/hoscoldadult.js';
+import hoscoldkid from './scenes/hoscoldkid.js';
+import hoshotadult from './scenes/hoshotadult.js';
+import hoshotkid from './scenes/hoshotkid.js';
+
 
 import Instructions from '../CAD/src/scenes/instructions.js';
 import Race1 from '../CAD/src/scenes/Race.js';
@@ -33,6 +38,10 @@ class Game extends Phaser.Game {
     this.scene.add('fth_video', fth_video);
     this.scene.add('Hospital', Hospital);
     this.scene.add('HosNo', HosNo);
+    this.scene.add('hoscoldadult', hoscoldadult);
+    this.scene.add('hoshotadult', hoshotadult);
+    this.scene.add('hoscoldkid', hoscoldkid);
+    this.scene.add('hoshotkid', hoshotkid);
     this.scene.add('HosYes', HosYes);
     this.scene.add('GameOverScene', GameOverScene);
 

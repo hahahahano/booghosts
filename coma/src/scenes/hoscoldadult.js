@@ -1,14 +1,14 @@
 /*
   HOSPITAL SCENE
 */
-import * as changeScene from './changeScene.js';
+//import * as changeScene from './changeScene.js';
 import Ghost_Player from "./ghost_player.js";
 
-export default class Hospital extends Phaser.Scene {
+export default class hoscoldadult extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor () {
-    super('Hospital');
+    super('hoscoldadult');
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -118,7 +118,7 @@ export default class Hospital extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-    var potentialscenes = ['Hoscoldkid','hoshotkid','Hoscoldkid','Hoscoldkid']
+    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult']
     this.player.update();
     if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
       var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
