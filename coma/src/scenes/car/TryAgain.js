@@ -15,14 +15,6 @@ export default class TryAgain extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload () {
-    /*
-    //OBJECTS
-    this.load.image('try', './CAD/assets/images/tryagain.png');
-
-    //SOUNDS
-    this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
-    */
-    
     //Defining center of scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
@@ -31,11 +23,13 @@ export default class TryAgain extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   create (data) {
-    var deadText = this.add.text(this.centerX-110, this.centerY, 'You veered off the road!');
+    this.X = this.input.keyboard.addKey("X");
+
+    var deadText = this.add.text(this.centerX-115, this.centerY-50, 'You veered off the road!');
 
     var tryAgainButt = this.add.sprite(640, 400, 'try').setInteractive();
 
-    tryAgainButt.on('pointerover', function (event) {
+    tryAgainButt.on(('pointerover'), function (event) {
         this.setTint(0xff0000);
     });
     tryAgainButt.on('pointerout', function (event) {
@@ -46,6 +40,7 @@ export default class TryAgain extends Phaser.Scene {
       this.sound.stopAll();
     }, this);
 
+
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     var music = this.sound.add('romulus');
     music.volume = 0.05;
@@ -54,7 +49,10 @@ export default class TryAgain extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update (time, delta) {
-    // Update the scene
+    if (this.input.keyboard.checkDown(this.X, 250)) {
+      this.scene.start('Race', { new: false });
+      this.sound.stopAll();
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
