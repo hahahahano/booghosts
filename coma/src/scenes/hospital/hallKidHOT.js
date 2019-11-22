@@ -4,11 +4,11 @@
 import * as changeScene from '../changeScene.js';
 import Ghost_Player from "../characters/ghost_player.js";
 
-export default class hoshotkid extends Phaser.Scene {
+export default class hallKidHOT extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor () {
-    super('hoshotkid');
+    super('hallKidHOT');
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -149,7 +149,7 @@ export default class hoshotkid extends Phaser.Scene {
     this.player.update();
 
     if (this.nextScene) {
-      this.scene.start('HosNo');
+      this.scene.start('kidRoom');
     }
   }
 
@@ -185,7 +185,7 @@ export default class hoshotkid extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['It\'s close by! I can feel it.'], returning: "hoshotkid" });
+      this.scene.launch("message", { textArray: ['It\'s close by! I can feel it.'], returning: "hallKidHOT" });
     }
   }
 /*****************************************************************************************************************************************************/

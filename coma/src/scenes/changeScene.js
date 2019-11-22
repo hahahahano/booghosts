@@ -32,42 +32,42 @@ function addSceneEventListeners (that) {
   that.input.keyboard.on(
     "keydown_FIVE",
       function () {
-        that.scene.start('hoscoldkid');
+        that.scene.start('hallKidCOLD');
       }
   );
 
   that.input.keyboard.on(
     "keydown_SIX",
       function () {
-        that.scene.start('hoshotkid');
+        that.scene.start('hallKidHOT');
       }
   );
 
   that.input.keyboard.on(
     "keydown_SEVEN",
       function () {
-        that.scene.start('HosNo');
+        that.scene.start('kidRoom');
       }
   );
 
   that.input.keyboard.on(
     "keydown_EIGHT",
       function () {
-        that.scene.start('hoscoldadult');
+        that.scene.start('hallAdultCOLD');
       }
   );
 
   that.input.keyboard.on(
     "keydown_NINE",
       function () {
-        that.scene.start('hoshotadult');
+        that.scene.start('hallAdultHOT');
       }
   );
 
   that.input.keyboard.on(
     "keydown_ZERO",
       function () {
-        that.scene.start('HosYes');
+        that.scene.start('adultRoom');
       }
   );
 

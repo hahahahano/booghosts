@@ -4,11 +4,11 @@
 import * as changeScene from '../changeScene.js';
 import Ghost_Player from "../characters/ghost_player.js";
 
-export default class HosYes extends Phaser.Scene {
+export default class adultRoom extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor () {
-    super('HosYes');
+    super('adultRoom');
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -184,7 +184,7 @@ export default class HosYes extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body.'], returning: "HosYes" });
+      this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body.'], returning: "adultRoom" });
     }
   }
 /*****************************************************************************************************************************************************/

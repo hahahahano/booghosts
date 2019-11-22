@@ -4,11 +4,11 @@
 import * as changeScene from '../changeScene.js';
 import Ghost_Player from "../characters/ghost_player.js";
 
-export default class hoscoldkid extends Phaser.Scene {
+export default class hallKidCOLD extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor () {
-    super('hoscoldkid');
+    super('hallKidCOLD');
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -185,13 +185,13 @@ export default class hoscoldkid extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hoscoldkid" });
+      this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hallKidCOLD" });
     }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   doorEnter() {
-    var potentialscenes = ['hoscoldkid','hoshotkid','hoscoldkid','hoshotkid'];
+    var potentialscenes = ['hallKidHOT', 'hallKidCOLD'];
 
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];

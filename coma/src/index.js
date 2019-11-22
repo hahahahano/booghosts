@@ -15,7 +15,7 @@ import fth_video from './scenes/transitions/fth_video.js';
 
 ///////////////////////////////////////////////CAVES///////////////////////////////////////////////////////////////////////////////////////////////////
 import caves from './scenes/caves.js';
-import caveForestTransition from '../CAD/src/scenes/instructions.js';
+import caveForestTransition from './scenes/transitions/ctf_TRAN.js';
 
 ///////////////////////////////////////////////FOREST//////////////////////////////////////////////////////////////////////////////////////////////////
 import Forest from './scenes/forest.js';
@@ -27,22 +27,21 @@ import TryAgain from '../CAD/src/scenes/TryAgain.js';
 
 ///////////////////////////////////////////////HOSPITAL////////////////////////////////////////////////////////////////////////////////////////////////
     //Lobby
-import Hospital from './scenes/hospital/lobby.js';
+import hosLobby from './scenes/hospital/lobby.js';
     //Bedrooms
-import HosNo from './scenes/hospital/kidRoom.js';
-import HosYes from './scenes/hospital/adultRoom.js';
+import kidRoom from './scenes/hospital/kidRoom.js';
+import adultRoom from './scenes/hospital/adultRoom.js';
     //Hallways
-import hoscoldadult from './scenes/hospital/hallAdultCOLD.js';
-import hoscoldkid from './scenes/hospital/hallKidCOLD.js';
-import hoshotadult from './scenes/hospital/hallAdultHOT.js';
-import hoshotkid from './scenes/hospital/hallKidHOT.js';
+import hallAdultCOLD from './scenes/hospital/hallAdultCOLD.js';
+import hallKidCOLD from './scenes/hospital/hallKidCOLD.js';
+import hallAdultHOT from './scenes/hospital/hallAdultHOT.js';
+import hallKidHOT from './scenes/hospital/hallKidHOT.js';
 
 class Game extends Phaser.Game {
   constructor () {
     super(Config);
         //General
     this.scene.add('preloader', LoadScene);
-    
     this.scene.add('start', start);
     this.scene.add('GameOverScene', GameOverScene);
         //Videos
@@ -58,13 +57,13 @@ class Game extends Phaser.Game {
     this.scene.add('RacePopup', RacePopup);
     this.scene.add('TryAgain', TryAgain);
         //Hospital
-    this.scene.add('Hospital', Hospital);
-    this.scene.add('HosNo', HosNo);
-    this.scene.add('hoscoldadult', hoscoldadult);
-    this.scene.add('hoshotadult', hoshotadult);
-    this.scene.add('hoscoldkid', hoscoldkid);
-    this.scene.add('hoshotkid', hoshotkid);
-    this.scene.add('HosYes', HosYes);
+    this.scene.add('Hospital', hosLobby);
+    this.scene.add('kidRoom', kidRoom);
+    this.scene.add('adultRoom', adultRoom);
+    this.scene.add('hallAdultCOLD', hallAdultCOLD);
+    this.scene.add('hallAdultHOT', hallAdultHOT);
+    this.scene.add('hallKidCOLD', hallKidCOLD);
+    this.scene.add('hallKidHOT', hallKidHOT);
     
     this.scene.start('preloader');
     this.scene.add('message', message);

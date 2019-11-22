@@ -4,11 +4,11 @@
 import * as changeScene from '../changeScene.js';
 import Ghost_Player from "../characters/ghost_player.js";
 
-export default class HosNo extends Phaser.Scene {
+export default class kidRoom extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   constructor () {
-    super('HosNo');
+    super('kidRoom');
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -198,7 +198,7 @@ export default class HosNo extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
-      this.scene.launch("message", { textArray: ['I feel a large presence here'], returning: "HosNo" });
+      this.scene.launch("message", { textArray: ['I feel a large presence here'], returning: "kidRoom" });
     }
   }
 /*****************************************************************************************************************************************************/
@@ -214,14 +214,14 @@ export default class HosNo extends Phaser.Scene {
       this.kidReturn = ["Oh hi. What are you doing here?", "What about me? Well, that's me in the bed.", "I just felt like I had to come here for some reason. That's why I needed a ride to the city. I guess that pull I felt was my body calling to my spirit.",
       "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do. But I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there's people waiting for me.",
       "Well, thanks for helping me! Maybe I'll see you later."];
-      this.scene.launch("message", { textArray: this.kidReturn, returning: "HosNo" });
+      this.scene.launch("message", { textArray: this.kidReturn, returning: "kidRoom" });
       this.registry.set("talked", this.talked);
     }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   doorExit() {
-    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult'];
+    var potentialscenes = ['hallAdultCOLD','hallAdultCOLD','hallAdultHOT'];
 
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
