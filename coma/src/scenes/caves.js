@@ -291,7 +291,7 @@ export default class Caves extends Phaser.Scene {
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
     this.caveMusic = this.sound.add('cave_music');
-    this.caveMusic.volume = .3;
+    this.caveMusic.volume = .5;
     this.caveMusic.play();
 
     //COLLECTING MEMORY SOUND

@@ -76,16 +76,19 @@ export default class Race extends Phaser.Scene {
 
     //Keys
     this.cursors = this.input.keyboard.createCursorKeys();
+
 ///////////////////////////////////////////////COLLISIONS//////////////////////////////////////////////////////////////////////////////////////////////
     //Collides into objects (buildings, trees, etc.)
     this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
     //Collides with ending
     this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
+
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
     var raceMusic = this.sound.add('aralia');
-    raceMusic.volume = .3;
+    raceMusic.volume = .5;
     raceMusic.play();
+
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
       // Turn on physics debugging to show player's hitbox

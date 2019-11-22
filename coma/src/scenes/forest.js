@@ -232,7 +232,7 @@ export default class Forest extends Phaser.Scene {
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
     this.forestMusic = this.sound.add('forest_music');
-    this.forestMusic.volume = .6;
+    this.forestMusic.volume = .4;
     this.forestMusic.play();
 
     //COLLECTING MEMORY SOUND
@@ -408,6 +408,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
+      this.memory_collect.play();
     }
   }
 
@@ -424,6 +425,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
+      this.memory_collect.play();
     }
   }
 
@@ -440,6 +442,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
+      this.memory_collect.play();
     }
   }
 
@@ -457,6 +460,7 @@ export default class Forest extends Phaser.Scene {
         .setDepth(-1);
       this.memCheck++;
       this.kidtoken = false;
+      this.memory_collect.play();
     }
   }
 
@@ -473,6 +477,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
+      this.memory_collect.play();
     }
   }
 
@@ -500,6 +505,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
+      this.memory_collect.play();
     }
   }
 /*****************************************************************************************************************************************************/
