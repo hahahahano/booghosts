@@ -61,7 +61,7 @@
         {
          "columns":24,
          "firstgid":1,
-         "image":"..\/tilesets\/tuxmon-sample.png",
+         "image":"..\/..\/..\/assets\/textures\/tuxmon-sample.png",
          "imageheight":480,
          "imagewidth":384,
          "margin":0,

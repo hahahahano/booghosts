@@ -132,44 +132,38 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
 
     //Cave to Forest Transition
-    this.load.image('ctft', "./assets/images/cave_to_forest_transition.jpg");
-    this.load.image('ctft1', "./assets/images/ctft_text1.png");
-    this.load.image('ctft2', "./assets/images/ctft_text2.png");
+    this.load.image('ctft', "./assets/images/transitions/cave_to_forest_transition.jpg");
+    this.load.image('ctft1', "./assets/images/transitions/ctft_text1.png");
+    this.load.image('ctft2', "./assets/images/transitions/ctft_text2.png");
 
     //FOREST
       //BACKGROUND AND FOREGROUND
     this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
     this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
-    this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
-    this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
+    this.load.image('scenery', "./assets/images/forest/forest_tilemap_overlay.png");
+    this.load.image('forest_sky', "./assets/images/forest/forest_sky.jpg");
 
       //OBJECTS
     this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
     this.load.image('boy_ghost', "./assets/sprites/boy_ghost.png");
-    this.load.image('car_side', "./assets/sprites/car_side.png");
+    this.load.image('car_side', "./assets/sprites/forest/car_side.png");
 
       //SOUNDS
     this.load.audio('forest_music', "./assets/music/forest_music.mp3");
 
     //MINIGAME
       //BACKGROUND
-    this.load.image("raceTiles1", 'CAD/assets/tilesets/tuxmon-sample.png');
-    this.load.image("raceTiles2", 'CAD/assets/tilesets/ground_tileset1.png');
-    this.load.tilemapTiledJSON("raceMap", 'CAD/assets/tilemaps/map1b.json');
-    this.load.image('try', './CAD/assets/images/tryagain.png');
+    this.load.image("raceTiles1", './assets/textures/tuxmon-sample.png');
+    this.load.image("raceTiles2", './assets/textures/ground_tileset1.png');
+    this.load.tilemapTiledJSON("raceMap", './assets/tilemaps/race_tilemap1.json');
+    this.load.image('try', './assets/images/tryagain.png');
 
       //LIVE CHARACTERS (car)
-    this.load.image("racer", 'CAD/assets/cars/red_car2.png');
+    this.load.image("racer", "./assets/sprites/car/red_car2.png");
 
       //SOUNDS
-    this.load.audio('aralia', 'CAD/assets/music/pranilzaman_burymymind.mp3');
-    this.load.audio('romulus', './CAD/assets/music/romdiprisco_romulus3.mp3');
-
-    //CITY
-      //BACKGROUND AND FOREGROUND
-    this.load.image('cityBackground', "./assets/images/city_sky1.jpg");
-    this.load.image('cityTiles', "./assets/textures/city_tileset1.png");
-    this.load.tilemapTiledJSON('cityMap', "./assets/tilemaps/city_tilemap1.json");
+    this.load.audio('aralia', './assets/music/pranilzaman_burymymind.mp3');
+    this.load.audio('romulus', './assets/music/romdiprisco_romulus3.mp3');
 
     //HOSPITAL
       //BACKGROUND AND FOREGROUND
@@ -177,10 +171,10 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('hospital_map', "./assets/tilemaps/hospital_tilemap1.json");
     this.load.image('hospital_tiles2', "./assets/textures/hospital_tileset2.png");
     this.load.tilemapTiledJSON('hospital_room1', "./assets/tilemaps/hospital_room1.json");
-    this.load.image('adult', "./assets/sprites/adult.png");
-    this.load.image('kid', "./assets/sprites/kid.png");
-    this.load.image('hosDoor', "./assets/images/hospital_door.png");
-    this.load.image('hosRoom_door', "./assets/images/hosRoom_door.png");
+    this.load.image('adult', "./assets/sprites/hospital/adult.png");
+    this.load.image('kid', "./assets/sprites/hospital/kid.png");
+    this.load.image('hosDoor', "./assets/images/hospital/hospital_door.png");
+    this.load.image('hosRoom_door', "./assets/images/hospital/hosRoom_door.png");
 }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

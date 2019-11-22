@@ -21,9 +21,9 @@ import caveForestTransition from './scenes/transitions/ctf_TRAN.js';
 import Forest from './scenes/forest.js';
 
 ///////////////////////////////////////////////RACE////////////////////////////////////////////////////////////////////////////////////////////////////
-import Race1 from '../CAD/src/scenes/Race.js';
-import RacePopup from '../CAD/src/scenes/RacePopup.js';
-import TryAgain from '../CAD/src/scenes/TryAgain.js';
+import Race1 from './scenes/car/Race.js';
+import RacePopup from'./scenes/car/RacePopup.js';
+import TryAgain from './scenes/car/TryAgain.js';
 
 ///////////////////////////////////////////////HOSPITAL////////////////////////////////////////////////////////////////////////////////////////////////
     //Lobby
