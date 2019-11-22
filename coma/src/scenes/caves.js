@@ -2,8 +2,8 @@
   CAVE SCENE
 */
 import * as changeScene from './changeScene.js';
-import Ghost_Player from "./ghost_player.js";
-import LGSpirit from "./LGSpirit.js";
+import Ghost_Player from "./characters/ghost_player.js";
+import LGSpirit from "./characters/LGSpirit.js";
 
 export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -41,50 +41,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
-    /*
-    //BACKGROUND AND FOREGROUND
-    this.load.image('caveBackground', "./assets/images/cave/cave_bg.jpg",{
-      frameWidth: 2304, //432
-      frameHeight: 3687, // 32
-    });
-    this.load.image('caveWaterfall', './assets/images/cave/blue1.png');
-    this.load.image('caveForeground', "./assets/images/cave/cave_fg_test003.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
-    });
-
-    this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
-    this.load.image('shrub', "./assets/sprites/shrub1.png");
-    this.load.tilemapTiledJSON('caveMap', "./assets/tilemaps/cave_tilemap6.json")
-    this.load.image('pressXCropped', "./assets/images/pressXCropped.png");
-
-    //OBJECTS
-    this.load.image('mem_piece', "./assets/sprites/mem.png");
-    this.load.image('exit', "./assets/sprites/bones_sketch.png");
-    this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
-    this.load.image('caveTestRock', './assets/sprites/test_rock.png');
-
-    //LIVE CHARACTERS (ghost, large spirit, small spirits)
-    this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
-      frameWidth: 395,
-      frameHeight: 596
-    });
-    this.load.spritesheet('sm_spirit', "./assets/spriteSheets/cave/small_spirit.png", {
-      frameWidth: 500,
-      frameHeight: 338
-    });
-    this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
-      frameWidth: 148,
-      frameHeight: 200
-    });
-
-    //SOUNDS
-    this.load.audio('cave_music', "./assets/music/cave_music.mp3");
-    this.load.audio('left_step', "./assets/sounds/left_step.mp3");
-    this.load.audio('right_step', "./assets/sounds/right_step.mp3");
-    this.load.audio('bush', "./assets/sounds/bushes.mp3");
-    this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
-    */
+    
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -456,11 +413,11 @@ export default class Caves extends Phaser.Scene {
           });
 
           this.bush = false;
-          this.scene.pause();
           this.player.keys.left.reset();
           this.player.keys.right.reset();
           this.player.keys.up.reset();
           this.player.keys.x.reset();
+          this.scene.pause();
           this.scene.launch("message", { textArray: ["You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)"], returning: "caves" });
         } else if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
           this.bushFX.play();
@@ -483,11 +440,11 @@ export default class Caves extends Phaser.Scene {
         } else {
           this.bush = false;
           this.bushFX.play();
-          this.scene.pause();
           this.player.keys.left.reset();
           this.player.keys.right.reset();
           this.player.keys.up.reset();
           this.player.keys.x.reset();
+          this.scene.pause();
           this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "caves" });
         }
       }
@@ -499,15 +456,13 @@ export default class Caves extends Phaser.Scene {
   //Zones
     //Tutorial Zone
   instructions(instructBox) {
-    this.pressX = this.add.image('pressXCropped');
-
     if (this.inter) {
       this.inter = false;
-      this.scene.pause();
       this.player.keys.left.reset();
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
+      this.scene.pause();
       this.scene.launch("message", { textArray: this.instructionsText, returning: "caves" });
     }
   }
@@ -527,11 +482,11 @@ export default class Caves extends Phaser.Scene {
     } else{
       if (this.memIntro) {
         this.memIntro = false;
-        this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
         this.player.keys.up.reset();
         this.player.keys.x.reset();
+        this.scene.pause();
         this.scene.launch("message", { textArray: this.MemsText, player: this.player, returning: "caves" });
       }
     }
@@ -540,11 +495,11 @@ export default class Caves extends Phaser.Scene {
   spiritInstruct(spiritBox) {
     if (this.spiritIntro) {
       this.spiritIntro = false;
-      this.scene.pause();
       this.player.keys.left.reset();
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
+      this.scene.pause();
       this.scene.launch("message", { textArray: this.spiritText, player: this.player, returning: "caves" });
     }
   }
@@ -555,11 +510,11 @@ export default class Caves extends Phaser.Scene {
         this.playNextScene();
       } else if (this.exitChecked == 0) {
           this.exitChecked++;
-          this.scene.pause();
           this.player.keys.left.reset();
           this.player.keys.right.reset();
           this.player.keys.up.reset();
           this.player.keys.x.reset();
+          this.scene.pause();
           this.scene.launch("message", { textArray: ["This is the exit. Are you sure you want to leave? (Press X to close, press X again to exit)"], returning: "caves" });
       }
     }

@@ -29,6 +29,7 @@ export default class Ghost_Player {
       .setScale(0.6)
       .setSize(80,190)
       .setOffset(35,10)
+      .setMaxVelocity(500, 1000);
     //KEYS
     const { LEFT, RIGHT, UP, DOWN, X} = Phaser.Input.Keyboard.KeyCodes;
     this.keys = scene.input.keyboard.addKeys({

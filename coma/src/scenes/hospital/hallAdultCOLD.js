@@ -1,8 +1,8 @@
 /*
-  HOSPITAL SCENE
+  HOSPITAL SCENE - Hallway(adult)
 */
-//import * as changeScene from './changeScene.js';
-import Ghost_Player from "./ghost_player.js";
+import * as changeScene from '../changeScene.js';
+import Ghost_Player from "../characters/ghost_player.js";
 
 export default class hoscoldadult extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -25,9 +25,10 @@ export default class hoscoldadult extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   create() {
     //Add change scene event listeners
-    //changeScene.addSceneEventListeners(this);
+    changeScene.addSceneEventListeners(this);
 
-    this.exit;
+    this.doors;
+    this.rand;
 
     this.inter3 = true;
 
@@ -64,21 +65,43 @@ export default class hoscoldadult extends Phaser.Scene {
     const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
 
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
-    this.hospitalDoor = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
+///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
+    //Doors
+    this.doors = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
+
+    const doorObjects = hospitalMap.getObjectLayer('DoorSpawn')['objects'];
+    doorObjects.forEach(doorObject => {
+      const door = this.doors.create(doorObject.x, doorObject.y, 'hosDoor');
+      /*if (plantObject.type === "map") {
+        this.mapBushX = plantObject.x;
+        this.mapBushY = plantObject.y;
+      } else if (plantObject.type === "mem") {
+        this.memBushX = plantObject.x;
+        this.memBushY = plantObject.y;
+      }*/
+    });
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
-    this.player = new Ghost_Player(this, 100, 825);
-    this.player.sprite.setCollideWorldBounds(true);
+    const otherObjects = hospitalMap.getObjectLayer('otherObjects')['objects'];
+    otherObjects.forEach(otherObject => {
+      if (otherObject.name === "Spawn Point") {
+        this.player = new Ghost_Player(this, otherObject.x, otherObject.y);
+        this.player.sprite.setCollideWorldBounds(true);
+        this.player.sprite.setDepth(1);
+      } //Other objects
+    });
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.followOffset.set(0, 200);
-
     this.cameras.main.setBounds(0, 0, 2048, 1024);
 
     //Gravity for this scene
@@ -89,19 +112,16 @@ export default class hoscoldadult extends Phaser.Scene {
     this.zoneStart3.body.setAllowGravity(false);
     this.zoneStart3.body.moves = false;
 
-///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit], this.hospitalWorldLayer);
-    this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.world.addCollider( [this.player.sprite], this.hospitalWorldLayer);
     this.physics.add.overlap(this.player.sprite, this.zoneStart3, this.questions1, null, this);
 
       //Collects a memory piece
 
       //Exit
+    this.physics.add.overlap(this.player.sprite, this.doors, this.doorEnter, null, this);
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
     this.input.keyboard.once("keydown_D", event => {
@@ -126,12 +146,10 @@ export default class hoscoldadult extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
-    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult']
     this.player.update();
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
-      var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.scene.start(rand);
 
+    if (this.nextScene) {
+      this.scene.start(this.rand);
     }
   }
 
@@ -159,7 +177,6 @@ export default class hoscoldadult extends Phaser.Scene {
   }
 
   questions1() {
-
     if (this.inter3) {
       this.inter3 = false;
       this.scene.pause();
@@ -168,6 +185,17 @@ export default class hoscoldadult extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hoscoldadult" });
+    }
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  doorEnter() {
+    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoshotadult'];
+
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
+
+      this.nextScene = true;
     }
   }
 /*****************************************************************************************************************************************************/
@@ -197,4 +225,6 @@ export default class hoscoldadult extends Phaser.Scene {
         console.log('Countdown: ' + formatTime(this.initialTime));
     }
   }*/
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 }

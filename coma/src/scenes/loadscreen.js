@@ -1,11 +1,15 @@
-/*global Phaser*/
-//import * as ChangeScene from './ChangeScenes.js';
+/*
+  CAVE SCENE
+*/
 
 export default class BootScene extends Phaser.Scene {
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   constructor () {
     super('preloader');
   }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   preload () {
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
@@ -68,7 +72,7 @@ export default class BootScene extends Phaser.Scene {
       percentText.destroy();
       assetText.destroy();
     });
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //START
     this.load.spritesheet('playbutton', './assets/spriteSheets/playbutton.png',{
       frameHeight: 224,
@@ -175,14 +179,12 @@ export default class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('hospital_room1', "./assets/tilemaps/hospital_room1.json");
     this.load.image('adult', "./assets/sprites/adult.png");
     this.load.image('kid', "./assets/sprites/kid.png");
-
+    this.load.image('hosDoor', "./assets/images/hospital_door.png");
+    this.load.image('hosRoom_door', "./assets/images/hosRoom_door.png");
 }
-
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
   create () {
-    //Add event addSceneEventListeners
-    //ChangeScene.addSceneEventListeners(this);
-
     this.scene.start('start');
   }
-
 }

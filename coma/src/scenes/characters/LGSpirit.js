@@ -39,21 +39,21 @@ export default class LGSpirit {
       if (i == 6) {
         this.scene.talked++;
 
-        this.scene.scene.pause();
         this.scene.player.keys.left.reset();
         this.scene.player.keys.right.reset();
         this.scene.player.keys.up.reset();
         this.scene.player.keys.x.reset();
+        this.scene.scene.pause();
         this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much!", "I hid something I found while I was lost in that bush next to me. I think it might be yours."], returning: "caves" });
       }
     } else {
       if (i == 0) {
         this.scene.talked = 6;
-        this.scene.scene.pause();
         this.scene.player.keys.left.reset();
         this.scene.player.keys.right.reset();
         this.scene.player.keys.up.reset();
         this.scene.player.keys.x.reset();
+        this.scene.scene.pause();
         this.scene.scene.launch("message", { textArray: instructions, returning: "caves" });
       }
     }

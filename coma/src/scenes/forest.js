@@ -2,7 +2,7 @@
   FOREST SCENE
 */
 import * as changeScene from './changeScene.js';
-import Ghost_Player from "./ghost_player.js";
+import Ghost_Player from "./characters/ghost_player.js";
 
 export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -19,29 +19,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
-    /*
-    //BACKGROUND AND FOREGROUND
-    this.load.image('forest_tiles', "./assets/textures/ground_tileset1.png");
-    this.load.tilemapTiledJSON('forest_map', "./assets/tilemaps/forest_tilemap1.json");
-    this.load.image('scenery', "./assets/images/forest_tilemap_overlay.png");
-    this.load.image('forest_sky', "./assets/images/forest_sky.jpg");
 
-    //OBJECTS
-    this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
-    this.load.image('boy_ghost', "./assets/sprites/boy_ghost.png");
-    this.load.image('car_side', "./assets/sprites/car_side.png");
-    this.load.image('caveTestRock', './assets/sprites/test_rock.png');
-    this.load.image('caveEntrance', "./assets/sprites/bones_sketch.png")
-
-    //LIVE CHARACTERS (ghost, large spirit, small spirits)
-    this.load.spritesheet('ghost', "./assets/spriteSheets/ghost.png", {
-      frameWidth: 148,
-      frameHeight: 200
-    });
-
-    //SOUNDS
-    this.load.audio('forest_music', "./assets/music/forest_music.mp3");
-    */
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -387,11 +365,11 @@ export default class Forest extends Phaser.Scene {
         } else {*/
           this.bush = false;
           this.bushFX.play();
-          this.scene.pause();
           this.player.keys.left.reset();
           this.player.keys.right.reset();
           this.player.keys.up.reset();
           this.player.keys.x.reset();
+          this.scene.pause();
           this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "Forest" });
         //}
       //}
@@ -403,11 +381,11 @@ export default class Forest extends Phaser.Scene {
     if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       if (!this.kidTalked) {
         this.kidTalked = true;
-        this.scene.pause();
         this.player.keys.left.reset();
         this.player.keys.right.reset();
         this.player.keys.up.reset();
         this.player.keys.x.reset();
+        this.scene.pause();
         this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
       } else {
         this.playNextScene();

@@ -1,41 +1,63 @@
-/*global Phaser, window*/
+/*
+  INDEX
+*/
 
+///////////////////////////////////////////////GENERAL/////////////////////////////////////////////////////////////////////////////////////////////////
 import Config from './config/config.js';
 import LoadScene from './scenes/loadscreen.js';
-import start from './scenes/start.js';
-import intro_video from './scenes/transitions/intro_video.js';
-import caves from './scenes/caves.js';
-import Forest from './scenes/forest.js';
-import fth_video from './scenes/transitions/fth_video.js';
-//import Hospital from './scenes/Hospital.js';
-import GameOverScene from './scenes/GameOverScene.js';
 import message from './scenes/messages/messageBox.js';
-import Hospital from './scenes/hospital.js';
-import HosNo from './scenes/HosNo.js';
-import HosYes from './scenes/HosYes.js';
-import hoscoldadult from './scenes/hoscoldadult.js';
-import hoscoldkid from './scenes/hoscoldkid.js';
-import hoshotadult from './scenes/hoshotadult.js';
-import hoshotkid from './scenes/hoshotkid.js';
+import start from './scenes/start.js';
+import GameOverScene from './scenes/GameOverScene.js';
 
+///////////////////////////////////////////////VIDEOS//////////////////////////////////////////////////////////////////////////////////////////////////
+import intro_video from './scenes/transitions/intro_video.js';
+import fth_video from './scenes/transitions/fth_video.js';
 
-import Instructions from '../CAD/src/scenes/instructions.js';
+///////////////////////////////////////////////CAVES///////////////////////////////////////////////////////////////////////////////////////////////////
+import caves from './scenes/caves.js';
+import caveForestTransition from '../CAD/src/scenes/instructions.js';
+
+///////////////////////////////////////////////FOREST//////////////////////////////////////////////////////////////////////////////////////////////////
+import Forest from './scenes/forest.js';
+
+///////////////////////////////////////////////RACE////////////////////////////////////////////////////////////////////////////////////////////////////
 import Race1 from '../CAD/src/scenes/Race.js';
 import RacePopup from '../CAD/src/scenes/RacePopup.js';
 import TryAgain from '../CAD/src/scenes/TryAgain.js';
-import Winner from '../CAD/src/scenes/Winner.js';
+
+///////////////////////////////////////////////HOSPITAL////////////////////////////////////////////////////////////////////////////////////////////////
+    //Lobby
+import Hospital from './scenes/hospital/lobby.js';
+    //Bedrooms
+import HosNo from './scenes/hospital/kidRoom.js';
+import HosYes from './scenes/hospital/adultRoom.js';
+    //Hallways
+import hoscoldadult from './scenes/hospital/hallAdultCOLD.js';
+import hoscoldkid from './scenes/hospital/hallKidCOLD.js';
+import hoshotadult from './scenes/hospital/hallAdultHOT.js';
+import hoshotkid from './scenes/hospital/hallKidHOT.js';
 
 class Game extends Phaser.Game {
   constructor () {
     super(Config);
-
+        //General
     this.scene.add('preloader', LoadScene);
+    
     this.scene.add('start', start);
+    this.scene.add('GameOverScene', GameOverScene);
+        //Videos
     this.scene.add('intro_video', intro_video);
-    this.scene.add('caves', caves);
-    this.scene.add('CTFT', Instructions);
-    this.scene.add('Forest', Forest);
     this.scene.add('fth_video', fth_video);
+        //Caves
+    this.scene.add('caves', caves);
+    this.scene.add('CTFT', caveForestTransition);
+        //Forest
+    this.scene.add('Forest', Forest);
+        //Race
+    this.scene.add('Race', Race1);
+    this.scene.add('RacePopup', RacePopup);
+    this.scene.add('TryAgain', TryAgain);
+        //Hospital
     this.scene.add('Hospital', Hospital);
     this.scene.add('HosNo', HosNo);
     this.scene.add('hoscoldadult', hoscoldadult);
@@ -43,12 +65,7 @@ class Game extends Phaser.Game {
     this.scene.add('hoscoldkid', hoscoldkid);
     this.scene.add('hoshotkid', hoshotkid);
     this.scene.add('HosYes', HosYes);
-    this.scene.add('GameOverScene', GameOverScene);
-
-    this.scene.add('Race', Race1);
-    this.scene.add('RacePopup', RacePopup);
-    this.scene.add('TryAgain', TryAgain);
-
+    
     this.scene.start('preloader');
     this.scene.add('message', message);
   }

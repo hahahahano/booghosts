@@ -1,8 +1,8 @@
 /*
-  HOSPITAL SCENE (KID)
+  HOSPITAL SCENE - Room (kid)
 */
-import * as changeScene from './changeScene.js';
-import Ghost_Player from "./ghost_player.js";
+import * as changeScene from '../changeScene.js';
+import Ghost_Player from "../characters/ghost_player.js";
 
 export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
@@ -27,7 +27,8 @@ export default class HosNo extends Phaser.Scene {
     //Add change scene event listeners
     changeScene.addSceneEventListeners(this);
 
-    this.exit;
+    this.door;
+    this.rand;
 
     this.player;
     this.kidSpirit;
@@ -59,66 +60,76 @@ export default class HosNo extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
-    this.physics.world.setBounds(0, 0, 2048, 1024);
+    this.physics.world.setBounds(0, 0, 1280, 1024);
 
     //Platforms
     const hospitalMap = this.make.tilemap({ key: 'hospital_room1' });
     const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset2', 'hospital_tiles2');
-
-    this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
-    this.hospitalDoors = hospitalMap.createStaticLayer('doors', hospitalTileset, 0, 0);
-    this.hospitalDoor = this.add.zone(450, 690).setSize(110, 230);
-    this.physics.world.enable(this.hospitalDoor);
-    this.hospitalDoor.body.setAllowGravity(false);
-    this.hospitalDoor.body.moves = false;
-    this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
-
-    //Adult on hospital bed
-    this.kid = this.physics.add.sprite(950, 720, 'kid');
-    this.kid.setCollideWorldBounds(true);
+    this.hospitalWorldLayer = hospitalMap.createStaticLayer('world', hospitalTileset, 0, 0);
 
     //foreground.setDepth(10);
     //foreground.setScrollFactor(0);
 
-///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
-    //Creates the kid character
-    this.kidSpirit = this.physics.add.sprite(1000, 740, 'boy_ghost');
-    this.kidSpirit.setCollideWorldBounds(true);
-
-    //Creates player character
-    this.player = new Ghost_Player(this, 500, 740);
-    this.player.sprite.setCollideWorldBounds(true);
-
-    //Cameras
-    this.cameras.main.startFollow(this.player.sprite);
-    this.cameras.main.followOffset.set(0, 50);
-
-    this.cameras.main.setBounds(0, 0, 1280, 1024);
-    this.cameras.main.setZoom(1.5);
-
-
-    //Gravity for this scene
-    this.physics.world.gravity.y = 700;
-
+///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //questionzone1: Explains the movements
-    this.zoneStart2 = this.add.zone(500, 500).setSize(500, 500);
+    this.zoneStart2 = this.add.zone(350, 750).setSize(200, 200);
     this.physics.world.enable(this.zoneStart2);
     this.zoneStart2.body.setAllowGravity(false);
     this.zoneStart2.body.moves = false;
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
+    //Doors
+    this.door = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
 
+    const doorObjects = hospitalMap.getObjectLayer('DoorSpawn')['objects'];
+    doorObjects.forEach(doorObject => {
+      const door = this.door.create(doorObject.x, doorObject.y, 'hosRoom_door');
+      /*if (plantObject.type === "map") {
+        this.mapBushX = plantObject.x;
+        this.mapBushY = plantObject.y;
+      } else if (plantObject.type === "mem") {
+        this.memBushX = plantObject.x;
+        this.memBushY = plantObject.y;
+      }*/
+    });
+
+///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
+    //Creates player character, kid spirit, and kid body in bed
+    const otherObjects = hospitalMap.getObjectLayer('otherObjects')['objects'];
+    otherObjects.forEach(otherObject => {
+      if (otherObject.name === "Spawn Point") {
+        this.player = new Ghost_Player(this, otherObject.x, otherObject.y);
+        this.player.sprite.setCollideWorldBounds(true);
+        this.player.sprite.setDepth(1);
+      } else if (otherObject.name === "bed") {
+        this.kid = this.physics.add.sprite(otherObject.x, otherObject.y, 'kid');
+        this.kid.setCollideWorldBounds(true);
+      } else if (otherObject.name === "kidSpawn") {
+        this.kidSpirit = this.physics.add.sprite(otherObject.x, otherObject.y, 'boy_ghost');
+        this.kidSpirit.setCollideWorldBounds(true);
+      }
+    });
+
+    //Cameras
+    this.cameras.main.startFollow(this.player.sprite);
+    this.cameras.main.setBounds(0, 0, 1280, 1024);
+    
+    //Gravity for this scene
+    this.physics.world.gravity.y = 700;
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
-    this.physics.world.addCollider( [this.player.sprite, this.exit, this.kid, this.kidSpirit], this.hospitalWorldLayer);
-    this.physics.add.overlap( this.player, this.hospitalDoor,null,this);
+    this.physics.world.addCollider( [this.player.sprite, this.kid, this.kidSpirit, this.door], this.hospitalWorldLayer);
     this.physics.add.overlap(this.player.sprite, this.zoneStart2, this.questions, null, this);
 
       //Collects a memory piece
 
       //Exit
+    this.physics.add.overlap(this.player.sprite, this.door, this.doorExit, null, this);
 
     //Interaction
     this.physics.add.overlap(this.player.sprite, this.kidSpirit, this.kidTalked, null, this);
@@ -144,12 +155,10 @@ export default class HosNo extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 
   update() {
-    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult']
     this.player.update();
-    if (this.input.keyboard.checkDown(this.player.keys.x, 250) && this.hospitalDoor) {
-      var rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
-      this.registry.set("talked", this.talked);
-      this.scene.start(rand);
+
+    if (this.nextScene) {
+      this.scene.start(this.rand);
     }
 
     /*if (this.talked) {
@@ -184,11 +193,11 @@ export default class HosNo extends Phaser.Scene {
 
     if (this.inter2) {
       this.inter2 = false;
-      this.scene.pause();
       this.player.keys.left.reset();
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
+      this.scene.pause();
       this.scene.launch("message", { textArray: ['I feel a large presence here'], returning: "HosNo" });
     }
   }
@@ -197,15 +206,26 @@ export default class HosNo extends Phaser.Scene {
   kidTalked() {
     if (!this.talked && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
       this.talked = true;
-      this.scene.pause();
       this.player.keys.left.reset();
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
+      this.scene.pause();
       this.kidReturn = ["Oh hi. What are you doing here?", "What about me? Well, that's me in the bed.", "I just felt like I had to come here for some reason. That's why I needed a ride to the city. I guess that pull I felt was my body calling to my spirit.",
       "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do. But I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there's people waiting for me.",
       "Well, thanks for helping me! Maybe I'll see you later."];
       this.scene.launch("message", { textArray: this.kidReturn, returning: "HosNo" });
+      this.registry.set("talked", this.talked);
+    }
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  doorExit() {
+    var potentialscenes = ['hoscoldadult','hoshotadult','hoscoldadult','hoscoldadult'];
+
+    if (this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.rand = potentialscenes[Math.floor(Math.random() * potentialscenes.length)];
+      this.nextScene = true;
     }
   }
 /*****************************************************************************************************************************************************/
