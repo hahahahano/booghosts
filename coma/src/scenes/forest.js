@@ -43,16 +43,6 @@ export default class Forest extends Phaser.Scene {
 
     this.player;
 
-    this.invTextDis = this.add
-      .text(16, 36, "", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
-    this.updateInventory();
-
     this.scoreDis = this.add
       .text(16, 16, "", {
         font: "18px monospace",
@@ -62,6 +52,16 @@ export default class Forest extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50);
     this.updateScore();
+
+    this.invTextDis = this.add
+      .text(16, 36, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateInventory();
 
     this.nextScene = false;
     this.kidtoken = true;
@@ -550,7 +550,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   enemyHit(player) {
-    this.player.destroy(this.x, this.y);
+    this.player.destroy(this.x, this.y - 30);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

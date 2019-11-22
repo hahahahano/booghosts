@@ -14,7 +14,7 @@ export default class GameOverScene extends Phaser.Scene {
   init (data) {
     this.score = this.registry.get("score");
     this.kidTalked = this.registry.get("talked");
-    //this.endReached = data.endReached;
+    this.endReached = data.endReached;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -30,7 +30,7 @@ export default class GameOverScene extends Phaser.Scene {
     //Add change scene event listeners
     changeScene.addSceneEventListeners(this);
 
-    //if (this.endReached) {
+    if (this.endReached) {
       if (this.score <= 5) {
         var text = this.add.text(this.centerX - 215, this.centerY - 150, "You wake up, but you don't seem to remember anything... What happened?", {
           font: "18px monospace",
@@ -55,7 +55,7 @@ export default class GameOverScene extends Phaser.Scene {
           align: "center"
         });
       } else {
-        var text = this.add.text(this.centerX - 300, this.centerY - 150, "You wake up! You were in a coma, caused by a car accident. Your child... He was also in car! Let's go see him.", {
+        var text = this.add.text(this.centerX - 280, this.centerY - 150, "You wake up! You were in a coma, caused by a car accident. Your child... He was also in car! Let's go see him.", {
           font: "18px monospace",
           fill: "#fff",
           wordWrap: {width: 600, useAdvancedWrap: true},
@@ -70,7 +70,7 @@ export default class GameOverScene extends Phaser.Scene {
             align: "center"
           });
         } else {
-          var text = this.add.text(this.centerX - 220, this.centerY, "--- is still unconscious... What should you do? ...What can you do?", {
+          var text = this.add.text(this.centerX - 250, this.centerY, "--- is still unconscious... What should you do? ...What can you do?", {
             font: "18px monospace",
             fill: "#fff",
             wordWrap: {width: 600, useAdvancedWrap: true},
@@ -85,7 +85,7 @@ export default class GameOverScene extends Phaser.Scene {
           align: "center"
         });
       }
-    /*} else {
+    } else {
       var text = this.add.text(this.centerX - 280, this.centerY, "You didn't make it to your body in time. You never wake up from your coma, stuck as a spirit...", {
         font: "18px monospace",
         fill: "#fff",
@@ -98,7 +98,7 @@ export default class GameOverScene extends Phaser.Scene {
         wordWrap: {width: 600, useAdvancedWrap: true},
         align: "center"
       });
-    }*/
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

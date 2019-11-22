@@ -49,16 +49,6 @@ export default class Caves extends Phaser.Scene {
     //Add change scene event listeners
     changeScene.addSceneEventListeners(this);
 
-    this.invTextDis = this.add
-      .text(16, 36, "", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
-    this.updateInventory();
-
     this.scoreDis = this.add
       .text(16, 16, "", {
         font: "18px monospace",
@@ -68,6 +58,16 @@ export default class Caves extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50);
     this.updateScore();
+
+    this.invTextDis = this.add
+      .text(16, 36, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateInventory();
 
     this.nextScene = false;
 
@@ -399,6 +399,7 @@ export default class Caves extends Phaser.Scene {
           this.bushFound = true;
 
           this.caveScroll = this.physics.add.sprite(this.mapBushX, this.mapBushY, 'caveScroll');
+          this.player.stopAll();
           var scrollTween = this.tweens.add({
             targets: this.caveScroll,
             allowGravity: false,
@@ -410,6 +411,7 @@ export default class Caves extends Phaser.Scene {
             this.inventory.push("Map");
             this.updateInventory();
             this.caveScroll.destroy();
+            this.player.resumeAll();
           });
 
           this.bush = false;
@@ -425,6 +427,7 @@ export default class Caves extends Phaser.Scene {
           this.talked++;
 
           this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
+          this.player.stopAll();
           var memTween = this.tweens.add({
             targets: this.memQ,
             allowGravity: false,
@@ -436,6 +439,7 @@ export default class Caves extends Phaser.Scene {
             this.score++;
             this.updateScore();
             this.memQ.destroy();
+            this.player.resumeAll();
           });
         } else {
           this.bush = false;
@@ -539,7 +543,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   //When the player touches an enemy, return to spawn
   enemyHit(player, sm_spirit) {
-    this.player.destroy(this.x, this.y);
+    this.player.destroy(this.x, this.y - 30);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

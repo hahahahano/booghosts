@@ -15,6 +15,7 @@ export default class hallKidHOT extends Phaser.Scene {
   init (data) {
     this.inventory = this.registry.get("inventory");
     this.score = this.registry.get("score");
+    this.timer = this.registry.get("timerGlobal");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -34,16 +35,6 @@ export default class hallKidHOT extends Phaser.Scene {
 
     this.player;
 
-    this.invTextDis = this.add
-      .text(16, 36, "", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 }
-      })
-      .setScrollFactor(0)
-      .setDepth(50);
-    this.updateInventory();
-
     this.scoreDis = this.add
       .text(16, 16, "", {
         font: "18px monospace",
@@ -53,6 +44,16 @@ export default class hallKidHOT extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50);
     this.updateScore();
+
+    this.invTextDis = this.add
+      .text(16, 36, "", {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.updateInventory();
 
     this.nextScene = false;
 
@@ -140,15 +141,30 @@ export default class hallKidHOT extends Phaser.Scene {
       });
     });
 
-    /*var initialTime = 60;
-    this.countDown(initialTime);*/
+    var minutes = Math.floor(this.timer/60);
+    var partInSeconds = this.timer%60;
+    partInSeconds = partInSeconds.toString().padStart(2,'0');
+    var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
+
+    this.timerDis = this.add
+      .text(16, 56, text, {
+        font: "18px monospace",
+        fill: "#ffffff",
+        padding: { x: 20, y: 10 }
+      })
+      .setScrollFactor(0)
+      .setDepth(50);
+    this.countDown(this.timer);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
 
-    if (this.nextScene) {
+    if (this.timer == 0) {
+      this.player.stopAll();
+      this.fadingOut();
+    } else if (this.nextScene) {
       this.scene.start('kidRoom');
     }
   }
@@ -197,31 +213,42 @@ export default class hallKidHOT extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  /*countDown(initialTime) {
+  countDown(initialTime) {
     this.initialTime = initialTime;
-    var text = this.add.text(16, 56, 'Countdown: ' + formatTime(this.initialTime));
 
-    // Each 1000 ms call onEvent
     var timedEvent = this.time.addEvent({ delay: 1000, callback: onEvent, callbackScope: this, loop: true });
 
     function formatTime(seconds){
-        // Minutes
-        var minutes = Math.floor(seconds/60);
-        // Seconds
-        var partInSeconds = seconds%60;
-        // Adds left zeros to seconds
-        partInSeconds = partInSeconds.toString().padStart(2,'0');
-        // Returns formated time
-        return `${minutes}:${partInSeconds}`;
+      var minutes = Math.floor(seconds/60);
+      var partInSeconds = seconds%60;
+      partInSeconds = partInSeconds.toString().padStart(2,'0');
+
+      return `${minutes}:${partInSeconds}`;
     }
 
-    function onEvent ()
-    {
-        this.initialTime -= 1; // One second
-        text.setText('Countdown: ' + formatTime(this.initialTime));
-        console.log('Countdown: ' + formatTime(this.initialTime));
+    function onEvent() {
+      if (this.initialTime > 0) {
+        this.initialTime -= 1;
+        this.timer = this.initialTime;
+        var text = 'Countdown: ' + formatTime(this.initialTime);
+        this.timerDis.setText(text);
+        this.registry.set("timerGlobal", this.initialTime);
+      } else if (this.initialTime == 0) {
+        this.initialTime -= 1;
+        this.timer = this.initialTime;
+        this.registry.set("timerGlobal", this.initialTime);
+      }
     }
-  }*/
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  fadingOut() {
+    this.cameras.main.once('camerafadeoutcomplete', function (camera) {
+      this.scene.start('GameOverScene', { endReached: false });
+    }, this);
+
+    this.cameras.main.fadeOut(2500);
+  }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
 }

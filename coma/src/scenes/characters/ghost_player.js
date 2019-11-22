@@ -7,6 +7,7 @@ export default class Ghost_Player {
 /*****************************************************************************************************************************************************/
   constructor(scene, x, y) {
     this.scene = scene;
+    this.stopMovement = false;
 
     //PLAYER ANIMATIONS
     const anims = scene.anims;
@@ -46,30 +47,33 @@ export default class Ghost_Player {
     const { keys, sprite } = this;
     const onGround = sprite.body.blocked.down;
 
-    //MOVEMENT KEYS
-    if (keys.left.isDown) {
-      sprite.setVelocityX(-300);
-      sprite.setFlipX(true);
-      //this.leftStep.play();
-    } else if (keys.right.isDown) {
-      sprite.setVelocityX(300);
-      sprite.setFlipX(false);
-      //this.rightStep.play();
-    } else {
-      sprite.setVelocityX(0);
-    }
-      //JUMP
-    if (onGround && (keys.up.isDown)) {
-      sprite.setVelocityY(-600);
-    }
+    if (!this.stopMovement) {
+      //MOVEMENT KEYS
+      if (keys.left.isDown) {
+        sprite.setVelocityX(-300);
+        sprite.setFlipX(true);
+        //this.leftStep.play();
+      } else if (keys.right.isDown) {
+        sprite.setVelocityX(300);
+        sprite.setFlipX(false);
+        //this.rightStep.play();
+      } else {
+        sprite.setVelocityX(0);
+      }
+        //JUMP
+      if (onGround && (keys.up.isDown)) {
+        sprite.setVelocityY(-600);
+      }
 
-    //INTERACTIONS
-    if (keys.x.isDown) {
-    }
+      //INTERACTIONS
+      if (keys.x.isDown) {
+      }
 
-    //UPDATING ANIMATIONS
-    if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);
-    else sprite.anims.play('idle', true);
+      //UPDATING ANIMATIONS
+      if (sprite.body.velocity.x !== 0) sprite.anims.play('walk', true);
+      else sprite.anims.play('idle', true);
+    }
+    
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -82,6 +86,18 @@ export default class Ghost_Player {
 /*****************************************************************************************************************************************************/
   getInCar(x, y) {
     this.sprite.setVisible(false);
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  stopAll() {
+    this.stopMovement = true;
+    this.sprite.disableBody();
+  }
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+  resumeAll() {
+    this.stopMovement = false;
+    this.sprite.enableBody();
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
