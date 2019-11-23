@@ -15,6 +15,9 @@ export default class Start extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
+
+    this.registry.set("score", 0);
+    this.registry.set("inventory", []);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

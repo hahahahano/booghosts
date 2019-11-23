@@ -204,7 +204,7 @@ export default class lobby extends Phaser.Scene {
   }
 
   questions() {
-    if (this.inter2 && !this.hospitalCheck) {
+    if (this.inter2) {
       this.inter2 = false;
       this.hospitalCheck = false;
       this.registry.set("hospitalCheck", true);
@@ -214,7 +214,11 @@ export default class lobby extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
-      this.scene.launch("message", { textArray: ['I need to find my body. Do the doors lead somewhere?'], returning: "Hospital" });
+      if (!this.hospitalCheck) {
+        this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.', '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital" });
+      } else {
+        this.scene.launch("message", { textArray: ['I\'m back where I started..', '...Time\'s running out. I better do what I want to and return to my body fast!'], returning: "Hospital" });
+      }
     }
   }
 /*****************************************************************************************************************************************************/

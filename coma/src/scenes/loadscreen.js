@@ -13,8 +13,6 @@ export default class BootScene extends Phaser.Scene {
   preload () {
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-    this.registry.set("score", 0);
-    this.registry.set("inventory", []);
 
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();

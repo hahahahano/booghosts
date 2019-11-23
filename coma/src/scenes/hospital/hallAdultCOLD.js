@@ -200,7 +200,7 @@ export default class hallAdultCOLD extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hallAdultCOLD" });
+      this.scene.launch("message", { textArray: ['The pull is getting weaker.'], returning: "hallAdultCOLD" });
     }
   }
 /*****************************************************************************************************************************************************/

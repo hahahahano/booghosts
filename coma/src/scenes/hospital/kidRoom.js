@@ -16,6 +16,12 @@ export default class kidRoom extends Phaser.Scene {
     this.inventory = this.registry.get("inventory");
     this.score = this.registry.get("score");
     this.timer = this.registry.get("timerGlobal");
+    if (this.registry.get("talked")) {
+      this.talked = this.registry.get("talked");
+    } else {
+      this.registry.set("talked", false);
+      this.talked = false;
+    }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -33,7 +39,6 @@ export default class kidRoom extends Phaser.Scene {
 
     this.player;
     this.kidSpirit;
-    this.talked = false;
 
     this.inter2 = true;
 
@@ -108,7 +113,7 @@ export default class kidRoom extends Phaser.Scene {
       } else if (otherObject.name === "bed") {
         this.kid = this.physics.add.sprite(otherObject.x, otherObject.y, 'kid');
         this.kid.setCollideWorldBounds(true);
-      } else if (otherObject.name === "kidSpawn") {
+      } else if (otherObject.name === "kidSpawn" && !this.talked) {
         this.kidSpirit = this.physics.add.sprite(otherObject.x, otherObject.y, 'boy_ghost');
         this.kidSpirit.setCollideWorldBounds(true);
       }
@@ -178,10 +183,6 @@ export default class kidRoom extends Phaser.Scene {
     } else if (this.nextScene) {
       this.scene.start(this.rand);
     }
-
-    /*if (this.talked) {
-      this.kidSpirit.setVisible(false);
-    }*/
   }
 
   updateInventory() {
@@ -216,25 +217,44 @@ export default class kidRoom extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
-      this.scene.launch("message", { textArray: ['I feel a large presence here'], returning: "kidRoom" });
+      if (this.talked) {
+        this.scene.launch("message", { textArray: ['Oh, that\'s not my body.'], returning: "kidRoom" })
+      } else {
+        this.scene.launch("message", { textArray: ['Oh, that\'s not my body. But it\'s that kid I drove to the city.'], returning: "kidRoom" });
+      }
     }
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   kidTalked() {
     if (!this.talked && this.input.keyboard.checkDown(this.player.keys.x, 250)) {
+      this.player.stopAll();
       this.talked = true;
+      this.registry.set("talked", this.talked);
+
+      var kidTween = this.tweens.add({
+        targets: this.kidSpirit,
+        allowGravity: false,
+        y: this.kidSpirit.y-100,
+        ease: 'Linear',
+        duration: 1500
+      });
+      kidTween.on("complete", event => {
+        this.kidSpirit.setVisible(false);
+        this.player.resumeAll();
+      });
+
       this.player.keys.left.reset();
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
       this.kidReturn = ["Oh hi. What are you doing here?", "What about me? Well, that's me in the bed.", "I just felt like I had to come here for some reason. That's why I needed a ride to the city. I guess that pull I felt was my body calling to my spirit.",
-      "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do. But I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there's people waiting for me.",
+      "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do, but I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there're people waiting for me.",
       "Well, thanks for helping me! Maybe I'll see you later."];
       this.scene.launch("message", { textArray: this.kidReturn, returning: "kidRoom" });
-      this.registry.set("talked", this.talked);
     }
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

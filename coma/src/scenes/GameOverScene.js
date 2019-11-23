@@ -99,6 +99,43 @@ export default class GameOverScene extends Phaser.Scene {
         align: "center"
       });
     }
+
+    var sound = this.sound.add('pops');
+    sound.addMarker({
+      name: 'low',
+      start: 0.15,
+      duration: 0.5
+    });
+    sound.addMarker({
+      name: 'high',
+      start: 1.1,
+      duration: 1.5
+    });
+
+    var b1 = this.add.sprite(this.centerX + 10,this.centerY + 250, 'playbutton', 0).setInteractive();
+    b1.setScale(.75);
+    b1.setFrame(0);
+    b1.on('pointerover', function() {
+      this.setFrame(1);
+      sound.play('low');
+    });
+
+    b1.on('pointerout', function() {
+      this.setFrame(0);
+    });
+
+    b1.on("pointerup", function() {
+        sound.play('high');
+
+        this.registry.remove("score");
+        this.registry.remove("inventory");
+        this.registry.remove("timerGlobal");
+        this.registry.remove("talked");
+        this.registry.remove("hospitalCheck");
+
+        this.scene.start('start');
+      }, this
+    );
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

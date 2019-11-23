@@ -201,7 +201,7 @@ export default class hallKidCOLD extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['The feeling is getting further away.'], returning: "hallKidCOLD" });
+      this.scene.launch("message", { textArray: ['The feeling is getting weaker. Let\'s choose another door. Maybe I\'ll get closer again.'], returning: "hallKidCOLD" });
     }
   }
 /*****************************************************************************************************************************************************/

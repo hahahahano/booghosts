@@ -16,6 +16,7 @@ export default class adultRoom extends Phaser.Scene {
     this.inventory = this.registry.get("inventory", this.inventory);
     this.score = this.registry.get("score", this.score);
     this.timer = this.registry.get("timerGlobal");
+    this.talked = this.registry.get("talked");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -165,9 +166,11 @@ export default class adultRoom extends Phaser.Scene {
     
     if (this.timer == 0) {
       this.player.stopAll();
-      this.fadingOut();
+      this.fadingOut(false);
     } else if (this.nextScene) {
-      this.scene.start('GameOverScene', { endReached: true });
+      this.nextScene = false;
+      this.player.stopAll();
+      this.fadingOut(true);
     }
   }
 
@@ -203,7 +206,11 @@ export default class adultRoom extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body.'], returning: "adultRoom" });
+      if (this.talked) {
+        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Before time runs out.'], returning: "adultRoom" })
+      } else {
+        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Unless there\'s something I forgot to do...'], returning: "adultRoom" });
+      }
     }
   }
 /*****************************************************************************************************************************************************/
@@ -251,9 +258,9 @@ export default class adultRoom extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
-  fadingOut() {
+  fadingOut(end) {
     this.cameras.main.once('camerafadeoutcomplete', function (camera) {
-      this.scene.start('GameOverScene', { endReached: false });
+      this.scene.start('GameOverScene', { endReached: end });
     }, this);
 
     this.cameras.main.fadeOut(2500);

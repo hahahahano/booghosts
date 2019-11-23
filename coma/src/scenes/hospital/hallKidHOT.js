@@ -201,7 +201,7 @@ export default class hallKidHOT extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['It\'s close by! I can feel it.'], returning: "hallKidHOT" });
+      this.scene.launch("message", { textArray: ['I can feel the pull getting stronger.'], returning: "hallKidHOT" });
     }
   }
 /*****************************************************************************************************************************************************/
