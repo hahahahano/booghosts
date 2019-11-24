@@ -163,8 +163,10 @@ export default class BootScene extends Phaser.Scene {
 
     //HOSPITAL
       //BACKGROUND AND FOREGROUND
+    this.load.image('desk', "./assets/images/hospital/lobby.png");
     this.load.image('hospital_tiles', "./assets/textures/hospital_tileset1.png");
     this.load.tilemapTiledJSON('hospital_map', "./assets/tilemaps/hospital_tilemap1.json");
+    this.load.tilemapTiledJSON('lobby_map', "./assets/tilemaps/lobby_tilemap1.json");
     this.load.image('hospital_tiles2', "./assets/textures/hospital_tileset2.png");
     this.load.tilemapTiledJSON('hospital_room1', "./assets/tilemaps/hospital_room1.json");
     this.load.image('adult', "./assets/sprites/hospital/adult.png");

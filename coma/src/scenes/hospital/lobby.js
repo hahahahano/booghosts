@@ -21,7 +21,7 @@ export default class lobby extends Phaser.Scene {
     } else {
       this.timer = 60;
     }
-    
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -69,7 +69,7 @@ export default class lobby extends Phaser.Scene {
     this.physics.world.setBounds(0, 0, 2048, 1024);
 
     //Platforms
-    const hospitalMap = this.make.tilemap({ key: 'hospital_map' });
+    const hospitalMap = this.make.tilemap({ key: 'lobby_map' });
     const hospitalTileset = hospitalMap.addTilesetImage('hospital_tileset1', 'hospital_tiles');
 
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
@@ -79,6 +79,11 @@ export default class lobby extends Phaser.Scene {
     //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
+    //Lobby Desk
+    const desk = this.add
+      .image(200, 815, 'desk')
+      .setScale(.5);
+
     //Doors
     this.doors = this.physics.add.group({
       allowGravity: false,
@@ -126,7 +131,7 @@ export default class lobby extends Phaser.Scene {
     //COLLISIONS
     this.hospitalWorldLayer.setCollisionByProperty({ collides: true });
     this.physics.world.addCollider( [this.player.sprite], this.hospitalWorldLayer);
-    
+
     this.physics.add.overlap(this.player.sprite, this.zoneStart2, this.questions, null, this);
 
       //Collects a memory piece
@@ -150,7 +155,7 @@ export default class lobby extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
-    
+
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
     partInSeconds = partInSeconds.toString().padStart(2,'0');
@@ -164,7 +169,7 @@ export default class lobby extends Phaser.Scene {
       })
       .setScrollFactor(0)
       .setDepth(50);
-    this.countDown(this.timer);    
+    this.countDown(this.timer);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -177,7 +182,7 @@ export default class lobby extends Phaser.Scene {
     } else if (this.nextScene) {
       this.scene.start(this.rand);
     }
-    
+
   }
 
   updateInventory() {
