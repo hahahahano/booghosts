@@ -236,7 +236,7 @@ export default class Forest extends Phaser.Scene {
     this.forestMusic.play();
 
     //COLLECTING MEMORY SOUND
-    this.memory_collect = this.sound.add('memory_collect');
+    this.memory_collect = this.sound.add('memory_collect1');
     this.memory_collect.volume = .5;
     this.memory_collect.setRate(2);
 
@@ -265,7 +265,7 @@ export default class Forest extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     if (!this.nextScene) {
-      this.player.update(); 
+      this.player.update();
     }
 
     if (this.kidtoken) {

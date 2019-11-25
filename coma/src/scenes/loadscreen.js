@@ -150,6 +150,7 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('forest_music', "./assets/music/forest_music.mp3");
+    this.load.audio('memory_collect1', "./assets/sounds/memory1.mp3");
 
     //MINIGAME
       //BACKGROUND
