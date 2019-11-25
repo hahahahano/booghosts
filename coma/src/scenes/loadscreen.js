@@ -76,6 +76,10 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 224,
       frameWidth: 500,
     });
+    this.load.spritesheet('replaybutton', './assets/spriteSheets/replaybutton.png',{
+      frameHeight: 224,
+      frameWidth: 500,
+    });
     this.load.image('titlepage', './assets/images/titlepage.jpg');
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
