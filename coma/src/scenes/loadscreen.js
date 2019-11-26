@@ -83,6 +83,12 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('titlepage', './assets/images/titlepage.jpg');
     this.load.audio('pops', './assets/sounds/buttonPops.mp3');
 
+    //MESSAGES
+    this.load.image('caveTestRock', './assets/sprites/test_rock.png');
+    this.load.image('lgSpiritStill', './assets/images/cave/large_spirit_still.png');
+    this.load.image('ghostStill', './assets/images/cave/ghost_still.png');
+    this.load.image('kidStill', './assets/images/forest/kid_still.png');
+
     //TRANSITION VIDEOS
     this.load.video('intro', './assets/videos/intro_storyboard.mp4', 'loadeddata', false, true);
     this.load.video('city', './assets/videos/cth_storyboard.mp4', 'loadeddata', false, true);
@@ -108,7 +114,6 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('mem_piece', "./assets/sprites/mem.png");
     this.load.image('exit', "./assets/sprites/bones_sketch.png");
     this.load.image('caveScroll', './assets/sprites/cave/map_sketch.png');
-    this.load.image('caveTestRock', './assets/sprites/test_rock.png');
 
       //LIVE CHARACTERS (ghost, large spirit, small spirits)
     this.load.spritesheet('lg_spirit', "./assets/spriteSheets/cave/large_spirit.png", {
@@ -147,6 +152,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('acorn', "./assets/sprites/forest/acorn.jpg");
     this.load.image('boy_ghost', "./assets/sprites/boy_ghost.png");
     this.load.image('car_side', "./assets/sprites/forest/car_side.png");
+    this.load.image('toy_car', "./assets/sprites/car/red_car2_old.png")
 
       //SOUNDS
     this.load.audio('forest_music', "./assets/music/forest_music.mp3");

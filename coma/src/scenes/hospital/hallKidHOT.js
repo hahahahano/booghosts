@@ -147,8 +147,8 @@ export default class hallKidHOT extends Phaser.Scene {
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
 
     this.timerDis = this.add
-      .text(16, 56, text, {
-        font: "18px monospace",
+      .text(450, 26, text, {
+        font: "28px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 }
       })
@@ -201,7 +201,7 @@ export default class hallKidHOT extends Phaser.Scene {
       this.player.keys.right.reset();
       this.player.keys.up.reset();
       this.player.keys.x.reset();
-      this.scene.launch("message", { textArray: ['I can feel the pull getting stronger.'], returning: "hallKidHOT" });
+      this.scene.launch("message", { textArray: ['I can feel the pull getting stronger.'], returning: "hallKidHOT", character: "ghost" });
     }
   }
 /*****************************************************************************************************************************************************/

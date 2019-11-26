@@ -55,7 +55,7 @@ export default class GameOverScene extends Phaser.Scene {
           align: "center"
         });
       } else {
-        var text = this.add.text(this.centerX - 280, this.centerY - 150, "You wake up! You were in a coma, caused by a car accident. Your child... He was also in car! Let's go see him.", {
+        var text = this.add.text(this.centerX - 275, this.centerY - 150, "You wake up! You were in a coma, caused by a car accident. Your child... He was also in car! Let's go see him.", {
           font: "18px monospace",
           fill: "#fff",
           wordWrap: {width: 600, useAdvancedWrap: true},
@@ -63,7 +63,7 @@ export default class GameOverScene extends Phaser.Scene {
         });
 
         if (this.kidTalked) {
-          var text = this.add.text(this.centerX - 200, this.centerY, "--- is awake! He leaps from his bed and hugs you.", {
+          var text = this.add.text(this.centerX - 220, this.centerY, "--- is awake! He leaps from his bed and hugs you.", {
             font: "18px monospace",
             fill: "#fff",
             wordWrap: {width: 600, useAdvancedWrap: true},
@@ -112,7 +112,7 @@ export default class GameOverScene extends Phaser.Scene {
       duration: 1.5
     });
 
-    var b1 = this.add.sprite(this.centerX + 10,this.centerY + 250, 'playbutton', 0).setInteractive();
+    var b1 = this.add.sprite(this.centerX + 10,this.centerY + 250, 'replaybutton', 0).setInteractive();
     b1.setScale(.75);
     b1.setFrame(0);
     b1.on('pointerover', function() {

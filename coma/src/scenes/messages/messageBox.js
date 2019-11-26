@@ -13,6 +13,7 @@ export default class messageBox extends Phaser.Scene {
   init (data) {
     this.textArray = data.textArray;
     this.returningScene = data.returning;
+    this.character = data.character;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -51,26 +52,50 @@ export default class messageBox extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   createContainer() {
-    const w = 1280 * 0.9;
+    const w = 1280 * 0.85;
     const h = 720;
 
     //Container for the creation of the box and the text
     var msgBox = this.add.container(0, h * 0.875);
 
     //Creating the box for the textbox
-    var boxBack = this.add.image(1280 * 0.5, h * .1, "caveTestRock");
+    var boxBack = this.add.image(1280 * 0.5, 28, "caveTestRock");
     boxBack.setDisplaySize(1280, h*0.2);
     boxBack.alpha = (1);
     //var boxFrame = this.scene.add.sprite(0, 0, "boxFrame");
 
-    this.message = this.add.text(0, 0, this.textArray[this.count], {
+    //PHOTO
+    switch (this.character) {
+      case "ghost":
+        var photo = this.add.image(80, 35, "ghostStill");
+        photo.setDisplaySize(h*0.135, h*0.2);
+        break;
+
+      case "large spirit":
+        var photo = this.add.image(80, 30, "lgSpiritStill");
+        photo.setDisplaySize(h*0.175, h*0.18);
+        break;
+
+      case "kid":
+        var photo = this.add.image(80, 30, "kidStill");
+        photo.setDisplaySize(h*0.175, h*0.175);
+        break;
+
+      case "bush":
+        var photo = this.add.image(80, 30, "shrub");
+        photo.setDisplaySize(h*0.175, h*0.135);
+        break;
+    }
+
+    this.message = this.add.text(h*0.175+20, -20, this.textArray[this.count], {
       font: "18px monospace",
       fill: "#fff",
       wordWrap: { width: w, useAdvancedWrap: true },
-      padding: { x: 20, y: 20 }
+      padding: { x: 20, y: 0 }
     });
 
     msgBox.add(boxBack);
+    msgBox.add(photo);
     msgBox.add(this.message);
 
     this.msgBox = msgBox;

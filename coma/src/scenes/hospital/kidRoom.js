@@ -163,8 +163,8 @@ export default class kidRoom extends Phaser.Scene {
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
 
     this.timerDis = this.add
-      .text(16, 56, text, {
-        font: "18px monospace",
+      .text(450, 26, text, {
+        font: "28px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 }
       })
@@ -218,9 +218,9 @@ export default class kidRoom extends Phaser.Scene {
       this.player.keys.x.reset();
       this.scene.pause();
       if (this.talked) {
-        this.scene.launch("message", { textArray: ['Oh, that\'s not my body.'], returning: "kidRoom" })
+        this.scene.launch("message", { textArray: ['Oh, that\'s not my body.'], returning: "kidRoom", character: "ghost" })
       } else {
-        this.scene.launch("message", { textArray: ['Oh, that\'s not my body. But it\'s that kid I drove to the city.'], returning: "kidRoom" });
+        this.scene.launch("message", { textArray: ['Oh, that\'s not my body. But it\'s that kid I drove to the city.'], returning: "kidRoom", character: "ghost" });
       }
     }
   }
@@ -252,7 +252,7 @@ export default class kidRoom extends Phaser.Scene {
       this.kidReturn = ["Oh hi. What are you doing here?", "What about me? Well, that's me in the bed.", "I just felt like I had to come here for some reason. That's why I needed a ride to the city. I guess that pull I felt was my body calling to my spirit.",
       "It looks like I'm in a coma. What should I do now? I like running around with no one to tell me what to do, but I miss my family and friends.", "Yeah, you're right. I should return to my body. I should wake up. I'm sure there're people waiting for me.",
       "Well, thanks for helping me! Maybe I'll see you later."];
-      this.scene.launch("message", { textArray: this.kidReturn, returning: "kidRoom" });
+      this.scene.launch("message", { textArray: this.kidReturn, returning: "kidRoom", character: "kid" });
     }
 
   }

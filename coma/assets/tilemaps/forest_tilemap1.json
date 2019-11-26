@@ -107,8 +107,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":6624,
-                 "y":1088
+                 "x":5073,
+                 "y":1090
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -151,7 +151,7 @@
                  "name":"shrub",
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"acorn",
                  "visible":true,
                  "width":0,
                  "x":6984,
@@ -163,7 +163,7 @@
                  "name":"shrub",
                  "point":true,
                  "rotation":0,
-                 "type":"",
+                 "type":"toyCar",
                  "visible":true,
                  "width":0,
                  "x":7581.33333333333,

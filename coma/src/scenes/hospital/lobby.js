@@ -20,6 +20,7 @@ export default class lobby extends Phaser.Scene {
       this.timer = this.registry.get("timerGlobal");
     } else {
       this.timer = 60;
+      this.hospitalCheck = false;
     }
 
   }
@@ -162,8 +163,8 @@ export default class lobby extends Phaser.Scene {
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
 
     this.timerDis = this.add
-      .text(16, 56, text, {
-        font: "18px monospace",
+      .text(450, 26, text, {
+        font: "28px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 }
       })
@@ -211,8 +212,6 @@ export default class lobby extends Phaser.Scene {
   questions() {
     if (this.inter2) {
       this.inter2 = false;
-      this.hospitalCheck = false;
-      this.registry.set("hospitalCheck", true);
 
       this.player.keys.left.reset();
       this.player.keys.right.reset();
@@ -220,9 +219,11 @@ export default class lobby extends Phaser.Scene {
       this.player.keys.x.reset();
       this.scene.pause();
       if (!this.hospitalCheck) {
-        this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.', '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital" });
+        this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.', '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital", character: "ghost" });
+        this.hospitalCheck = true;
+        this.registry.set("hospitalCheck", true);
       } else {
-        this.scene.launch("message", { textArray: ['I\'m back where I started..', '...Time\'s running out. I better do what I want to and return to my body fast!'], returning: "Hospital" });
+        this.scene.launch("message", { textArray: ['I\'m back where I started..', '...Time\'s running out. I better do what I want to and return to my body fast!'], returning: "Hospital", character: "ghost" });
       }
     }
   }

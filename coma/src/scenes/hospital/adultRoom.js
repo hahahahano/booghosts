@@ -144,14 +144,15 @@ export default class adultRoom extends Phaser.Scene {
       });
     });
 
+///////////////////////////////////////////////TIMER///////////////////////////////////////////////////////////////////////////////////////////////////
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
     partInSeconds = partInSeconds.toString().padStart(2,'0');
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
 
     this.timerDis = this.add
-      .text(16, 56, text, {
-        font: "18px monospace",
+      .text(450, 26, text, {
+        font: "28px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 }
       })
@@ -207,9 +208,9 @@ export default class adultRoom extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       if (this.talked) {
-        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Before time runs out.'], returning: "adultRoom" })
+        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Before time runs out.'], returning: "adultRoom", character: "ghost" })
       } else {
-        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Unless there\'s something I forgot to do...'], returning: "adultRoom" });
+        this.scene.launch("message", { textArray: ['...That\'s me. I should return to my body. Unless there\'s something I forgot to do...'], returning: "adultRoom", character: "ghost" });
       }
     }
   }

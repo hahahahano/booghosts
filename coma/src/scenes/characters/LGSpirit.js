@@ -44,7 +44,21 @@ export default class LGSpirit {
         this.scene.player.keys.up.reset();
         this.scene.player.keys.x.reset();
         this.scene.scene.pause();
-        this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much!", "I hid something I found while I was lost in that bush next to me. I think it might be yours."], returning: "caves" });
+        this.scene.scene.launch("message", { textArray: ["You found it! Thank you so much!", "I hid something I found while I was lost in that bush next to me. I think it might be yours."], returning: "caves", character: "large spirit" });
+      } else if (i == 7) {
+        this.scene.player.keys.left.reset();
+        this.scene.player.keys.right.reset();
+        this.scene.player.keys.up.reset();
+        this.scene.player.keys.x.reset();
+        this.scene.scene.pause();
+        this.scene.scene.launch("message", { textArray: ["I hid something I found while I was lost in that bush next to me. I think it might be yours."], returning: "caves", character: "large spirit" });
+      } else if (i == 8) {
+        this.scene.player.keys.left.reset();
+        this.scene.player.keys.right.reset();
+        this.scene.player.keys.up.reset();
+        this.scene.player.keys.x.reset();
+        this.scene.scene.pause();
+        this.scene.scene.launch("message", { textArray: ["Did you need it? Well, I'm glad that it's back with its owner now."], returning: "caves", character: "large spirit" });
       }
     } else {
       if (i == 0) {
@@ -54,7 +68,14 @@ export default class LGSpirit {
         this.scene.player.keys.up.reset();
         this.scene.player.keys.x.reset();
         this.scene.scene.pause();
-        this.scene.scene.launch("message", { textArray: instructions, returning: "caves" });
+        this.scene.scene.launch("message", { textArray: instructions, returning: "caves", character: "large spirit" });
+      } else if (i == 6) {
+        this.scene.player.keys.left.reset();
+        this.scene.player.keys.right.reset();
+        this.scene.player.keys.up.reset();
+        this.scene.player.keys.x.reset();
+        this.scene.scene.pause();
+        this.scene.scene.launch("message", { textArray: [instructions[3]], returning: "caves", character: "large spirit" });
       }
     }
   }

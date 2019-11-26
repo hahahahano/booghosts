@@ -185,10 +185,14 @@ export default class Forest extends Phaser.Scene {
     plantObjects.forEach(plantObject => {
       const forestPlant = this.forestPlants.create(plantObject.x, plantObject.y, 'shrub');
       forestPlant.setDepth(-1);
-      /*if (plantObject.type === "map") {
-        this.mapBushX = plantObject.x;
-        this.mapBushY = plantObject.y;
-      } else if (plantObject.type === "mem") {
+      if (plantObject.type === "toyCar") {
+        this.toyBushX = plantObject.x;
+        this.toyBushY = plantObject.y;
+      } else if (plantObject.type === "acorn") {
+        this.acornBushX = plantObject.x;
+        this.acornBushY = plantObject.y;
+      }
+      /*else if (plantObject.type === "mem") {
         this.memBushX = plantObject.x;
         this.memBushY = plantObject.y;
       }*/
@@ -236,9 +240,14 @@ export default class Forest extends Phaser.Scene {
     this.forestMusic.play();
 
     //COLLECTING MEMORY SOUND
-    this.memory_collect = this.sound.add('memory_collect1');
+    this.memory_collect = this.sound.add('memory_collect');
     this.memory_collect.volume = .5;
     this.memory_collect.setRate(2);
+
+    //AcCTIVATING MEMORIES
+    this.memory_dis = this.sound.add('memory_collect1');
+    this.memory_dis.volume = .5;
+    this.memory_dis.setRate(2);
 
     //SEARCHING BUSH SOUND
     this.bushFX = this.sound.add('bush');
@@ -343,8 +352,8 @@ export default class Forest extends Phaser.Scene {
   interactBush(player, bush) {
     if (this.input.keyboard.checkDown(this.player.keys.x, 5000)) {
         //Items
-      /*if (this.bush) {
-        if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
+      if (this.bush) {
+        /*if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
           this.bushFX.play();
           this.memory_collect.play();
           this.talked++;
@@ -362,7 +371,64 @@ export default class Forest extends Phaser.Scene {
             this.updateScore();
             this.memQ.destroy();
           });
-        } else {*/
+        }*/
+        if (bush.x == this.toyBushX && bush.y == this.toyBushY) {
+          this.bushFX.play();
+
+          this.toyCar = this.physics.add.sprite(this.toyBushX, this.toyBushY, 'toy_car');
+          this.toyCar.setAngle(45);
+          this.player.stopAll();
+
+          var toyTween = this.tweens.add({
+            targets: this.toyCar,
+            allowGravity: false,
+            y: this.toyBushY-100,
+            ease: 'Linear',
+            duration: 1500
+          });
+          toyTween.on("complete", event => {
+            this.inventory.push("Toy Car");
+            this.updateInventory();
+            this.toyCar.destroy();
+            this.player.resumeAll();
+          });
+
+          this.bush = false;
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
+          this.scene.pause();
+          this.scene.launch("message", { textArray: ["You found a toy car! I wonder if you can use it for anything... (Press X to close)"], returning: "Forest", character: "bush" });
+        } else if (bush.x == this.acornBushX && bush.y == this.acornBushY) {
+          this.bushFX.play();
+
+          this.acornBush = this.physics.add.sprite(this.acornBushX, this.acornBushY, 'acorn');
+          this.acornBush.setScale(0.05);
+          this.player.stopAll();
+
+          var acornBushTween = this.tweens.add({
+            targets: this.acornBush,
+            allowGravity: false,
+            y: this.acornBushY-100,
+            ease: 'Linear',
+            duration: 1000
+          });
+          acornBushTween.on("complete", event => {
+            this.inventory.push("Acorn");
+            this.updateInventory();
+            this.acornBush.destroy();
+            this.player.resumeAll();
+          });
+
+          this.bush = false;
+          this.player.keys.left.reset();
+          this.player.keys.right.reset();
+          this.player.keys.up.reset();
+          this.player.keys.x.reset();
+          this.scene.pause();
+          this.scene.launch("message", { textArray: ["You found an acorn... I guess you can keep it as a souvenir of those horrible falling acorns. At least they stopped falling. (Press X to close)"], returning: "Forest", character: "bush" });
+        } else {
           this.bush = false;
           this.bushFX.play();
           this.player.keys.left.reset();
@@ -370,9 +436,9 @@ export default class Forest extends Phaser.Scene {
           this.player.keys.up.reset();
           this.player.keys.x.reset();
           this.scene.pause();
-          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "Forest" });
-        //}
-      //}
+          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "Forest", character: "bush" });
+        }
+      }
     }
     this.bush = true;
   }
@@ -386,7 +452,7 @@ export default class Forest extends Phaser.Scene {
         this.player.keys.up.reset();
         this.player.keys.x.reset();
         this.scene.pause();
-        this.scene.launch("message", { textArray: this.kidText, returning: "Forest" });
+        this.scene.launch("message", { textArray: this.kidText, returning: "Forest", character: "kid" });
       } else {
         this.playNextScene();
       }
@@ -408,7 +474,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 
@@ -425,7 +491,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 
@@ -442,7 +508,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 
@@ -460,7 +526,7 @@ export default class Forest extends Phaser.Scene {
         .setDepth(-1);
       this.memCheck++;
       this.kidtoken = false;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 
@@ -477,7 +543,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 
@@ -505,7 +571,7 @@ export default class Forest extends Phaser.Scene {
         })
         .setDepth(-1);
       this.memCheck++;
-      this.memory_collect.play();
+      this.memory_dis.play();
     }
   }
 /*****************************************************************************************************************************************************/

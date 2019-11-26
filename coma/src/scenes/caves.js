@@ -405,7 +405,7 @@ export default class Caves extends Phaser.Scene {
             allowGravity: false,
             y: this.mapBushY-100,
             ease: 'Linear',
-            duration: 1500
+            duration: 1000
           });
           scrollTween.on("complete", event => {
             this.inventory.push("Map");
@@ -420,7 +420,7 @@ export default class Caves extends Phaser.Scene {
           this.player.keys.up.reset();
           this.player.keys.x.reset();
           this.scene.pause();
-          this.scene.launch("message", { textArray: ["You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)"], returning: "caves" });
+          this.scene.launch("message", { textArray: ["You found a map! But you can't read it. Maybe it's someone else's. (Press X to close)"], returning: "caves", character: "bush" });
         } else if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
           this.bushFX.play();
           this.memory_collect.play();
@@ -449,7 +449,7 @@ export default class Caves extends Phaser.Scene {
           this.player.keys.up.reset();
           this.player.keys.x.reset();
           this.scene.pause();
-          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "caves" });
+          this.scene.launch("message", { textArray: ["You didn't find anything in this bush... (Press X to close)"], returning: "caves", character: "bush" });
         }
       }
     }
@@ -467,7 +467,7 @@ export default class Caves extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
-      this.scene.launch("message", { textArray: this.instructionsText, returning: "caves" });
+      this.scene.launch("message", { textArray: this.instructionsText, returning: "caves", character: "ghost" });
     }
   }
     //Memory Pieces Zone
@@ -480,7 +480,7 @@ export default class Caves extends Phaser.Scene {
         this.player.keys.up.reset();
         this.player.keys.x.reset();
         this.scene.pause();
-        this.scene.launch("message", { textArray: ["Whoa. Did you feel that? I felt a hazy memory there. A car. Hm. (Press X to close)"], returning: "caves" });
+        this.scene.launch("message", { textArray: ["Whoa. Did you feel that? I felt a hazy memory there. A car. Hm. (Press X to close)"], returning: "caves", character: "ghost" });
       }
 
     } else{
@@ -491,7 +491,7 @@ export default class Caves extends Phaser.Scene {
         this.player.keys.up.reset();
         this.player.keys.x.reset();
         this.scene.pause();
-        this.scene.launch("message", { textArray: this.MemsText, player: this.player, returning: "caves" });
+        this.scene.launch("message", { textArray: this.MemsText, player: this.player, returning: "caves", character: "ghost" });
       }
     }
   }
@@ -504,7 +504,7 @@ export default class Caves extends Phaser.Scene {
       this.player.keys.up.reset();
       this.player.keys.x.reset();
       this.scene.pause();
-      this.scene.launch("message", { textArray: this.spiritText, player: this.player, returning: "caves" });
+      this.scene.launch("message", { textArray: this.spiritText, player: this.player, returning: "caves", character: "ghost" });
     }
   }
     //Exiting Scene Zone
@@ -519,7 +519,7 @@ export default class Caves extends Phaser.Scene {
           this.player.keys.up.reset();
           this.player.keys.x.reset();
           this.scene.pause();
-          this.scene.launch("message", { textArray: ["This is the exit. Are you sure you want to leave? (Press X to close, press X again to exit)"], returning: "caves" });
+          this.scene.launch("message", { textArray: ["This is the exit. Are you sure you want to leave? (Press X to close, press X again to exit)"], returning: "caves", character: "ghost" });
       }
     }
   }
