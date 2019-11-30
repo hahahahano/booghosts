@@ -184,6 +184,9 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('kid', "./assets/sprites/hospital/kid.png");
     this.load.image('hosDoor', "./assets/images/hospital/hospital_door.png");
     this.load.image('hosRoom_door', "./assets/images/hospital/hosRoom_door.png");
+
+    //UI
+    this.load.image('mem_ui', "./assets/ui/250_50hud.png");
 }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

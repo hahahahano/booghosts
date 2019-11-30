@@ -41,7 +41,7 @@ export default class Caves extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
   preload() {
-    
+
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -99,6 +99,8 @@ export default class Caves extends Phaser.Scene {
     const caveMap = this.make.tilemap({ key: 'caveMap' });
     const caveTileset = caveMap.addTilesetImage('cave_tileset1', 'caveTiles');
     this.caveWorldLayer = caveMap.createStaticLayer('platforms', caveTileset, 0, 0);
+
+
 
     //Foreground test
     //const caveForeground = this.add.image(768, 1229, 'caveForeground');
@@ -248,6 +250,8 @@ export default class Caves extends Phaser.Scene {
     this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);
 
+
+
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 2304, 2700);
@@ -319,6 +323,9 @@ export default class Caves extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
+
+    //UI
+    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
 }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
