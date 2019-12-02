@@ -162,7 +162,8 @@ export default class BootScene extends Phaser.Scene {
       //BACKGROUND
     this.load.image("raceTiles1", './assets/textures/tuxmon-sample.png');
     this.load.image("raceTiles2", './assets/textures/ground_tileset1.png');
-    this.load.tilemapTiledJSON("raceMap", './assets/tilemaps/race_tilemap1.json');
+    this.load.image("raceTiles3", './assets/textures/road_tileset1.png')
+    this.load.tilemapTiledJSON("raceMap", './assets/tilemaps/race_tilemap2.json');
     this.load.image('try', './assets/images/tryagain.png');
 
       //LIVE CHARACTERS (car)
