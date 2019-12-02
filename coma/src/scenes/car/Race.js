@@ -47,12 +47,12 @@ export default class Race extends Phaser.Scene {
     const raceGrassLayer = raceMap.createStaticLayer("grass", raceTileset1, 0, 0);
     const raceRoadLayer = raceMap.createStaticLayer("road", raceTileset2, 0, 0);
 
-    //const raceWorldLayer = raceMap.createStaticLayer("worldLayer", raceTileset, 0, 0);
+    const raceWorldLayer = raceMap.createStaticLayer("worldLayer", raceTileset, 0, 0);
     const raceFinish = raceMap.createStaticLayer("finish", raceTileset1, 0, 0);
 
     raceRoadLayer.setCollisionByProperty({ collides: true });
     raceGrassLayer.setCollisionByProperty({ collides: true });
-    //raceWorldLayer.setCollisionByProperty({ collides: true });
+    raceWorldLayer.setCollisionByProperty({ collides: true });
     raceFinish.setCollisionByProperty({ collides: true });
 
     this.physics.world.setBounds(0, 0, 80*16, 250*16);
@@ -83,7 +83,7 @@ export default class Race extends Phaser.Scene {
 
 ///////////////////////////////////////////////COLLISIONS//////////////////////////////////////////////////////////////////////////////////////////////
     //Collides into objects (buildings, trees, etc.)
-    // this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
+    this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
     //Collides with ending
     this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
 
