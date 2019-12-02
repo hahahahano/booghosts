@@ -288,6 +288,12 @@ export default class Caves extends Phaser.Scene {
     this.spiritIntro = true;
     this.physics.add.overlap(this.player.sprite, this.zoneSpirit, this.spiritInstruct, null, this);
 
+    if (!this.hospitalCheck) {
+      this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.', '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital", character: "ghost" });
+      this.hospitalCheck = true;
+      this.registry.set("hospitalCheck", true);
+    }
+
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
     this.caveMusic = this.sound.add('cave_music');
