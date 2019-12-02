@@ -48,12 +48,12 @@ export default class Race extends Phaser.Scene {
     const raceRoadLayer = raceMap.createStaticLayer("road", raceTileset2, 0, 0);
 
     //const raceWorldLayer = raceMap.createStaticLayer("worldLayer", raceTileset, 0, 0);
-    //const raceFinish = raceMap.createStaticLayer("finish", raceTileset, 0, 0);
+    const raceFinish = raceMap.createStaticLayer("finish", raceTileset1, 0, 0);
 
     raceRoadLayer.setCollisionByProperty({ collides: true });
     raceGrassLayer.setCollisionByProperty({ collides: true });
     //raceWorldLayer.setCollisionByProperty({ collides: true });
-    //raceFinish.setCollisionByProperty({ collides: true });
+    raceFinish.setCollisionByProperty({ collides: true });
 
     this.physics.world.setBounds(0, 0, 80*16, 250*16);
 
@@ -85,7 +85,7 @@ export default class Race extends Phaser.Scene {
     //Collides into objects (buildings, trees, etc.)
     // this.physics.add.collider(this.carPlayer, raceWorldLayer, this.loser, null, this);
     //Collides with ending
-    // this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
+    this.physics.add.collider(this.carPlayer, raceFinish, this.winner, null, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
     //PLAYS BACKGROUND MUSIC
@@ -114,7 +114,7 @@ export default class Race extends Phaser.Scene {
       this.scene.pause();
       this.scene.launch("RacePopup");
     }
-    
+
     //UI
     const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
   }
