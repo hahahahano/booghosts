@@ -141,8 +141,8 @@ export default class hallKidHOT extends Phaser.Scene {
       });
     });
 
+///////////////////////////////////////////////TIMER///////////////////////////////////////////////////////////////////////////////////////////////////
     var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
-
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
     partInSeconds = partInSeconds.toString().padStart(2,'0');
@@ -157,6 +157,9 @@ export default class hallKidHOT extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(50);
     this.countDown(this.timer);
+
+    //UI
+    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
