@@ -41,6 +41,7 @@ export default class fth_video extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     if (!this.tranVideo.isPlaying()) {
+      this.registry.set('hospitalCheck', false);
       this.scene.start('Hospital');
     }
 

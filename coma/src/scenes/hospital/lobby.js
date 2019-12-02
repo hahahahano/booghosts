@@ -19,7 +19,7 @@ export default class lobby extends Phaser.Scene {
     if (this.hospitalCheck) {
       this.timer = this.registry.get("timerGlobal");
     } else {
-      this.timer = 60;
+      this.timer = 45;
       this.hospitalCheck = false;
     }
 
