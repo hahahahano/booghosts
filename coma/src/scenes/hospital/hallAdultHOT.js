@@ -140,12 +140,13 @@ export default class hallAdultHOT extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
+    var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
 
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
     partInSeconds = partInSeconds.toString().padStart(2,'0');
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
-    
+
     this.timerDis = this.add
       .text(450, 26, text, {
         font: "28px monospace",
