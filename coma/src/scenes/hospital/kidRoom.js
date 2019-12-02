@@ -122,7 +122,7 @@ export default class kidRoom extends Phaser.Scene {
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 1280, 1024);
-    
+
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
@@ -156,6 +156,7 @@ export default class kidRoom extends Phaser.Scene {
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
     });
+    var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
 
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
