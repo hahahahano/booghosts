@@ -141,6 +141,8 @@ export default class hallAdultCOLD extends Phaser.Scene {
       });
     });
 
+    var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
+
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
     partInSeconds = partInSeconds.toString().padStart(2,'0');

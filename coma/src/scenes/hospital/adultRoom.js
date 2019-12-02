@@ -144,6 +144,8 @@ export default class adultRoom extends Phaser.Scene {
       });
     });
 
+    var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
+
 ///////////////////////////////////////////////TIMER///////////////////////////////////////////////////////////////////////////////////////////////////
     var minutes = Math.floor(this.timer/60);
     var partInSeconds = this.timer%60;
@@ -164,7 +166,7 @@ export default class adultRoom extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-    
+
     if (this.timer == 0) {
       this.player.stopAll();
       this.fadingOut(false);

@@ -162,6 +162,9 @@ export default class lobby extends Phaser.Scene {
     partInSeconds = partInSeconds.toString().padStart(2,'0');
     var text = 'Countdown: ' + `${minutes}:${partInSeconds}`;
 
+    var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
+
+
     this.timerDis = this.add
       .text(450, 26, text, {
         font: "28px monospace",
