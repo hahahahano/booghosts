@@ -108,10 +108,14 @@ export default class hallKidCOLD extends Phaser.Scene {
     //Gravity for this scene
     this.physics.world.gravity.y = 700;
 
+///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////    
     this.zoneStart4 = this.add.zone(100, 900).setSize(500, 500);
     this.physics.world.enable(this.zoneStart4);
     this.zoneStart4.body.setAllowGravity(false);
     this.zoneStart4.body.moves = false;
+
+    //Second Floor Overlay
+    this.overlay = hospitalMap.createStaticLayer('overlay', hospitalTileset, 0, 0);
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
     //COLLISIONS
@@ -165,6 +169,12 @@ export default class hallKidCOLD extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
+
+    if (this.player.sprite.y > 708) {
+      this.overlay.setVisible(true);
+    } else if (this.player.sprite.y < 708) {
+      this.overlay.setVisible(false);
+    }
 
     if (this.timer == 0) {
       this.player.stopAll();

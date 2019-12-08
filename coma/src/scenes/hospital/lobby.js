@@ -110,6 +110,9 @@ export default class lobby extends Phaser.Scene {
     this.zoneStart2.body.setAllowGravity(false);
     this.zoneStart2.body.moves = false;
 
+    //Second Floor Overlay
+    this.overlay = hospitalMap.createStaticLayer('overlay', hospitalTileset, 0, 0);
+
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
     //Creates player character
     const otherObjects = hospitalMap.getObjectLayer('otherObjects')['objects'];
@@ -134,8 +137,6 @@ export default class lobby extends Phaser.Scene {
     this.physics.world.addCollider( [this.player.sprite], this.hospitalWorldLayer);
 
     this.physics.add.overlap(this.player.sprite, this.zoneStart2, this.questions, null, this);
-
-      //Collects a memory piece
 
       //Exit
     this.physics.add.overlap(this.player.sprite, this.doors, this.doorEnter, null, this);
@@ -181,6 +182,12 @@ export default class lobby extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
+    
+    if (this.player.sprite.y > 708) {
+      this.overlay.setVisible(true);
+    } else if (this.player.sprite.y < 708) {
+      this.overlay.setVisible(false);
+    }
 
     if (this.timer == 0) {
       this.player.stopAll();
@@ -224,7 +231,8 @@ export default class lobby extends Phaser.Scene {
       this.player.keys.x.reset();
       this.scene.pause();
       if (!this.hospitalCheck) {
-        this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.', '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital", character: "ghost" });
+        this.scene.launch("message", { textArray: ['I think my body is here. I feel some sort of pull, but I don\'t know which door to go through.',
+          '...There\'s something weird. It feels like there\'s a time limit. I better return to my body fast!'], returning: "Hospital", character: "ghost" });
         this.hospitalCheck = true;
         this.registry.set("hospitalCheck", true);
       } else {
