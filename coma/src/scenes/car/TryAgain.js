@@ -25,7 +25,7 @@ export default class TryAgain extends Phaser.Scene {
   create (data) {
     this.X = this.input.keyboard.addKey("X");
 
-    var deadText = this.add.text(this.centerX-115, this.centerY-50, 'You veered off the road!');
+    var deadText = this.add.text(this.centerX-80, this.centerY-50, 'You hit something!');
 
     var tryAgainButt = this.add.sprite(640, 400, 'try').setInteractive();
 

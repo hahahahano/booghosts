@@ -22,7 +22,6 @@ export default class GameOverScene extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
-    //this.score = 0;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -86,7 +85,7 @@ export default class GameOverScene extends Phaser.Scene {
         });
       }
     } else {
-      var text = this.add.text(this.centerX - 280, this.centerY, "You didn't make it to your body in time. You never wake up from your coma, stuck as a spirit...", {
+      var text = this.add.text(this.centerX - 270, this.centerY, "You didn't make it to your body in time. You never wake up from your coma, stuck as a spirit...", {
         font: "18px monospace",
         fill: "#fff",
         wordWrap: {width: 600, useAdvancedWrap: true},
