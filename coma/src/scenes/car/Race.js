@@ -29,7 +29,7 @@ export default class Race extends Phaser.Scene {
 
 ///////////////////////////////////////////////BACKGROUND//////////////////////////////////////////////////////////////////////////////////////////////
     const raceMap = this.make.tilemap({ key: "raceMap" });
-    const raceTileset = raceMap.addTilesetImage("tuxmon-sample", "raceTiles1");
+    const raceTileset = raceMap.addTilesetImage("car_assets1", "raceTiles1");
     const raceTileset1 = raceMap.addTilesetImage("ground_tileset1", "raceTiles2");
     const raceTileset2 = raceMap.addTilesetImage("road_tileset1", "raceTiles3");
 
