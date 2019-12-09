@@ -22,6 +22,7 @@ export default class GameOverScene extends Phaser.Scene {
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
     this.centerY = this.cameras.main.height / 2;
+    this.sprite;
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -45,14 +46,30 @@ export default class GameOverScene extends Phaser.Scene {
             wordWrap: {width: 600, useAdvancedWrap: true},
             align: "center"
           });
-        }
 
-        var score = this.add.text(this.centerX - 100, this.centerY + 150, 'Memories Collected: ' + this.score, {
-          font: "18px monospace",
-          fill: "#fff",
-          wordWrap: {width: 600, useAdvancedWrap: true},
-          align: "center"
-        });
+          this.memPiece = this.physics.add.sprite(this.centerX + 10, this.centerY - 225, 'mem_piece');
+          this.memPiece.setScale(1.5);
+          var memTween = this.tweens.add({
+            targets: this.memPiece,
+            y: this.centerY - 255,
+            ease: 'Linear',
+            duration: 1500,
+            yoyo: true,
+            repeat: -1
+          });
+
+        } else {
+          this.memPiece = this.physics.add.sprite(this.centerX + 10, this.centerY + 10, 'mem_piece');
+          this.memPiece.setScale(1.5);
+          var memTween = this.tweens.add({
+            targets: this.memPiece,
+            y: this.centerY - 30,
+            ease: 'Linear',
+            duration: 1500,
+            yoyo: true,
+            repeat: -1
+          });
+        }
       } else {
         var text = this.add.text(this.centerX - 275, this.centerY - 150, "You wake up! You were in a coma, caused by a car accident. Your child... He was also in car! Let's go see him.", {
           font: "18px monospace",
@@ -76,28 +93,38 @@ export default class GameOverScene extends Phaser.Scene {
             align: "center"
           });
         }
-
-        var score = this.add.text(this.centerX-100, this.centerY + 150, 'Memories Collected: ' + this.score, {
-          font: "18px monospace",
-          fill: "#fff",
-          wordWrap: {width: 600, useAdvancedWrap: true},
-          align: "center"
-        });
       }
     } else {
-      var text = this.add.text(this.centerX - 270, this.centerY, "You didn't make it to your body in time. You never wake up from your coma, stuck as a spirit...", {
+      var text = this.add.text(this.centerX - 250, this.centerY, "You didn't make it to your body in time. You never wake up from your coma, stuck as a spirit...", {
         font: "18px monospace",
         fill: "#fff",
         wordWrap: {width: 600, useAdvancedWrap: true},
         align: "center"
       });
-      var score = this.add.text(this.centerX-100, this.centerY + 150, 'Memories Collected: ' + this.score, {
-        font: "18px monospace",
-        fill: "#fff",
-        wordWrap: {width: 600, useAdvancedWrap: true},
-        align: "center"
+
+      const anims = this.anims;
+      anims.create({
+        key: 'walk',
+        frames: anims.generateFrameNumbers('ghost', {start: 1, end: 3}),
+        frameRate: 5,
+        repeat: 0
       });
+
+      this.sprite = this.physics.add
+      .sprite(-40, this.centerY-180, 'ghost', 0)
+      .setScale(0.6)
+
+      this.sprite.anims.play('walk', true);
+      this.sprite.anims.setRepeat(-1);
+      this.sprite.setVelocityX(225);
     }
+
+    var score = this.add.text(this.centerX-100, this.centerY + 150, 'Memories Collected: ' + this.score, {
+        font: "18px monospace",
+        fill: "#fff",
+        wordWrap: {width: 600, useAdvancedWrap: true},
+        align: "center"
+    });
 
     var sound = this.sound.add('pops');
     sound.addMarker({
@@ -128,6 +155,7 @@ export default class GameOverScene extends Phaser.Scene {
 
         this.registry.remove("score");
         this.registry.remove("inventory");
+        
         this.registry.remove("timerGlobal");
         this.registry.remove("talked");
         this.registry.remove("hospitalCheck");
@@ -138,4 +166,17 @@ export default class GameOverScene extends Phaser.Scene {
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+  update() {
+    if (!this.endReached) {
+      if (this.sprite.x > 1350) {
+        console.log("flip");
+        this.sprite.setFlipX(true);
+        this.sprite.setVelocityX(-225);
+      } else if (this.sprite.x < -60) {
+        console.log("flip");
+        this.sprite.setFlipX(false);
+        this.sprite.setVelocityX(225);
+      }
+    }
+  }
 }

@@ -214,7 +214,7 @@ export default class Forest extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.forestPlants, this.interactBush, null, this);
       //Exit
     this.kidText = ["Hey there! Are you busy? I need some help.", "You see, there's this event going on in the city, but my parents are too busy to take me there.",
-    "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?", "You won't be able to come back after you drive me to town..."]
+    "I've got a car (don't ask me how), but I can't drive.", "Can you please do me a favor and take me into town?", "You won't be able to come back after you drive me to town... Talk to me again when you're ready to leave."]
     this.kidCount = 0;
 
     this.physics.add.overlap(this.player.sprite, this.exit, this.kidInter, null, this);
