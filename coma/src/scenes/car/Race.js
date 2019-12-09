@@ -134,18 +134,23 @@ export default class Race extends Phaser.Scene {
     this.carPlayer.body.velocity.normalize().scale(speed);
 
     //Update the animation last and give left/right animations precedence over up/down animations
-    if ((this.cursors.left.isDown && this.cursors.up.isDown) || (this.cursors.right.isDown && this.cursors.down.isDown)) {
+    if (this.cursors.left.isDown && this.cursors.up.isDown) {
       this.carPlayer.body.rotation = -45;
-    } else if ((this.cursors.right.isDown && this.cursors.up.isDown) || (this.cursors.left.isDown && this.cursors.down.isDown)) {
+    } else if (this.cursors.right.isDown && this.cursors.up.isDown) {
       this.carPlayer.body.rotation = 45;
+    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
+      this.carPlayer.body.rotation = -135;
+    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
+      this.carPlayer.body.rotation = 135;
     } else if (this.cursors.left.isDown) {
       this.carPlayer.body.rotation = -90;
     } else if (this.cursors.right.isDown) {
       this.carPlayer.body.rotation = 90;
-    } else if (this.cursors.up.isDown || this.cursors.down.isDown) {
+    } else if (this.cursors.up.isDown ) {
       this.carPlayer.body.rotation = 0;
+    } else if (this.cursors.down.isDown) {
+      this.carPlayer.body.rotation = 180;
     }
-
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
