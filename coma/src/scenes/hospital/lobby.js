@@ -71,6 +71,7 @@ export default class lobby extends Phaser.Scene {
     this.hosMusic.stop();
     this.hosMusic.volume = .5;
     this.hosMusic.play();
+    this.registry.set("hosMusic", this.hosMusic);
 
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background

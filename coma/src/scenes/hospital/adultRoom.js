@@ -17,6 +17,7 @@ export default class adultRoom extends Phaser.Scene {
     this.score = this.registry.get("score", this.score);
     this.timer = this.registry.get("timerGlobal");
     this.talked = this.registry.get("talked");
+    this.hosMusic = this.registry.get("hosMusic");
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -255,6 +256,7 @@ export default class adultRoom extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   fadingOut(end) {
     this.cameras.main.once('camerafadeoutcomplete', function (camera) {
+      this.hosMusic.stop();
       this.scene.start('GameOverScene', { endReached: end });
     }, this);
 
