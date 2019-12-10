@@ -65,6 +65,12 @@ export default class lobby extends Phaser.Scene {
 
     this.nextScene = false;
 
+
+    //PLAYS BACKGROUND MUSIC
+    this.hosMusic = this.sound.add('hospital_music');
+    this.hosMusic.volume = .5;
+    this.hosMusic.play();
+
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     this.physics.world.setBounds(0, 0, 2048, 1024);
@@ -170,7 +176,7 @@ export default class lobby extends Phaser.Scene {
 /*****************************************************************************************************************************************************/
   update() {
     this.player.update();
-    
+
     if (this.player.sprite.y > 708) {
       this.overlay.setVisible(true);
     } else if (this.player.sprite.y < 708) {
