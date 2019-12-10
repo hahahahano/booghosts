@@ -91,7 +91,7 @@ export default class BootScene extends Phaser.Scene {
 
     //TRANSITION VIDEOS
     this.load.video('intro', './assets/videos/intro_storyboard.mp4', 'loadeddata', false, true);
-    this.load.video('city', './assets/videos/cth_storyboard.mp4', 'loadeddata', false, true);
+    this.load.video('city', './assets/videos/city_transition.mp4', 'loadeddata', false, true);
 
     //CAVES
       //BACKGROUND AND FOREGROUND
@@ -127,6 +127,7 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
+    this.load.audio('hospital_music', "./assets/music/hospital_music.mp3");
     this.load.audio('bush', "./assets/sounds/bushes.mp3");
     this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
 
@@ -165,7 +166,6 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('aralia', './assets/music/pranilzaman_burymymind.mp3');
-    this.load.audio('romulus', './assets/music/romdiprisco_romulus3.mp3');
 
     //HOSPITAL
       //BACKGROUND AND FOREGROUND

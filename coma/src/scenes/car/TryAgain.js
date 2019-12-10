@@ -41,7 +41,7 @@ export default class TryAgain extends Phaser.Scene {
     }, this);
 
 ///////////////////////////////////////////////SOUNDS//////////////////////////////////////////////////////////////////////////////////////////////////
-    var music = this.sound.add('romulus');
+    var music = this.sound.add('cave_music');
     music.volume = 0.05;
     music.play();
   }
