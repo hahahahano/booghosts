@@ -52,7 +52,7 @@ export default class Start extends Phaser.Scene {
 
     b1.on("pointerup", function() {
         sound.play('high');
-        this.scene.start('intro_video');
+        this.scene.start('fth_video');
       }, this
     );
   }

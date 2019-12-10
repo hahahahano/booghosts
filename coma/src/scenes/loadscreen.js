@@ -90,8 +90,8 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('kidStill', './assets/images/forest/kid_still.png');
 
     //TRANSITION VIDEOS
-    this.load.video('intro', './assets/videos/intro_storyboard.mp4', 'loadeddata', false, true);
-    this.load.video('city', './assets/videos/city_transition.mp4', 'loadeddata', false, true);
+    this.load.video('intro', './assets/videos/intro_storyboard.mp4', 'loadeddata', false, false);
+    this.load.video('city', './assets/videos/city_transition.mp4', 'loadeddata', false, false);
 
     //CAVES
       //BACKGROUND AND FOREGROUND
