@@ -71,12 +71,6 @@ export default class Caves extends Phaser.Scene {
 
     this.nextScene = false;
 
-    this.leftStep = this.sound.add('left_step');
-    this.leftStep.volume = 2;
-
-    this.rightStep = this.sound.add('right_step');
-    this.rightStep.volume = 2;
-
 ///////////////////////////////////////////////BACKGROUND AND FOREGROUND///////////////////////////////////////////////////////////////////////////////
     //Background
     const caveBackground = this.add.image(1152, 1536, 'caveBackground');
@@ -100,13 +94,6 @@ export default class Caves extends Phaser.Scene {
     const caveTileset = caveMap.addTilesetImage('cave_tileset1', 'caveTiles');
     this.caveWorldLayer = caveMap.createStaticLayer('platforms', caveTileset, 0, 0);
 
-
-
-    //Foreground test
-    //const caveForeground = this.add.image(768, 1229, 'caveForeground');
-    //caveForeground.setDepth(10);
-    //caveForeground.setScrollFactor(0);
-
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory Pieces
     this.mems = this.physics.add.group({
@@ -118,10 +105,7 @@ export default class Caves extends Phaser.Scene {
     otherObjects.forEach(otherObject => {
       if (otherObject.name === "mem") {
         const memPie = this.mems.create(otherObject.x, otherObject.y, 'mem_piece');
-      } /*else if (otherObject.name === "exit") {
-        this.exit = this.physics.add.sprite(otherObject.x, otherObject.y, 'exit');
-        this.exit.setCollideWorldBounds(true);
-      }*/
+      }
     });
 
     //Memories Collected (Score Display)
@@ -250,8 +234,6 @@ export default class Caves extends Phaser.Scene {
     this.player = new Ghost_Player(this, this.x, this.y);
     this.player.sprite.setCollideWorldBounds(true);
 
-
-
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, 2304, 2700);
@@ -314,7 +296,7 @@ export default class Caves extends Phaser.Scene {
     this.bushFX.volume = 2.5;
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
-    this.input.keyboard.once("keydown_D", event => {
+    /*this.input.keyboard.once("keydown_D", event => {
       // Turn on physics debugging to show player's hitbox
       this.physics.world.createDebugGraphic();
 
@@ -331,7 +313,7 @@ export default class Caves extends Phaser.Scene {
     });
 
     //UI
-    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
+    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);*/
 }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

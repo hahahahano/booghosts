@@ -68,9 +68,6 @@ export default class hallAdultHOT extends Phaser.Scene {
     this.hospitalWall = hospitalMap.createStaticLayer('wall', hospitalTileset, 0, 0);
     this.hospitalWorldLayer = hospitalMap.createStaticLayer('platforms', hospitalTileset, 0, 0);
 
-    //foreground.setDepth(10);
-    //foreground.setScrollFactor(0);
-
 ///////////////////////////////////////////////OBJECTS/////////////////////////////////////////////////////////////////////////////////////////////////
     //Doors
     this.doors = this.physics.add.group({
@@ -81,13 +78,6 @@ export default class hallAdultHOT extends Phaser.Scene {
     const doorObjects = hospitalMap.getObjectLayer('DoorSpawn')['objects'];
     doorObjects.forEach(doorObject => {
       const door = this.doors.create(doorObject.x, doorObject.y, 'hosDoor');
-      /*if (plantObject.type === "map") {
-        this.mapBushX = plantObject.x;
-        this.mapBushY = plantObject.y;
-      } else if (plantObject.type === "mem") {
-        this.memBushX = plantObject.x;
-        this.memBushY = plantObject.y;
-      }*/
     });
 
 ///////////////////////////////////////////////LIVE CHARACTERS (ghost, large spirit, small spirits)////////////////////////////////////////////////////
@@ -129,11 +119,9 @@ export default class hallAdultHOT extends Phaser.Scene {
     this.physics.add.overlap(this.player.sprite, this.doors, this.doorEnter, null, this);
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
-    this.input.keyboard.once("keydown_D", event => {
-      // Turn on physics debugging to show player's hitbox
+    /*this.input.keyboard.once("keydown_D", event => {
       this.physics.world.createDebugGraphic();
 
-      // Create worldLayer collision graphic above the player, but below the help text
       const graphics = this.add
         .graphics()
         .setAlpha(0.75)
@@ -143,7 +131,7 @@ export default class hallAdultHOT extends Phaser.Scene {
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
-    });
+    });*/
 
 ///////////////////////////////////////////////TIMER///////////////////////////////////////////////////////////////////////////////////////////////////
     var blackbox = this.add.image(600,-100,'caveTestRock').setScale(4).setScrollFactor(0);
@@ -163,7 +151,7 @@ export default class hallAdultHOT extends Phaser.Scene {
     this.countDown(this.timer);
 
     //UI
-    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
+    //const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

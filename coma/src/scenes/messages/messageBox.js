@@ -62,7 +62,6 @@ export default class messageBox extends Phaser.Scene {
     var boxBack = this.add.image(1280 * 0.5, 28, "caveTestRock");
     boxBack.setDisplaySize(1280, h*0.2);
     boxBack.alpha = (1);
-    //var boxFrame = this.scene.add.sprite(0, 0, "boxFrame");
 
     //PHOTO
     switch (this.character) {

@@ -46,9 +46,6 @@ export default class Race extends Phaser.Scene {
 
     this.physics.world.setBounds(0, 0, 80*16, 250*16);
 
-
-    //this.physics.world.setBounds(0, 0, raceMap.widthInPixels, raceMap.heightInPixels);
-
 ///////////////////////////////////////////////LIVE CHARACTERS (CAR)///////////////////////////////////////////////////////////////////////////////////
     //Car
     this.carPlayer = this.physics.add
@@ -58,7 +55,6 @@ export default class Race extends Phaser.Scene {
 
     this.carPlayer.setCollideWorldBounds(true);
     this.carPlayer.onWorldBounds = true;
-
 
     //Cameras
     const camera = this.cameras.main;
@@ -83,11 +79,10 @@ export default class Race extends Phaser.Scene {
     raceMusic.play();
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
-    this.input.keyboard.once("keydown_D", event => {
-      // Turn on physics debugging to show player's hitbox
+    /*this.input.keyboard.once("keydown_D", event => {
+
       this.physics.world.createDebugGraphic();
 
-      // Create worldLayer collision graphic above the player, but below the help text
       const graphics = this.add
         .graphics()
         .setAlpha(0.75)
@@ -102,7 +97,7 @@ export default class Race extends Phaser.Scene {
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
       });
-    });
+    });*/
 
     if (this.new) {
       this.scene.pause();

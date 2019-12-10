@@ -73,21 +73,16 @@ export default class Forest extends Phaser.Scene {
     const forest_sky = this.add.image(8192/2, 1280/2, 'forest_sky');
     forest_sky.setDepth(-10);
     forest_sky.setScale(2);
+
     //Platforms
     const forestMap = this.make.tilemap({ key: 'forest_map' });
     const tileset = forestMap.addTilesetImage('ground_tileset1', 'forest_tiles');
-    // const tileset1 = map.addTilesetImage('shrub1', 'shrubs');
 
     this.forestWorldLayer = forestMap.createStaticLayer('platforms2', tileset, 0, 0);
     this.forestWorldLayer.setDepth(-10);
-    //this.plants = map.createStaticLayer('plants', tileset1, 0, -1175);
 
     //Foreground test
     const scenery = this.add.image(8192/2, 1280/2, 'scenery');
-    //scenery.setDepth(-2);
-
-    //foreground.setDepth(10);
-    //foreground.setScrollFactor(0);
 
 ///////////////////////////////////////////////ZONES///////////////////////////////////////////////////////////////////////////////////////////////////
     //Memory 1
@@ -131,7 +126,6 @@ export default class Forest extends Phaser.Scene {
 
     //Cameras
     this.cameras.main.startFollow(this.player.sprite);
-
     this.cameras.main.setBounds(0, 0, 8192, 1280);
 
     //Gravity for this scene
@@ -192,10 +186,6 @@ export default class Forest extends Phaser.Scene {
         this.acornBushX = plantObject.x;
         this.acornBushY = plantObject.y;
       }
-      /*else if (plantObject.type === "mem") {
-        this.memBushX = plantObject.x;
-        this.memBushY = plantObject.y;
-      }*/
     });
 
 ///////////////////////////////////////////////COLLISIONS, INTERACTIONS, ZONES/////////////////////////////////////////////////////////////////////////
@@ -254,7 +244,7 @@ export default class Forest extends Phaser.Scene {
     this.bushFX.volume = 2.5;
 
 ///////////////////////////////////////////////DEBUGGER////////////////////////////////////////////////////////////////////////////////////////////////
-    this.input.keyboard.once("keydown_D", event => {
+    /*this.input.keyboard.once("keydown_D", event => {
       // Turn on physics debugging to show player's hitbox
       this.physics.world.createDebugGraphic();
 
@@ -270,7 +260,7 @@ export default class Forest extends Phaser.Scene {
       });
     });
     //UI
-    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);
+    const memhud = this.add.image(100, 45, 'mem_ui').setScale(1.25).setAlpha(.75).setScrollFactor(0);*/
   }
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
@@ -355,25 +345,6 @@ export default class Forest extends Phaser.Scene {
     if (this.input.keyboard.checkDown(this.player.keys.x, 5000)) {
         //Items
       if (this.bush) {
-        /*if (bush.x == this.memBushX && bush.y == this.memBushY && this.talked == 7) {
-          this.bushFX.play();
-          this.memory_collect.play();
-          this.talked++;
-
-          this.memQ = this.physics.add.sprite(this.memBushX, this.memBushY, 'mem_piece');
-          var memTween = this.tweens.add({
-            targets: this.memQ,
-            allowGravity: false,
-            y: this.memBushY-100,
-            ease: 'Linear',
-            duration: 1500
-          });
-          memTween.on("complete", event => {
-            this.score++;
-            this.updateScore();
-            this.memQ.destroy();
-          });
-        }*/
         if (bush.x == this.toyBushX && bush.y == this.toyBushY) {
           this.bushFX.play();
 

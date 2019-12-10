@@ -100,10 +100,6 @@ export default class BootScene extends Phaser.Scene {
       frameHeight: 3687, // 32
     });
     this.load.image('caveWaterfall', './assets/images/cave/blue1.png');
-    this.load.image('caveForeground', "./assets/images/cave/cave_fg_test003.png",{
-      frameWidth: 1536, //432
-      frameHeight: 2458, // 32
-    });
 
     this.load.image('caveTiles', "./assets/textures/cave_tileset1.png");
     this.load.image('shrub', "./assets/sprites/shrub1.png");
@@ -131,8 +127,6 @@ export default class BootScene extends Phaser.Scene {
 
       //SOUNDS
     this.load.audio('cave_music', "./assets/music/cave_music.mp3");
-    this.load.audio('left_step', "./assets/sounds/left_step.mp3");
-    this.load.audio('right_step', "./assets/sounds/right_step.mp3");
     this.load.audio('bush', "./assets/sounds/bushes.mp3");
     this.load.audio('memory_collect', "./assets/sounds/memory.mp3");
 

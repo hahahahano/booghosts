@@ -63,7 +63,6 @@ export default class RacePopup extends Phaser.Scene {
     var boxBack = this.add.image(x, y, "caveTestRock");
     boxBack.setDisplaySize(w/2, h/2);
     boxBack.alpha = (1);
-    //var boxFrame = this.scene.add.sprite(0, 0, "boxFrame");
 
     this.message = this.add.text(0, 0, this.raceInstructions[this.count], {
       font: "18px monospace",

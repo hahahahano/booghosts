@@ -1,7 +1,7 @@
 export { addSceneEventListeners };
 
 function addSceneEventListeners (that) {
-  that.input.keyboard.on(
+  /*that.input.keyboard.on(
     "keydown_ONE",
       function () {
         that.scene.start('caves');
@@ -90,5 +90,5 @@ function addSceneEventListeners (that) {
       function () {
         that.scene.start('fth_video');
       }
-  );
+  );*/
 }
