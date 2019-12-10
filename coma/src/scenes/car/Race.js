@@ -39,8 +39,8 @@ export default class Race extends Phaser.Scene {
     const raceWorldLayer = raceMap.createStaticLayer("worldLayer", raceTileset, 0, 0);
     const raceFinish = raceMap.createStaticLayer("finish", raceTileset1, 0, 0);
 
-    raceRoadLayer.setCollisionByProperty({ collides: true });
-    raceGrassLayer.setCollisionByProperty({ collides: true });
+    raceRoadLayer.setCollisionByProperty({ collides: false });
+    raceGrassLayer.setCollisionByProperty({ collides: false });
     raceWorldLayer.setCollisionByProperty({ collides: true });
     raceFinish.setCollisionByProperty({ collides: true });
 
@@ -92,7 +92,12 @@ export default class Race extends Phaser.Scene {
         .graphics()
         .setAlpha(0.75)
         .setDepth(20);
-      raceBelowLayer.renderDebug(graphics, {
+      raceWorldLayer.renderDebug(graphics, {
+        tileColor: null, // Color of non-colliding tiles
+        collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
+        faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
+      });
+      raceFinish.renderDebug(graphics, {
         tileColor: null, // Color of non-colliding tiles
         collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255), // Color of colliding tiles
         faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Color of colliding face edges
