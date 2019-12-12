@@ -11,6 +11,7 @@ As a ghost, you can only move around with the arrow keys and X to interact and t
 ## Created by
 
 Emily Xia
+
 emilyxia53@gmail.com
 
 Andrew Xiao
@@ -22,6 +23,6 @@ Pranil Zaman
 
 The University of Texas at Austin
 
-
 Professor Paul Toprac
+
 Jason Harron
