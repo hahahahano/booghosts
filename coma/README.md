@@ -1,4 +1,7 @@
-Play Coma
+To open the game, open index.html in the folder coma.
+
+***********************************************************************************************************************************
+Coma
 
 You wake up as a ghost with a mysterious voice telling you to return to your body while collecting your memories along the way. Traverse the caves, forest, roads, and more to find your story.
 
