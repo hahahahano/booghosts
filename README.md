@@ -1,37 +1,33 @@
-## Welcome to GitHub Pages
+## Play Coma
 
-You can use the [editor on GitHub](https://github.com/hahahahano/booghosts/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+You wake up as a ghost with a mysterious voice telling you to return to your body while collecting your memories along the way. Traverse the caves, forest, roads, and more to find your story.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### Mechanics
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+As a ghost, you can only move around with the arrow keys and X to interact and talk (no attacking capabilities, so you’ll have to navigate carefully around the harmful critters!). As a platform game, you will have to overcome obstacles, avoid the small creatures, and find and talk to the citizens of the region while you travel to find your unconscious body and lost memories.
 
-```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+## Created by
 
-- Bulleted
-- List
+Emily Xia
 
-1. Numbered
-2. List
+emilyxia53@gmail.com
 
-**Bold** and _Italic_ and `Code` text
 
-[Link](url) and ![Image](src)
-```
+Andrew Xiao
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-### Jekyll Themes
+Pranil Zaman
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hahahahano/booghosts/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
 
-### Support or Contact
+**With**
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+
+
+The University of Texas at Austin
+
+
+Professor Paul Toprac
+
+Jason Harron
