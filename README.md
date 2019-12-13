@@ -17,15 +17,14 @@ As a ghost, you can only move around with the arrow keys and X to interact and t
 
 ## Created by
 
-Emily Xia
-
+<b>Emily Xia</b>
 emilyxia53@gmail.com
 
-Andrew Xiao
+<b>Andrew Xiao</b>
 
-Pranil Zaman
-
+<b>Pranil Zaman</b>
 pranil.zaman@gmail.com
+
 
 **With**
 
