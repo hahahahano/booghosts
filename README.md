@@ -13,7 +13,9 @@ As a ghost, you can only move around with the arrow keys and X to interact and t
 
 ### Coma Trailer
 
-<a href="https://youtu.be/SIVN8qWDz8w"><img src="coma/assets/images/cover_web.jpg" width="300"></a>
+<iframe width="560" height="315"
+src="https://www.youtube.com/embed/SIVN8qWDz8w">
+</iframe>
 
 ## Created by
 
